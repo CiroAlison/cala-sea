@@ -1,0 +1,11 @@
+{
+  "name": "cala-sea",
+  "version": "1.0.0",
+  "description": "Cala Sea Beach Club – Torre del Greco",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

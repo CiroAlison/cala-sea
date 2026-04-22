@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.local
+.vercel
+.netlify
+*.DS_Store
+.claude/
+
+# File originali SnapInsta con nomi lunghi (già rinominati)
+img/SnapInsta.to_*

@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#0a1766" />
+
+  <title>Cala Sea | Beach Club · Ristorante · Eventi – Torre del Greco</title>
+  <meta name="description" content="Cala Sea – Beach Club, Ristorante e Location Eventi a Torre del Greco. Spiaggia privata, cucina di mare, cocktail bar e serate esclusive sulla Torre Saracena. Prenota su WhatsApp." />
+  <meta name="keywords" content="beach club Torre del Greco, ristorante mare Napoli, eventi Torre Saracena, matrimoni golfo Napoli, Cala Sea" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://stalwart-macaron-9a1e6f.netlify.app/" />
+
+  <meta property="og:title" content="Cala Sea | Beach Club · Ristorante · Eventi – Torre del Greco" />
+  <meta property="og:description" content="Vivi l'esperienza Cala Sea: spiaggia privata, cucina di mare e serate esclusive sul Golfo di Napoli." />
+  <meta property="og:image" content="img/hero.jpg" />
+  <meta property="og:url" content="https://stalwart-macaron-9a1e6f.netlify.app/" />
+  <meta property="og:type" content="restaurant" />
+  <meta property="og:locale" content="it_IT" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Cala Sea – Torre Saracena",
+    "image": "img/hero.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Viale Campanariello 33",
+      "addressLocality": "Torre del Greco",
+      "addressRegion": "NA",
+      "postalCode": "80059",
+      "addressCountry": "IT"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 40.783, "longitude": 14.366 },
+    "telephone": "+393278653508",
+    "email": "info@torresaracenaeventi.it",
+    "url": "https://stalwart-macaron-9a1e6f.netlify.app/",
+    "sameAs": [
+      "https://www.instagram.com/calasea_club/",
+      "https://www.instagram.com/calasea_beachclub/",
+      "https://www.facebook.com/people/Calasea-Beachclub/61574814732637/"
+    ],
+    "openingHours": "Mo-Su 10:00-02:00",
+    "servesCuisine": ["Seafood","Italian","Mediterranean"],
+    "priceRange": "€€-€€€",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.3",
+      "reviewCount": "151",
+      "bestRating": "5"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Facebook SDK -->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous"
+  src="https://connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v18.0"></script>
+
+<!-- ══════════════════════════════════════════
+     COOKIE BANNER
+══════════════════════════════════════════ -->
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie policy">
+  <p>Utilizziamo cookie tecnici per migliorare la tua esperienza. <a href="#" target="_blank">Privacy Policy</a></p>
+  <div class="cookie-actions">
+    <button id="cookie-reject" class="cookie-btn secondary">Solo necessari</button>
+    <button id="cookie-accept" class="cookie-btn primary">Accetta</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<nav id="navbar" role="navigation" aria-label="Navigazione principale">
+  <div class="nav-inner">
+    <a href="#hero" class="logo" aria-label="Cala Sea – home">
+      <span class="logo-mark">
+        <span class="lc">CALA</span><span class="ls">SEA</span>
+      </span>
+      <span class="logo-sub">Torre Saracena</span>
+    </a>
+    <button class="burger" id="burger" aria-label="Apri menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks" role="list">
+      <li><a href="#chi-siamo">Chi Siamo</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#recensioni">Recensioni</a></li>
+      <li><a href="#eventi">Eventi</a></li>
+      <li><a href="#contatti">Contatti</a></li>
+      <li><a href="#prenota" class="nav-cta">Prenota</a></li>
+    </ul>
+    <div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-media">
+    <video autoplay muted loop playsinline poster="img/hero.jpg" class="hero-video">
+      <source src="img/hero-video.mp4" type="video/mp4" />
+    </video>
+    <img src="img/hero.jpg" alt="Cala Sea – Torre Saracena vista dal mare" class="hero-img-fallback" />
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Torre Saracena &nbsp;·&nbsp; Torre del Greco &nbsp;·&nbsp; Golfo di Napoli</p>
+    <h1 class="hero-title">CALA<br>SEA</h1>
+    <p class="hero-tagline"><em>Dove il mare incontra il lusso</em></p>
+    <p class="hero-sub">Beach Club &nbsp;·&nbsp; Ristorante &nbsp;·&nbsp; Cocktail Bar &nbsp;·&nbsp; Eventi Esclusivi</p>
+    <div class="hero-ctas">
+      <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20prenotare." target="_blank" rel="noopener" class="btn-primary">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Prenota Ora
+      </a>
+      <a href="#menu" class="btn-ghost">Scopri il Menu</a>
+    </div>
+  </div>
+
+  <!-- Strip info in basso -->
+  <div class="hero-strip">
+    <a href="https://maps.google.com/?q=Viale+Campanariello+33+Torre+del+Greco" target="_blank" rel="noopener" class="hs-item">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Viale Campanariello 33
+    </a>
+    <span class="hs-sep">|</span>
+    <a href="tel:+393278653508" class="hs-item">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.4 2.13 2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      327 865 3508
+    </a>
+    <span class="hs-sep">|</span>
+    <span class="hs-item">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      10:00 – 02:00
+    </span>
+    <span class="hs-sep">|</span>
+    <a href="#recensioni" class="hs-item">⭐ 4.3 TripAdvisor · 151 recensioni</a>
+  </div>
+
+  <div class="hero-scroll-line" aria-hidden="true"></div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CHI SIAMO
+══════════════════════════════════════════ -->
+<section id="chi-siamo" class="section">
+  <div class="container two-col">
+    <div class="col-img fade-in">
+      <div class="img-stack">
+        <img src="img/terrazza.jpg" alt="Terrazza Cala Sea con vista sul Golfo di Napoli" class="img-main" loading="lazy" />
+        <img src="img/bandiera.jpg" alt="Bandiera Cala Sea sulla Torre Saracena" class="img-float" loading="lazy" />
+      </div>
+    </div>
+    <div class="col-text fade-in delay-1">
+      <p class="eyebrow">La nostra storia</p>
+      <h2 class="h-display">Un angolo di paradiso<br /><em>sulla costa vesuviana</em></h2>
+      <p class="body-text">
+        Cala Sea nasce dall'amore per il mare di Torre del Greco. Adagiato sulla storica <strong>Torre Saracena</strong>, il nostro beach club è il luogo dove il sole, l'acqua cristallina e i sapori autentici del Golfo di Napoli si fondono in un'esperienza unica.
+      </p>
+      <p class="body-text">
+        Ti aspettiamo su lettini esclusivi, tra cocktail artigianali e cucina di mare preparata con ingredienti freschi e locali. Il tutto con la maestosità del <strong>Vesuvio</strong> sullo sfondo.
+      </p>
+      <div class="stat-row">
+        <div class="stat-item">
+          <span class="stat-n">151</span>
+          <span class="stat-l">Recensioni</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-n">4.3★</span>
+          <span class="stat-l">TripAdvisor</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-n">11K</span>
+          <span class="stat-l">Follower IG</span>
+        </div>
+      </div>
+      <a href="#prenota" class="link-arrow">Prenota il tuo tavolo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SERVIZI
+══════════════════════════════════════════ -->
+<section id="servizi" class="section bg-navy">
+  <div class="container">
+    <header class="sec-header fade-in">
+      <p class="eyebrow light">Cosa offriamo</p>
+      <h2 class="h-display light">I Nostri Servizi</h2>
+    </header>
+    <div class="services-grid">
+      <article class="svc-card fade-in">
+        <div class="svc-img">
+          <img src="img/mare.jpg" alt="Beach Club Cala Sea" loading="lazy" />
+          <div class="svc-img-overlay"></div>
+        </div>
+        <div class="svc-body">
+          <span class="svc-num">01</span>
+          <h3>Beach Club</h3>
+          <p>Lettini e ombrelloni premium direttamente sul mare. Servizio attento per la tua giornata da sogno sulla Torre Saracena.</p>
+          <a href="#prenota" class="svc-link">Prenota →</a>
+        </div>
+      </article>
+      <article class="svc-card fade-in delay-1">
+        <div class="svc-img">
+          <img src="img/piatto1.jpg" alt="Ristorante Cala Sea – cucina di mare" loading="lazy" />
+          <div class="svc-img-overlay"></div>
+        </div>
+        <div class="svc-body">
+          <span class="svc-num">02</span>
+          <h3>Ristorante</h3>
+          <p>Cucina di mare fresca e genuina. Pesce del giorno, antipasti del golfo e primi della tradizione napoletana.</p>
+          <a href="#menu" class="svc-link">Menu →</a>
+        </div>
+      </article>
+      <article class="svc-card fade-in delay-2">
+        <div class="svc-img">
+          <img src="img/tramonto.jpg" alt="Cocktail Bar al tramonto" loading="lazy" />
+          <div class="svc-img-overlay"></div>
+        </div>
+        <div class="svc-body">
+          <span class="svc-num">03</span>
+          <h3>Cocktail Bar</h3>
+          <p>Signature cocktail ispirati al mare, spritz al tramonto e vini campani. Il bar che cercavi sul Golfo.</p>
+          <a href="#menu" class="svc-link">Cocktail →</a>
+        </div>
+      </article>
+      <article class="svc-card fade-in delay-3">
+        <div class="svc-img">
+          <img src="img/brindisi.jpg" alt="Serate ed eventi Cala Sea" loading="lazy" />
+          <div class="svc-img-overlay"></div>
+        </div>
+        <div class="svc-body">
+          <span class="svc-num">04</span>
+          <h3>Serate &amp; Eventi</h3>
+          <p>Musica live, dj set al tramonto, feste private e matrimoni. Ogni serata diventa un ricordo indimenticabile.</p>
+          <a href="#eventi" class="svc-link">Scopri →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     MENU
+══════════════════════════════════════════ -->
+<section id="menu" class="section bg-navy-deep">
+  <div class="container">
+    <header class="sec-header fade-in">
+      <p class="eyebrow light">Sapori del Golfo</p>
+      <h2 class="h-display light">Il Nostro <em>Menu</em></h2>
+    </header>
+
+    <div class="tab-bar fade-in" role="tablist">
+      <button class="tab active" data-tab="antipasti" role="tab" aria-selected="true">Antipasti</button>
+      <button class="tab" data-tab="primi" role="tab" aria-selected="false">Primi</button>
+      <button class="tab" data-tab="secondi" role="tab" aria-selected="false">Secondi</button>
+      <button class="tab" data-tab="cocktail" role="tab" aria-selected="false">Cocktail</button>
+      <button class="tab tab-gold" data-tab="speciali" role="tab" aria-selected="false">★ 25 Aprile</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-antipasti" role="tabpanel">
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-info"><h4>Frittura di paranza</h4><p>Gamberi, calamari e alici fritti con limone del Vesuvio</p></div><span class="mi-p">€14</span></div>
+        <div class="mi"><div class="mi-info"><h4>Polpo alla luciana</h4><p>Polpo verace con olive, capperi e pomodorini del piennolo</p></div><span class="mi-p">€16</span></div>
+        <div class="mi"><div class="mi-info"><h4>Antipasto di mare</h4><p>Selezione di frutti di mare freschi, crostini e salsa verde</p></div><span class="mi-p">€18</span></div>
+        <div class="mi"><div class="mi-info"><h4>Insalata di mare</h4><p>Seppie, gamberetti, polpo e sedano con olio EVO</p></div><span class="mi-p">€15</span></div>
+        <div class="mi"><div class="mi-info"><h4>Cozze alla marinara</h4><p>Cozze del golfo in brodo di pomodoro, aglio e prezzemolo</p></div><span class="mi-p">€12</span></div>
+        <div class="mi"><div class="mi-info"><h4>Bruschette al crudo</h4><p>Pane abbrustolito con pomodorini, burrata e acciughe</p></div><span class="mi-p">€10</span></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-primi" role="tabpanel">
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-info"><h4>Spaghetti alle vongole</h4><p>Vongole veraci DOC, aglio, olio, peperoncino e prezzemolo</p></div><span class="mi-p">€16</span></div>
+        <div class="mi"><div class="mi-info"><h4>Paccheri al ragù di pesce</h4><p>Pomodorino del piennolo, misto di pesce locale, basilico</p></div><span class="mi-p">€17</span></div>
+        <div class="mi"><div class="mi-info"><h4>Risotto allo scoglio</h4><p>Cozze, vongole, gamberi e calamari su crema di bisque</p></div><span class="mi-p">€18</span></div>
+        <div class="mi"><div class="mi-info"><h4>Linguine all'astice</h4><p>Mezza astice blu in salsa bisque con pomodorino fresco</p></div><span class="mi-p">€26</span></div>
+        <div class="mi"><div class="mi-info"><h4>Spaghetti al nero di seppia</h4><p>Seppie in tegame, nero e crostacei, limone candito</p></div><span class="mi-p">€16</span></div>
+        <div class="mi"><div class="mi-info"><h4>Vermicelli alla Nerano</h4><p>Zucchine fritte, basilico, provolone del Monaco</p></div><span class="mi-p">€14</span></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-secondi" role="tabpanel">
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-info"><h4>Grigliata mista di mare</h4><p>Gamberoni, spiedini di calamari, orata e pesce spada</p></div><span class="mi-p">€28</span></div>
+        <div class="mi"><div class="mi-info"><h4>Orata al cartoccio</h4><p>Orata intera con patate, olive, capperi e pomodorini</p></div><span class="mi-p">€22</span></div>
+        <div class="mi"><div class="mi-info"><h4>Frittura reale</h4><p>Misto di pescato fresco con chips di verdure di stagione</p></div><span class="mi-p">€20</span></div>
+        <div class="mi"><div class="mi-info"><h4>Gamberoni alla brace</h4><p>Gamberoni rossi alla griglia con salsa agrumata</p></div><span class="mi-p">€24</span></div>
+        <div class="mi"><div class="mi-info"><h4>Totano ripieno</h4><p>Totano farcito con pane, prezzemolo, olive e pomodoro</p></div><span class="mi-p">€18</span></div>
+        <div class="mi"><div class="mi-info"><h4>Filetto di spigola</h4><p>Con emulsione di limone, capperi e insalatina di stagione</p></div><span class="mi-p">€22</span></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-cocktail" role="tabpanel">
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-info"><h4>Cala Sea Signature</h4><p>Gin, limoncello del Vesuvio, menta fresca, acqua tonica</p></div><span class="mi-p">€10</span></div>
+        <div class="mi"><div class="mi-info"><h4>Torre Sunset</h4><p>Rum bianco, succo di ananas, maracuja, sciroppo di ibisco</p></div><span class="mi-p">€10</span></div>
+        <div class="mi"><div class="mi-info"><h4>Spritz Vesuvio</h4><p>Aperol, Prosecco DOC, acqua frizzante, arancia e salvia</p></div><span class="mi-p">€8</span></div>
+        <div class="mi"><div class="mi-info"><h4>Mare Mosso</h4><p>Vodka, succo di limone, sciroppo di basilico, ginger beer</p></div><span class="mi-p">€10</span></div>
+        <div class="mi"><div class="mi-info"><h4>Brezza di Saracena</h4><p>Tequila, succo di pompelmo, sale rosa, jalapeño infuso</p></div><span class="mi-p">€11</span></div>
+        <div class="mi"><div class="mi-info"><h4>Virgin Cala</h4><p>Mango, limone, menta, acqua frizzante – analcolico</p></div><span class="mi-p">€7</span></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-speciali" role="tabpanel">
+      <div class="special-menu">
+        <div class="sm-header">
+          <span class="sm-badge">Evento Speciale</span>
+          <h3 class="sm-title">Menu 25 Aprile</h3>
+          <p class="sm-subtitle"><em>"Sapori di Primavera sul Golfo"</em></p>
+          <p class="sm-price">€ 45 <span>a persona · vino incluso</span></p>
+          <div class="sm-countdown" id="countdown25">
+            <div class="cd-item"><span id="cd-days">–</span><small>giorni</small></div>
+            <div class="cd-item"><span id="cd-hrs">–</span><small>ore</small></div>
+            <div class="cd-item"><span id="cd-min">–</span><small>min</small></div>
+          </div>
+        </div>
+        <div class="sm-body">
+          <div class="sm-course"><h4>Benvenuto</h4><p>Fritturine di mare mignon · Prosecco DOC di benvenuto</p></div>
+          <div class="sm-course"><h4>Antipasti <small>a centro tavola</small></h4><p>Polpo verace alla luciana · Alici marinate al limone del Vesuvio con burrata · Frittura di paranza · Polpettine di baccalà con salsa di pomodorino</p></div>
+          <div class="sm-course"><h4>Primo</h4><p>Spaghetti alle vongole veraci DOC con bottarga di muggine<br><em>Alt. vegetariana: Paccheri con crema di zucchine e provola</em></p></div>
+          <div class="sm-course"><h4>Secondo</h4><p>Grigliata mista: gamberoni rossi, spiedino di calamari, orata del golfo<br><em>Alt. di terra: Tagliata di vitello con rucola e pomodorini</em></p></div>
+          <div class="sm-course"><h4>Dolce</h4><p>Delizia al limone di Sorrento · oppure Pastiera napoletana</p></div>
+          <div class="sm-includes">
+            <span>✓ Acqua</span><span>✓ Vini campani</span><span>✓ Caffè</span>
+          </div>
+          <p class="sm-warning">⚠️ Prenotazione obbligatoria entro il 23 Aprile</p>
+        </div>
+        <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20prenotare%20per%20il%20menu%20del%2025%20Aprile.%20Siamo%20in%20___%20persone." target="_blank" rel="noopener" class="btn-primary btn-gold sm-cta">
+          Prenota il 25 Aprile → WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     GALLERY
+══════════════════════════════════════════ -->
+<section id="gallery" class="section bg-black">
+  <div class="container">
+    <header class="sec-header fade-in">
+      <p class="eyebrow light">Atmosfera</p>
+      <h2 class="h-display light">Vivi <em>Cala Sea</em></h2>
+      <p class="body-text light center">
+        Seguici su
+        <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="ig-link">@calasea_club</a>
+        &nbsp;·&nbsp;
+        <a href="https://www.instagram.com/calasea_beachclub/" target="_blank" rel="noopener" class="ig-link">@calasea_beachclub</a>
+        &nbsp;·&nbsp; 11K followers
+      </p>
+    </header>
+  </div>
+
+  <!-- TODO: sostituire con feed live quando disponibile -->
+  <div class="gallery-grid fade-in">
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/hero.jpg" alt="Cala Sea – struttura dal mare" loading="lazy" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/terrazza.jpg" alt="Terrazza con vista" loading="lazy" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/piatto1.jpg" alt="Chef impatta un piatto gourmet" loading="lazy" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/tramonto.jpg" alt="Tramonto sul Golfo di Napoli" loading="lazy" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/brindisi.jpg" alt="Brindisi in serata" loading="lazy" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/piatto2.jpg" alt="Carpaccio di pesce con frutti" loading="lazy" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/mare.jpg" alt="Incontriamoci al mare – Cala Sea" loading="lazy" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/bandiera.jpg" alt="Bandiera Cala Sea sulla Torre" loading="lazy" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/menu-cover.jpg" alt="Menu Cala Sea" loading="lazy" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/hero.jpg" alt="Vista dal mare" loading="lazy" style="object-position:center top;" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/terrazza.jpg" alt="Tavola apparecchiata vista golfo" loading="lazy" style="object-position:bottom;" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+      <img src="img/piatto1.jpg" alt="Cucina d'autore" loading="lazy" style="object-position:bottom;" />
+      <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
+    </a>
+  </div>
+
+  <div class="gallery-cta fade-in">
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="btn-ig">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+      Vedi tutto su Instagram
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     VIDEO
+══════════════════════════════════════════ -->
+<section id="video" class="section bg-navy-deep">
+  <div class="container">
+    <header class="sec-header fade-in">
+      <p class="eyebrow light">L'atmosfera</p>
+      <h2 class="h-display light">Vivi <em>l'esperienza</em></h2>
+    </header>
+    <div class="video-showcase fade-in">
+      <div class="video-main">
+        <video controls playsinline preload="metadata" poster="img/terrazza.jpg" class="video-player">
+          <source src="img/video2.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="video-secondary">
+        <div class="video-thumb" onclick="this.querySelector('video').play(); this.classList.add('playing')">
+          <video playsinline preload="metadata" poster="img/hero.jpg" class="video-player-sm" loop>
+            <source src="img/hero-video.mp4" type="video/mp4" />
+          </video>
+          <div class="vt-overlay">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     RECENSIONI
+══════════════════════════════════════════ -->
+<section id="recensioni" class="section">
+  <div class="container">
+    <header class="sec-header fade-in">
+      <p class="eyebrow">Cosa dicono di noi</p>
+      <h2 class="h-display">Recensioni</h2>
+      <div class="ta-badge fade-in">
+        <img src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg" alt="TripAdvisor" height="24" loading="lazy" />
+        <span class="ta-score">★★★★ <strong>4.3</strong> · 151 recensioni</span>
+        <span class="ta-choice">🏆 Travellers' Choice</span>
+      </div>
+    </header>
+
+    <div class="reviews-grid">
+      <article class="review-card fade-in">
+        <div class="rev-stars">★★★★★</div>
+        <blockquote class="rev-text">"Location spettacolare, vista mozzafiato sul Golfo di Napoli. Pizza e cibo di ottima qualità, cucinati in maniera squisita. Bella terrazza sul mare, tutto ben curato."</blockquote>
+        <footer class="rev-author">
+          <span class="rev-av">A</span>
+          <div><strong>Anita M.</strong><small>Settembre 2024 · TripAdvisor</small></div>
+        </footer>
+      </article>
+      <article class="review-card fade-in delay-1">
+        <div class="rev-stars">★★★★★</div>
+        <blockquote class="rev-text">"Professionalità e ospitalità impareggiabili. Cibo eccellente e servizio impeccabile in una location straordinaria. Consigliato vivamente per occasioni speciali."</blockquote>
+        <footer class="rev-author">
+          <span class="rev-av">D</span>
+          <div><strong>Donato R.</strong><small>Maggio 2024 · TripAdvisor</small></div>
+        </footer>
+      </article>
+      <article class="review-card fade-in delay-2">
+        <div class="rev-stars">★★★★★</div>
+        <blockquote class="rev-text">"Un posto dal potenziale incredibile, mare pulito e personale gentile. Festeggiamento andato benissimo, menù eccezionale con attenzione per le allergie."</blockquote>
+        <footer class="rev-author">
+          <span class="rev-av">S</span>
+          <div><strong>Simona L.</strong><small>Ottobre 2024 · TripAdvisor</small></div>
+        </footer>
+      </article>
+    </div>
+
+    <div class="ta-cta fade-in">
+      <a href="https://www.tripadvisor.it/Restaurant_Review-g1063524-d4552507-Reviews-Cala_Sea_Torre_Saracena-Torre_del_Greco_Province_of_Naples_Campania.html" target="_blank" rel="noopener" class="btn-ta">
+        Leggi tutte le 151 recensioni su TripAdvisor →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     EVENTI
+══════════════════════════════════════════ -->
+<section id="eventi" class="section bg-navy">
+  <div class="container">
+    <header class="sec-header fade-in">
+      <p class="eyebrow light">Location esclusiva</p>
+      <h2 class="h-display light">Il tuo <em>Evento</em> speciale</h2>
+      <p class="body-text light center">La Torre Saracena è la cornice perfetta per ogni occasione memorabile</p>
+    </header>
+    <div class="eventi-grid">
+      <article class="ev-card fade-in">
+        <img src="img/brindisi.jpg" alt="Matrimoni a Cala Sea" loading="lazy" />
+        <div class="ev-card-body">
+          <h3>Matrimoni</h3>
+          <p>Una location unica sul mare per il giorno più bello. Menù personalizzato, allestimento su misura, vista mozzafiato.</p>
+          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20informazioni%20per%20un%20matrimonio." target="_blank" rel="noopener" class="ev-link">Richiedi info →</a>
+        </div>
+      </article>
+      <article class="ev-card fade-in delay-1">
+        <img src="img/tramonto.jpg" alt="Feste private Cala Sea" loading="lazy" />
+        <div class="ev-card-body">
+          <h3>Feste Private</h3>
+          <p>Compleanni, lauree, anniversari. Festeggia con stile in una location che non si dimentica facilmente.</p>
+          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20organizzare%20una%20festa%20privata." target="_blank" rel="noopener" class="ev-link">Richiedi info →</a>
+        </div>
+      </article>
+      <article class="ev-card fade-in delay-2">
+        <img src="img/terrazza.jpg" alt="eventi aziendali Cala Sea" loading="lazy" />
+        <div class="ev-card-body">
+          <h3>Aziendali</h3>
+          <p>Team building, cene di gala, presentazioni di prodotto. Il Golfo di Napoli come sfondo per i tuoi successi.</p>
+          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20organizzare%20un%20evento%20aziendale." target="_blank" rel="noopener" class="ev-link">Richiedi info →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PRENOTA
+══════════════════════════════════════════ -->
+<section id="prenota" class="section bg-navy-deep">
+  <div class="container">
+    <header class="sec-header fade-in">
+      <p class="eyebrow light">Riserva il tuo posto</p>
+      <h2 class="h-display light">Prenota <em>Online</em></h2>
+    </header>
+
+    <div class="prenota-wa fade-in">
+      <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20prenotare." target="_blank" rel="noopener" class="btn-wa-xl">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Prenota su WhatsApp
+      </a>
+      <p class="prenota-note">Risposta garantita entro 1 ora · 327 865 3508</p>
+    </div>
+
+    <div class="or-divider"><span>oppure compila il form</span></div>
+
+    <form id="prenota-form" class="prenota-form fade-in" novalidate>
+      <div class="form-row">
+        <div class="fg">
+          <label for="nome">Nome e Cognome *</label>
+          <input type="text" id="nome" name="nome" placeholder="Mario Rossi" required autocomplete="name" />
+        </div>
+        <div class="fg">
+          <label for="telefono">Telefono *</label>
+          <input type="tel" id="telefono" name="telefono" placeholder="+39 333 123 4567" required autocomplete="tel" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="fg">
+          <label for="data">Data *</label>
+          <input type="date" id="data" name="data" required />
+        </div>
+        <div class="fg">
+          <label for="persone">Numero persone *</label>
+          <select id="persone" name="persone" required>
+            <option value="">Quanti siete?</option>
+            <option>1</option><option>2</option><option>3</option>
+            <option>4</option><option>5</option><option>6</option>
+            <option>7</option><option>8</option><option value="9+">9 o più</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label for="tipo">Tipo di prenotazione *</label>
+        <select id="tipo" name="tipo" required>
+          <option value="">Cosa cerchi?</option>
+          <option>Beach Club (lettini + ombrellone)</option>
+          <option>Pranzo</option>
+          <option>Cena</option>
+          <option>Aperitivo</option>
+          <option>Menu 25 Aprile (€45 p.p.)</option>
+          <option>Evento privato / Matrimonio</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label for="note">Note / Richieste speciali</label>
+        <textarea id="note" name="note" rows="3" placeholder="Allergie, occasioni speciali, preferenze…"></textarea>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="privacy" name="privacy" required />
+        <label for="privacy">Acconsento al trattamento dei dati personali ai sensi del GDPR. <a href="#" target="_blank">Privacy Policy</a></label>
+      </div>
+      <button type="submit" class="btn-primary btn-submit">Invia Prenotazione via WhatsApp</button>
+    </form>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     DOVE SIAMO + SOCIAL
+══════════════════════════════════════════ -->
+<section id="contatti" class="section">
+  <div class="container two-col">
+    <div class="col-text fade-in">
+      <p class="eyebrow">Vieni a trovarci</p>
+      <h2 class="h-display">Dove <em>Siamo</em></h2>
+
+      <div class="contact-cards">
+        <a href="https://maps.google.com/?q=Viale+Campanariello+33+Torre+del+Greco" target="_blank" rel="noopener" class="cc">
+          <span class="cc-icon">📍</span>
+          <div><strong>Indirizzo</strong><p>Viale Campanariello 33<br>Torre del Greco (NA) 80059</p></div>
+        </a>
+        <a href="tel:+393278653508" class="cc">
+          <span class="cc-icon">📞</span>
+          <div><strong>Telefono</strong><p>+39 327 865 3508</p></div>
+        </a>
+        <a href="mailto:info@torresaracenaeventi.it" class="cc">
+          <span class="cc-icon">✉️</span>
+          <div><strong>Email</strong><p>info@torresaracenaeventi.it</p></div>
+        </a>
+        <div class="cc">
+          <span class="cc-icon">🕐</span>
+          <div><strong>Orari</strong><p>Tutti i giorni 10:00 – 02:00<br><em>stagione estiva</em></p></div>
+        </div>
+      </div>
+
+      <!-- Facebook Page Plugin -->
+      <div class="fb-page-wrap">
+        <div class="fb-page"
+          data-href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/"
+          data-tabs="timeline"
+          data-width="380"
+          data-height="300"
+          data-small-header="true"
+          data-adapt-container-width="true"
+          data-hide-cover="false"
+          data-show-facepile="false">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-img fade-in delay-1">
+      <div class="map-wrap">
+        <iframe
+          src="https://www.google.com/maps?q=Torre+Saracena+Viale+Campanariello+33+Torre+del+Greco&output=embed"
+          title="Cala Sea su Google Maps"
+          width="100%" height="420" style="border:0;"
+          allowfullscreen loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://maps.google.com/?q=Viale+Campanariello+33+Torre+del+Greco" target="_blank" rel="noopener" class="btn-directions">
+        Ottieni indicazioni stradali →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <p class="f-logo"><span class="lc">CALA</span><span class="ls">SEA</span></p>
+      <p class="f-sub">Torre Saracena · Torre del Greco (NA)</p>
+      <p class="f-desc">Beach Club · Ristorante · Cocktail Bar · Eventi</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Link footer">
+      <a href="#chi-siamo">Chi Siamo</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#recensioni">Recensioni</a>
+      <a href="#eventi">Eventi</a>
+      <a href="#prenota">Prenota</a>
+      <a href="#contatti">Contatti</a>
+    </nav>
+
+    <div class="footer-social">
+      <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" aria-label="Instagram @calasea_club">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.instagram.com/calasea_beachclub/" target="_blank" rel="noopener" aria-label="Instagram @calasea_beachclub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="https://wa.me/393278653508" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      </a>
+    </div>
+
+    <p class="footer-copy">
+      © 2025 Cala Sea – Torre Saracena · Viale Campanariello 33, Torre del Greco (NA)<br />
+      <a href="#">Privacy Policy</a> · <a href="#">Cookie Policy</a>
+    </p>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     FLOATING ELEMENTS
+══════════════════════════════════════════ -->
+<a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!" target="_blank" rel="noopener" class="wa-bubble" id="waBubble" aria-label="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  <span class="wa-tip">Scrivi su WhatsApp</span>
+</a>
+
+<button class="back-top" id="backTop" aria-label="Torna in cima">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<div class="mobile-bar" id="mobileBar" role="toolbar" aria-label="Azioni rapide">
+  <a href="tel:+393278653508" class="mb-btn call">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.4 2.13 2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+    Chiama
+  </a>
+  <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!" target="_blank" rel="noopener" class="mb-btn wa">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    WhatsApp
+  </a>
+  <a href="#prenota" class="mb-btn prenota">Prenota</a>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
