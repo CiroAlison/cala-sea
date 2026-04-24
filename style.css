@@ -814,3 +814,118 @@ a.hs-item:hover { color: var(--white); }
   .hero-title { letter-spacing: .07em; }
   .stat-row { gap: 20px; }
 }
+
+/* ═══════════════════════════════════════════
+   STORIA TORRE SARACENA
+═══════════════════════════════════════════ */
+.storia-section {
+  position: relative;
+  overflow: hidden;
+}
+.storia-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(10,23,102,.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 10% 50%, rgba(201,162,39,.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.storia-lead {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,.65);
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-style: italic;
+}
+.storia-timeline {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: 56px auto 0;
+  max-width: 880px;
+  position: relative;
+}
+@media(min-width:640px) {
+  .storia-timeline { grid-template-columns: repeat(2, 1fr); gap: 2px; }
+}
+@media(min-width:960px) {
+  .storia-timeline { grid-template-columns: repeat(4, 1fr); }
+}
+.storia-fact {
+  padding: 40px 32px;
+  border-top: 1px solid rgba(232,220,200,.12);
+  position: relative;
+  transition: background var(--tr);
+}
+.storia-fact:hover { background: rgba(255,255,255,.04); }
+.storia-fact::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 32px;
+  width: 40px; height: 2px;
+  background: var(--gold);
+}
+.storia-year {
+  display: block;
+  font-family: var(--serif);
+  font-size: 2.4rem;
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: .04em;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+.storia-fact p {
+  font-size: .82rem;
+  color: rgba(255,255,255,.6);
+  line-height: 1.75;
+  font-weight: 300;
+  letter-spacing: .02em;
+}
+.storia-quote {
+  margin: 64px auto 0;
+  max-width: 640px;
+  text-align: center;
+  padding: 0 20px;
+}
+.storia-quote p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  color: rgba(232,220,200,.75);
+  line-height: 1.7;
+  font-weight: 300;
+}
+.storia-quote::before {
+  content: '"';
+  display: block;
+  font-family: var(--serif);
+  font-size: 5rem;
+  color: var(--gold);
+  opacity: .35;
+  line-height: .6;
+  margin-bottom: 16px;
+}
+
+/* ─── Gallery CTA dual buttons ─── */
+.gallery-cta-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+.btn-ig-instagram {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--sans); font-size: .72rem; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: white;
+  border: 1px solid rgba(255,255,255,.25); border-radius: 2px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  transition: opacity var(--tr), transform var(--tr);
+}
+.btn-ig-instagram:hover { opacity: .85; transform: translateY(-1px); }
