@@ -1,6 +1,90 @@
 /* ═══════════════════════════════════════════
-   CALA SEA – script.js  v2
+   CALA SEA – script.js  v3
    ═══════════════════════════════════════════ */
+
+/* ─── i18n — Traduzione IT / EN ─── */
+const translations = {
+  it: {
+    'nav.about': 'Chi Siamo', 'nav.menu': 'Menu', 'nav.gallery': 'Gallery',
+    'nav.reviews': 'Recensioni', 'nav.events': 'Eventi', 'nav.contacts': 'Contatti',
+    'nav.book': 'Prenota',
+    'hero.tagline': 'Dove il mare incontra il lusso',
+    'hero.sub': 'Beach Club &nbsp;·&nbsp; Ristorante &nbsp;·&nbsp; Cocktail Bar &nbsp;·&nbsp; Eventi Esclusivi',
+    'hero.cta.book': 'Prenota Ora', 'hero.cta.menu': 'Scopri il Menu',
+    'gallery.eyebrow': 'Atmosfera', 'gallery.sub': 'Le nostre foto dal vivo',
+    'gallery.cta': 'Seguici su Facebook',
+    'events.wedding.title': 'Matrimoni',
+    'events.wedding.desc': 'Il giorno più bello della vita, con la vista del Golfo. Menù personalizzato, allestimento floreale, aperitivo sul mare.',
+    'events.birthday.title': 'Compleanni',
+    'events.birthday.desc': 'Festeggia il tuo compleanno con stile. Torta, musica, vista mare e tutto quello che desideri per una serata indimenticabile.',
+    'events.communion.title': 'Comunioni & Cresime',
+    'events.communion.desc': 'Un giorno speciale nella vita dei vostri figli. Accogliamo i vostri ospiti in un ambiente elegante e familiare.',
+    'events.baptism.title': 'Battesimi',
+    'events.baptism.desc': 'Celebrate l\'arrivo del vostro bambino con una festa indimenticabile sul Golfo di Napoli.',
+    'events.graduation.title': 'Feste di Laurea',
+    'events.graduation.desc': 'Hai sudato per arrivarci — ora festeggia come si deve. Menu personalizzato, brindisi sul mare e ricordi per sempre.',
+    'events.babyshower.title': 'Baby Shower',
+    'events.babyshower.desc': 'Celebrate l\'arrivo del bebè in arrivo con dolcezza. Addobbi su misura, dolci artigianali e atmosfera romantica sul mare.',
+    'events.anniversary.title': 'Anniversari',
+    'events.anniversary.desc': 'Ogni anno in più vale un tramonto sul Golfo. Cena romantica, fiori, candele e il Vesuvio sullo sfondo.',
+    'events.djset.title': 'DJ Set & Live Music',
+    'events.djset.desc': 'Serate con DJ resident, musica dal vivo, aperitivi al tramonto. Il ritmo giusto per ogni occasione.',
+    'events.corporate.title': 'Aziendali & Team Building',
+    'events.corporate.desc': 'Cene di gala, presentazioni, team building. Il Golfo di Napoli come sfondo per i tuoi successi professionali.',
+    'events.cta': 'Richiedi info →',
+  },
+  en: {
+    'nav.about': 'About Us', 'nav.menu': 'Menu', 'nav.gallery': 'Gallery',
+    'nav.reviews': 'Reviews', 'nav.events': 'Events', 'nav.contacts': 'Contacts',
+    'nav.book': 'Book Now',
+    'hero.tagline': 'Where the sea meets luxury',
+    'hero.sub': 'Beach Club &nbsp;·&nbsp; Restaurant &nbsp;·&nbsp; Cocktail Bar &nbsp;·&nbsp; Exclusive Events',
+    'hero.cta.book': 'Book Now', 'hero.cta.menu': 'Explore the Menu',
+    'gallery.eyebrow': 'Atmosphere', 'gallery.sub': 'Our live photos',
+    'gallery.cta': 'Follow us on Facebook',
+    'events.wedding.title': 'Weddings',
+    'events.wedding.desc': 'The most beautiful day of your life, with the Gulf of Naples as your backdrop. Custom menu, floral arrangements, seaside aperitif.',
+    'events.birthday.title': 'Birthday Parties',
+    'events.birthday.desc': 'Celebrate your birthday in style. Cake, music, sea views and everything you wish for an unforgettable evening.',
+    'events.communion.title': 'Communions & Confirmations',
+    'events.communion.desc': 'A special day in your children\'s lives. We welcome your guests in an elegant and warm atmosphere.',
+    'events.baptism.title': 'Baptisms',
+    'events.baptism.desc': 'Celebrate the arrival of your child with an unforgettable party on the Gulf of Naples.',
+    'events.graduation.title': 'Graduation Parties',
+    'events.graduation.desc': 'You worked hard to get here — now celebrate properly. Custom menu, seaside toast and memories forever.',
+    'events.babyshower.title': 'Baby Showers',
+    'events.babyshower.desc': 'Celebrate the upcoming arrival with sweetness. Custom decorations, artisan sweets and a romantic sea atmosphere.',
+    'events.anniversary.title': 'Anniversaries',
+    'events.anniversary.desc': 'Every year together is worth a sunset on the Gulf. Romantic dinner, flowers, candles and Vesuvius in the background.',
+    'events.djset.title': 'DJ Sets & Live Music',
+    'events.djset.desc': 'Evenings with resident DJs, live music, sunset aperitifs. The right rhythm for every occasion.',
+    'events.corporate.title': 'Corporate & Team Building',
+    'events.corporate.desc': 'Gala dinners, presentations, team building. The Gulf of Naples as the backdrop for your professional success.',
+    'events.cta': 'Request info →',
+  }
+};
+
+let currentLang = localStorage.getItem('calasea_lang') || 'it';
+
+function applyLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('calasea_lang', lang);
+  document.documentElement.lang = lang === 'en' ? 'en' : 'it';
+  const btn = document.getElementById('langToggle');
+  if (btn) btn.textContent = lang === 'it' ? 'EN' : 'IT';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const txt = translations[lang][key];
+    if (txt !== undefined) el.innerHTML = txt;
+  });
+}
+
+document.getElementById('langToggle')?.addEventListener('click', () => {
+  applyLang(currentLang === 'it' ? 'en' : 'it');
+});
+
+// Applica lingua salvata al caricamento
+applyLang(currentLang);
 
 /* ─── Navbar + mobile bar + back-to-top on scroll ─── */
 const navbar    = document.getElementById('navbar');

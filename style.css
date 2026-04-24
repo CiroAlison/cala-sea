@@ -202,6 +202,21 @@ ul, ol { list-style: none; }
   opacity: 0; animation: fadeUp .7s 1.04s forwards;
 }
 
+/* ─── LANG TOGGLE ─── */
+.lang-toggle {
+  font-family: var(--sans); font-size: .6rem; font-weight: 600;
+  letter-spacing: 1.5px; color: rgba(255,255,255,.7);
+  border: 1px solid rgba(255,255,255,.25); border-radius: 2px;
+  padding: 5px 10px; cursor: pointer; background: transparent;
+  transition: color var(--tr), border-color var(--tr);
+  flex-shrink: 0;
+}
+.lang-toggle:hover { color: var(--sand); border-color: var(--sand); }
+@media(max-width:899px) { .lang-toggle { order: -1; } }
+
+/* ─── EVENT TAG ─── */
+.ev-tag { font-size: 1.4rem; display: block; margin-bottom: 8px; line-height: 1; }
+
 /* ─── BUTTONS ─── */
 .btn-primary {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -583,7 +598,8 @@ a.hs-item:hover { color: var(--white); }
 .eventi-grid {
   display: grid; grid-template-columns: 1fr; gap: 2px;
 }
-@media(min-width:600px) { .eventi-grid { grid-template-columns: repeat(3, 1fr); } }
+@media(min-width:500px) { .eventi-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(min-width:900px) { .eventi-grid { grid-template-columns: repeat(3, 1fr); } }
 
 .ev-card { overflow: hidden; background: rgba(255,255,255,.04); }
 .ev-card > img { width: 100%; aspect-ratio: 16/10; object-fit: cover; transition: transform .6s ease; display: block; }
