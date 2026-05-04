@@ -236,6 +236,65 @@ function dismissCookie() {
 document.getElementById('cookie-accept')?.addEventListener('click', dismissCookie);
 document.getElementById('cookie-reject')?.addEventListener('click', dismissCookie);
 
+/* ─── Reels Instagram: autoplay, restart on re-entry, sound toggle ─── */
+(function () {
+  const reels = document.querySelectorAll('.reel-item');
+  if (!reels.length) return;
+
+  let globalMuted = true;
+
+  reels.forEach(item => {
+    const video = item.querySelector('video');
+    if (!video) return;
+
+    // Aggiungi pulsante audio
+    const btn = document.createElement('button');
+    btn.className = 'reel-sound-btn';
+    btn.innerHTML = svgMuted();
+    btn.setAttribute('aria-label', 'Attiva audio');
+    item.appendChild(btn);
+
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      globalMuted = !globalMuted;
+      document.querySelectorAll('.reel-item video').forEach(v => { v.muted = globalMuted; });
+      document.querySelectorAll('.reel-sound-btn').forEach(b => {
+        b.innerHTML = globalMuted ? svgMuted() : svgUnmuted();
+        b.setAttribute('aria-label', globalMuted ? 'Attiva audio' : 'Disattiva audio');
+      });
+    });
+
+    // IntersectionObserver: play quando entra, reset+pause quando esce
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        video.muted = globalMuted;
+        video.currentTime = 0;
+        video.play().catch(() => {});
+        item.classList.add('reel-active');
+      } else {
+        video.pause();
+        video.currentTime = 0;
+        item.classList.remove('reel-active');
+      }
+    }, { threshold: 0.5 });
+
+    obs.observe(item);
+  });
+
+  function svgMuted() {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+    </svg>`;
+  }
+  function svgUnmuted() {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/>
+    </svg>`;
+  }
+})();
+
 /* ─── Smooth scroll (chiude anche il menu mobile) ─── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
