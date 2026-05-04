@@ -1,5 +1,4 @@
 # Guida Cala Sea — Per chi gestisce il sito
-> Versione semplice. Nessuna competenza tecnica richiesta.
 
 ---
 
