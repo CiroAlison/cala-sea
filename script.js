@@ -327,34 +327,6 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
   });
 })();
 
-/* ─── Meteo Torre del Greco (wttr.in) ─── */
-(function () {
-  const iconEl = document.getElementById('weather-icon');
-  const textEl = document.getElementById('weather-text');
-  if (!iconEl || !textEl) return;
-
-  fetch('https://wttr.in/Torre+del+Greco?format=j1')
-    .then(r => r.json())
-    .then(data => {
-      const cond = data.current_condition[0];
-      const temp = cond.temp_C;
-      const desc = (cond.weatherDesc[0]?.value || '').toLowerCase();
-      let icon = '🌤️';
-      if (desc.includes('sunny') || desc.includes('clear')) icon = '☀️';
-      else if (desc.includes('thunder') || desc.includes('storm')) icon = '⛈️';
-      else if (desc.includes('rain') || desc.includes('drizzle') || desc.includes('shower')) icon = '🌧️';
-      else if (desc.includes('overcast')) icon = '☁️';
-      else if (desc.includes('cloud') || desc.includes('partly')) icon = '⛅';
-      else if (desc.includes('fog') || desc.includes('mist') || desc.includes('haze')) icon = '🌫️';
-      else if (desc.includes('snow') || desc.includes('blizzard')) icon = '❄️';
-      iconEl.textContent = icon;
-      textEl.textContent = temp + '°C';
-    })
-    .catch(() => {
-      iconEl.textContent = '🌊';
-      textEl.textContent = 'Torre del Greco';
-    });
-})();
 
 /* ─── Smooth scroll (chiude anche il menu mobile) ─── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
