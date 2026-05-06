@@ -61,6 +61,17 @@
 </head>
 <body>
 
+<!-- ══════════════════════════════════════════
+     LOADING SCREEN
+══════════════════════════════════════════ -->
+<div id="page-loader" aria-hidden="true">
+  <div class="loader-inner">
+    <p class="loader-logo"><span class="lc">CALA</span><span class="ls">SEA</span></p>
+    <p class="loader-sub">Torre Saracena &nbsp;·&nbsp; Torre del Greco</p>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  </div>
+</div>
+
 <!-- Facebook SDK -->
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous"
@@ -149,6 +160,11 @@
     </span>
     <span class="hs-sep">|</span>
     <a href="#recensioni" class="hs-item">⭐ 4.3 TripAdvisor · 151 recensioni</a>
+    <span class="hs-sep">|</span>
+    <span class="hs-item weather-item" id="weather-widget">
+      <span id="weather-icon">🌤️</span>
+      <span id="weather-text">—°</span>
+    </span>
   </div>
 
   <div class="hero-scroll-line" aria-hidden="true"></div>
@@ -381,61 +397,68 @@
     </header>
   </div>
 
-  <!-- TODO: sostituire con feed live quando disponibile -->
+  <!-- Gallery filtri -->
+  <div class="gallery-filters fade-in">
+    <button class="gf-btn active" data-filter="tutti">Tutti</button>
+    <button class="gf-btn" data-filter="mare">🌊 Mare</button>
+    <button class="gf-btn" data-filter="cibo">🍽️ Cibo</button>
+    <button class="gf-btn" data-filter="serate">🌅 Serate</button>
+  </div>
+
   <div class="gallery-grid fade-in">
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="mare">
       <img src="img/hero.jpg" alt="Cala Sea – struttura dal mare" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="mare">
       <img src="img/terrazza.jpg" alt="Terrazza con vista" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="cibo">
       <img src="img/piatto1.jpg" alt="Chef impatta un piatto gourmet" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="serate">
       <img src="img/tramonto.jpg" alt="Tramonto sul Golfo di Napoli" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="serate">
       <img src="img/brindisi.jpg" alt="Brindisi in serata" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="cibo">
       <img src="img/piatto2.jpg" alt="Carpaccio di pesce con frutti" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="mare">
       <img src="img/mare.jpg" alt="Incontriamoci al mare – Cala Sea" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="mare">
       <img src="img/bandiera.jpg" alt="Bandiera Cala Sea sulla Torre" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="cibo">
       <img src="img/menu-cover.jpg" alt="Menu Cala Sea" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="mare">
       <img src="img/hero.jpg" alt="Vista dal mare" loading="lazy" style="object-position:center top;" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="serate">
       <img src="img/terrazza.jpg" alt="Tavola apparecchiata vista golfo" loading="lazy" style="object-position:bottom;" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.facebook.com/people/Calasea-Beachclub/61574814732637/" target="_blank" rel="noopener" class="g-item" data-cat="cibo">
       <img src="img/piatto1.jpg" alt="Cucina d'autore" loading="lazy" style="object-position:bottom;" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item" data-cat="mare">
       <img src="img/ig1.jpg" alt="Cala Sea – nuovo scatto Instagram" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
-    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item">
+    <a href="https://www.instagram.com/calasea_club/" target="_blank" rel="noopener" class="g-item" data-cat="serate">
       <img src="img/ig2.jpg" alt="Cala Sea – atmosfera sul mare" loading="lazy" />
       <div class="g-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/></svg></div>
     </a>
@@ -660,6 +683,82 @@
       </article>
 
     </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     AGENDA / PROSSIMI EVENTI
+══════════════════════════════════════════ -->
+<section id="agenda" class="section bg-navy-deep">
+  <div class="container">
+    <header class="sec-header fade-in">
+      <p class="eyebrow light">Estate 2026</p>
+      <h2 class="h-display light">Prossimi <em>Appuntamenti</em></h2>
+    </header>
+    <div class="agenda-grid">
+
+      <div class="agenda-card fade-in">
+        <div class="agenda-date"><span class="ag-day">31</span><span class="ag-month">MAG</span></div>
+        <div class="agenda-info">
+          <span class="ag-badge disponibile">Disponibile</span>
+          <h4>Apertura Stagione</h4>
+          <p>DJ Set · Aperitivo al tramonto · Buffet</p>
+        </div>
+        <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20prenotare%20per%20il%2031%20maggio." target="_blank" rel="noopener" class="ag-cta">Prenota →</a>
+      </div>
+
+      <div class="agenda-card fade-in delay-1">
+        <div class="agenda-date"><span class="ag-day">14</span><span class="ag-month">GIU</span></div>
+        <div class="agenda-info">
+          <span class="ag-badge pochi">Pochi Posti</span>
+          <h4>Cena Gourmet sul Mare</h4>
+          <p>Menu degustazione · Live Jazz · Vista Vesuvio</p>
+        </div>
+        <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20prenotare%20per%20il%2014%20giugno." target="_blank" rel="noopener" class="ag-cta">Prenota →</a>
+      </div>
+
+      <div class="agenda-card fade-in delay-2">
+        <div class="agenda-date"><span class="ag-day">28</span><span class="ag-month">GIU</span></div>
+        <div class="agenda-info">
+          <span class="ag-badge sold-out">Sold Out</span>
+          <h4>Serata DJ Resident</h4>
+          <p>Music · Cocktail · Special Guest</p>
+        </div>
+        <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Sono%20interessato%20alle%20prossime%20serate." target="_blank" rel="noopener" class="ag-cta">Lista Attesa →</a>
+      </div>
+
+      <div class="agenda-card fade-in">
+        <div class="agenda-date"><span class="ag-day">19</span><span class="ag-month">LUG</span></div>
+        <div class="agenda-info">
+          <span class="ag-badge disponibile">Disponibile</span>
+          <h4>Notte di Mezza Estate</h4>
+          <p>Cena · DJ Set · Fuochi d'artificio</p>
+        </div>
+        <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20prenotare%20per%20il%2019%20luglio." target="_blank" rel="noopener" class="ag-cta">Prenota →</a>
+      </div>
+
+      <div class="agenda-card fade-in delay-1">
+        <div class="agenda-date"><span class="ag-day">9</span><span class="ag-month">AGO</span></div>
+        <div class="agenda-info">
+          <span class="ag-badge pochi">Pochi Posti</span>
+          <h4>Ferragosto Cala Sea</h4>
+          <p>Gran galà · DJ · Fuochi · Menu esclusivo</p>
+        </div>
+        <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20prenotare%20per%20Ferragosto." target="_blank" rel="noopener" class="ag-cta">Prenota →</a>
+      </div>
+
+      <div class="agenda-card fade-in delay-2">
+        <div class="agenda-date"><span class="ag-day">6</span><span class="ag-month">SET</span></div>
+        <div class="agenda-info">
+          <span class="ag-badge disponibile">Disponibile</span>
+          <h4>Fine Estate · Closing Party</h4>
+          <p>DJ Set · Aperitivo · Special Guest</p>
+        </div>
+        <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20prenotare%20per%20il%206%20settembre." target="_blank" rel="noopener" class="ag-cta">Prenota →</a>
+      </div>
+
+    </div>
+    <p class="agenda-note fade-in">Gli eventi si aggiornano ogni settimana — scrivici su WhatsApp per non perdere nulla.</p>
   </div>
 </section>
 

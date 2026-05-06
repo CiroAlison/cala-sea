@@ -295,6 +295,67 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
   }
 })();
 
+/* ─── Loading Screen ─── */
+(function () {
+  const loader = document.getElementById('page-loader');
+  if (!loader) return;
+  const hide = () => loader.classList.add('hidden');
+  if (document.readyState === 'complete') {
+    setTimeout(hide, 900);
+  } else {
+    window.addEventListener('load', () => setTimeout(hide, 900));
+    setTimeout(hide, 3500); // fallback
+  }
+})();
+
+/* ─── Gallery Filters ─── */
+(function () {
+  const btns  = document.querySelectorAll('.gf-btn');
+  const items = document.querySelectorAll('.g-item[data-cat]');
+  if (!btns.length) return;
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      items.forEach(item => {
+        const match = filter === 'tutti' || item.dataset.cat === filter;
+        item.classList.toggle('g-hidden', !match);
+      });
+    });
+  });
+})();
+
+/* ─── Meteo Torre del Greco (wttr.in) ─── */
+(function () {
+  const iconEl = document.getElementById('weather-icon');
+  const textEl = document.getElementById('weather-text');
+  if (!iconEl || !textEl) return;
+
+  fetch('https://wttr.in/Torre+del+Greco?format=j1')
+    .then(r => r.json())
+    .then(data => {
+      const cond = data.current_condition[0];
+      const temp = cond.temp_C;
+      const desc = (cond.weatherDesc[0]?.value || '').toLowerCase();
+      let icon = '🌤️';
+      if (desc.includes('sunny') || desc.includes('clear')) icon = '☀️';
+      else if (desc.includes('thunder') || desc.includes('storm')) icon = '⛈️';
+      else if (desc.includes('rain') || desc.includes('drizzle') || desc.includes('shower')) icon = '🌧️';
+      else if (desc.includes('overcast')) icon = '☁️';
+      else if (desc.includes('cloud') || desc.includes('partly')) icon = '⛅';
+      else if (desc.includes('fog') || desc.includes('mist') || desc.includes('haze')) icon = '🌫️';
+      else if (desc.includes('snow') || desc.includes('blizzard')) icon = '❄️';
+      iconEl.textContent = icon;
+      textEl.textContent = temp + '°C';
+    })
+    .catch(() => {
+      iconEl.textContent = '🌊';
+      textEl.textContent = 'Torre del Greco';
+    });
+})();
+
 /* ─── Smooth scroll (chiude anche il menu mobile) ─── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {

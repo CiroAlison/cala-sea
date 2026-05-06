@@ -978,3 +978,153 @@ a.hs-item:hover { color: var(--white); }
   transition: opacity var(--tr), transform var(--tr);
 }
 .btn-ig-instagram:hover { opacity: .85; transform: translateY(-1px); }
+
+/* ═══════════════════════════════════════════
+   LOADING SCREEN
+═══════════════════════════════════════════ */
+#page-loader {
+  position: fixed; inset: 0;
+  background: var(--navy-deep);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .7s ease, visibility .7s;
+}
+#page-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-inner { text-align: center; }
+.loader-logo {
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 12vw, 6rem);
+  letter-spacing: .4em;
+  line-height: 1;
+  color: var(--sand);
+  margin-bottom: .25rem;
+  animation: loader-pulse 1.6s ease-in-out infinite;
+}
+.loader-logo .lc { color: white; font-weight: 300; }
+.loader-logo .ls { color: var(--sand); font-weight: 400; }
+@keyframes loader-pulse {
+  0%, 100% { opacity: 1; } 50% { opacity: .55; }
+}
+.loader-sub {
+  font-family: var(--sans); font-weight: 200;
+  letter-spacing: .35em; font-size: .72rem;
+  color: rgba(232,220,200,.45); text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+.loader-bar-wrap {
+  width: 80px; height: 2px;
+  background: rgba(232,220,200,.12);
+  border-radius: 2px; margin: 0 auto; overflow: hidden;
+}
+.loader-bar {
+  height: 100%; width: 45%;
+  background: var(--sand); border-radius: 2px;
+  animation: loader-slide 1.3s ease-in-out infinite;
+}
+@keyframes loader-slide {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(280%); }
+}
+
+/* ═══════════════════════════════════════════
+   GALLERY FILTERS
+═══════════════════════════════════════════ */
+.gallery-filters {
+  display: flex; gap: .6rem; justify-content: center;
+  flex-wrap: wrap; margin: 0 0 2.5rem;
+  padding: 0 20px;
+}
+.gf-btn {
+  font-family: var(--sans); font-size: .72rem; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  padding: .5rem 1.5rem;
+  border: 1px solid rgba(232,220,200,.2);
+  border-radius: 50px;
+  background: transparent; color: rgba(232,220,200,.5);
+  cursor: pointer; transition: all .22s;
+}
+.gf-btn:hover { border-color: rgba(232,220,200,.55); color: rgba(232,220,200,.85); }
+.gf-btn.active {
+  background: var(--sand); color: var(--navy-deep);
+  border-color: var(--sand); font-weight: 700;
+}
+.g-item {
+  transition: opacity .3s ease, transform .3s ease;
+}
+.g-item.g-hidden {
+  opacity: 0 !important; pointer-events: none; transform: scale(.94);
+  position: absolute; visibility: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   WEATHER WIDGET (hero strip)
+═══════════════════════════════════════════ */
+.weather-item { display: flex; align-items: center; gap: 5px; }
+#weather-text { font-variant-numeric: tabular-nums; }
+
+/* ═══════════════════════════════════════════
+   AGENDA / CALENDARIO EVENTI
+═══════════════════════════════════════════ */
+.agenda-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem; margin-top: 3rem;
+}
+.agenda-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(232,220,200,.1);
+  border-radius: 14px; padding: 1.4rem 1.5rem;
+  display: flex; align-items: center; gap: 1.2rem;
+  transition: border-color .25s, transform .25s;
+}
+.agenda-card:hover { border-color: rgba(232,220,200,.3); transform: translateY(-3px); }
+.agenda-date {
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 50px;
+  background: rgba(232,220,200,.07);
+  border-radius: 10px; padding: .7rem .4rem;
+}
+.ag-day {
+  font-family: var(--serif); font-size: 2.1rem; font-weight: 600;
+  color: var(--sand); line-height: 1;
+}
+.ag-month {
+  font-family: var(--sans); font-size: .58rem;
+  letter-spacing: .15em; color: rgba(232,220,200,.5);
+  text-transform: uppercase; margin-top: .1rem;
+}
+.agenda-info { flex: 1; min-width: 0; }
+.agenda-info h4 {
+  font-family: var(--serif); font-size: 1.1rem;
+  font-weight: 500; color: white; margin-bottom: .2rem;
+}
+.agenda-info p {
+  font-size: .78rem; color: rgba(232,220,200,.5);
+  font-family: var(--sans); white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.ag-badge {
+  display: inline-block; font-family: var(--sans);
+  font-size: .58rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: .2rem .7rem; border-radius: 50px; margin-bottom: .35rem;
+}
+.ag-badge.disponibile { background: rgba(34,197,94,.13); color: #4ade80; border: 1px solid rgba(34,197,94,.28); }
+.ag-badge.pochi       { background: rgba(251,191,36,.12); color: #fbbf24; border: 1px solid rgba(251,191,36,.28); }
+.ag-badge.sold-out    { background: rgba(239,68,68,.12);  color: #f87171; border: 1px solid rgba(239,68,68,.28); }
+.ag-cta {
+  font-family: var(--sans); font-size: .75rem; font-weight: 500;
+  color: var(--sand); text-decoration: none; white-space: nowrap;
+  border-bottom: 1px solid rgba(232,220,200,.25);
+  transition: opacity .2s, border-color .2s;
+}
+.ag-cta:hover { opacity: .6; border-color: transparent; }
+.agenda-note {
+  text-align: center; font-family: var(--sans);
+  font-size: .8rem; color: rgba(232,220,200,.35);
+  margin-top: 2.5rem; letter-spacing: .06em; font-style: italic;
+}
+@media(max-width: 480px) {
+  .agenda-card { flex-wrap: wrap; gap: .8rem; }
+  .agenda-info p { white-space: normal; }
+}
