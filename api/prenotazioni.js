@@ -20,8 +20,23 @@ export default async function handler(req) {
   }
 
   try {
+    // Crea la tabella se non esiste ancora (es. zero prenotazioni)
+    await sql`
+      CREATE TABLE IF NOT EXISTS prenotazioni (
+        id SERIAL PRIMARY KEY,
+        nome TEXT NOT NULL,
+        telefono TEXT NOT NULL,
+        data DATE NOT NULL,
+        persone TEXT NOT NULL,
+        tipo TEXT NOT NULL,
+        note TEXT,
+        stato TEXT DEFAULT 'nuova',
+        creato_il TIMESTAMPTZ DEFAULT NOW()
+      )
+    `;
+
     const rows = await sql`
-      SELECT id, nome, telefono, data, persone, tipo, note, creato_il
+      SELECT id, nome, telefono, data, persone, tipo, note, stato, creato_il
       FROM prenotazioni
       ORDER BY creato_il DESC
       LIMIT 200

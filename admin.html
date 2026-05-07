@@ -399,8 +399,14 @@ document.getElementById('login-form').addEventListener('submit', async e => {
   if (!t) return;
   document.getElementById('login-err').textContent = '';
   const res = await fetch('/api/prenotazioni?token=' + encodeURIComponent(t));
-  if (res.ok) { token = t; sessionStorage.setItem('cs_admin', t); boot(); }
-  else document.getElementById('login-err').textContent = 'Password non valida. Riprova.';
+  if (res.ok || res.status === 500) {
+    // 200 = ok con dati, 500 = db error ma token valido (es. tabella vuota)
+    token = t; sessionStorage.setItem('cs_admin', t); boot();
+  } else if (res.status === 401) {
+    document.getElementById('login-err').textContent = 'Password non valida. Riprova.';
+  } else {
+    document.getElementById('login-err').textContent = 'Errore di connessione. Riprova tra poco.';
+  }
 });
 
 document.getElementById('logout-btn').addEventListener('click', () => { sessionStorage.removeItem('cs_admin'); location.reload(); });
