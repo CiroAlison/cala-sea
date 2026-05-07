@@ -295,18 +295,62 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
   }
 })();
 
-/* ─── Annuncio Banner (dal pannello admin) ─── */
+/* ─── Applica impostazioni dal pannello admin ─── */
 (function () {
   fetch('/api/settings')
     .then(r => r.json())
     .then(s => {
+
+      // Annuncio banner
       const text = s.annuncio && s.annuncio.trim();
-      if (!text) return;
-      const banner = document.getElementById('annuncio-banner');
-      const span   = document.getElementById('annuncio-text');
-      if (!banner || !span) return;
-      span.textContent = text;
-      banner.style.display = 'block';
+      if (text) {
+        const banner = document.getElementById('annuncio-banner');
+        const span   = document.getElementById('annuncio-text');
+        if (banner && span) { span.textContent = text; banner.style.display = 'block'; }
+      }
+
+      // Colori (CSS vars)
+      if (s.col_navy) document.documentElement.style.setProperty('--navy',      s.col_navy);
+      if (s.col_sand) document.documentElement.style.setProperty('--sand',      s.col_sand);
+      if (s.col_gold) document.documentElement.style.setProperty('--gold',      s.col_gold);
+      if (s.col_navy) document.documentElement.style.setProperty('--navy-deep', shadeColor(s.col_navy, -20));
+
+      // Contatti
+      if (s.c_tel) {
+        document.querySelectorAll('[data-cs="tel"]').forEach(el => {
+          el.textContent = s.c_tel;
+          if (el.tagName === 'A') el.href = 'tel:' + s.c_tel.replace(/\s/g, '');
+        });
+      }
+      if (s.c_orari) {
+        document.querySelectorAll('[data-cs="orari"]').forEach(el => el.textContent = s.c_orari);
+      }
+      if (s.c_email) {
+        document.querySelectorAll('[data-cs="email"]').forEach(el => {
+          el.textContent = s.c_email;
+          if (el.tagName === 'A') el.href = 'mailto:' + s.c_email;
+        });
+      }
+      if (s.c_indirizzo) {
+        document.querySelectorAll('[data-cs="indirizzo"]').forEach(el => el.textContent = s.c_indirizzo);
+      }
+
+      // Testi
+      if (s.t_tagline) {
+        document.querySelectorAll('[data-i18n="hero.tagline"]').forEach(el => el.textContent = s.t_tagline);
+      }
+      if (s.t_sub) {
+        document.querySelectorAll('[data-i18n="hero.sub"]').forEach(el => el.innerHTML = s.t_sub);
+      }
+      if (s.t_chisiamo) {
+        const cs = document.querySelector('.col-text .body-text');
+        if (cs) cs.textContent = s.t_chisiamo;
+      }
+      if (s.t_menu_nota) {
+        const mn = document.querySelector('.sec-header .eyebrow.light');
+        if (mn && mn.closest('#menu')) mn.textContent = s.t_menu_nota;
+      }
+
     })
     .catch(() => {});
 
@@ -314,6 +358,15 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
     const b = document.getElementById('annuncio-banner');
     if (b) b.style.display = 'none';
   });
+
+  // Helper: scurisce un colore hex di una percentuale
+  function shadeColor(hex, pct) {
+    const n = parseInt(hex.replace('#',''), 16);
+    const r = Math.min(255, Math.max(0, (n>>16) + pct));
+    const g = Math.min(255, Math.max(0, ((n>>8)&0xff) + pct));
+    const b = Math.min(255, Math.max(0, (n&0xff) + pct));
+    return '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+  }
 })();
 
 /* ─── Loading Screen ─── */
