@@ -414,16 +414,27 @@ document.getElementById('logout-btn').addEventListener('click', () => { sessionS
 async function boot() {
   loginWrap.style.display = 'none';
   dash.style.display = 'block';
-  await Promise.all([loadPrenotazioni(), loadAllSettings()]);
+  try {
+    await Promise.all([loadPrenotazioni(), loadAllSettings()]);
+  } catch(e) {
+    console.warn('boot error:', e);
+  }
   initColoriPreview();
 }
 
 /* ─ Prenotazioni ─ */
 async function loadPrenotazioni() {
-  const res = await fetch('/api/prenotazioni?token=' + encodeURIComponent(token));
-  if (!res.ok) { sessionStorage.removeItem('cs_admin'); location.reload(); return; }
-  allP = await res.json();
-  updateStats(); renderTable();
+  try {
+    const res = await fetch('/api/prenotazioni?token=' + encodeURIComponent(token));
+    if (res.status === 401) { sessionStorage.removeItem('cs_admin'); location.reload(); return; }
+    if (!res.ok) { console.warn('prenotazioni API error:', res.status); allP = []; updateStats(); renderTable(); return; }
+    const data = await res.json();
+    allP = Array.isArray(data) ? data : [];
+    updateStats(); renderTable();
+  } catch(e) {
+    console.warn('loadPrenotazioni failed:', e);
+    allP = []; updateStats(); renderTable();
+  }
 }
 
 function updateStats() {
@@ -517,6 +528,7 @@ document.querySelectorAll('.a-tab').forEach(btn => {
 
 /* ─ Settings: load all ─ */
 async function loadAllSettings() {
+  try {
   const res = await fetch('/api/settings');
   if (!res.ok) return;
   const s = await res.json();
@@ -538,6 +550,7 @@ async function loadAllSettings() {
   if (s.t_menu_nota) document.getElementById('t-menu-nota').value = s.t_menu_nota;
   // Update preview with loaded colors
   updateColPreview();
+  } catch(e) { console.warn('loadAllSettings failed:', e); }
 }
 
 /* ─ Annuncio ─ */

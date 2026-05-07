@@ -20,23 +20,25 @@ export default async function handler(req) {
   }
 
   try {
-    // Crea la tabella se non esiste ancora (es. zero prenotazioni)
+    // Crea la tabella se non esiste ancora
     await sql`
       CREATE TABLE IF NOT EXISTS prenotazioni (
         id SERIAL PRIMARY KEY,
         nome TEXT NOT NULL,
         telefono TEXT NOT NULL,
-        data DATE NOT NULL,
-        persone TEXT NOT NULL,
-        tipo TEXT NOT NULL,
+        data DATE,
+        persone TEXT,
+        tipo TEXT,
         note TEXT,
-        stato TEXT DEFAULT 'nuova',
         creato_il TIMESTAMPTZ DEFAULT NOW()
       )
     `;
+    // Aggiunge la colonna stato se la tabella era già esistente senza di essa
+    await sql`ALTER TABLE prenotazioni ADD COLUMN IF NOT EXISTS stato TEXT DEFAULT 'nuova'`;
 
     const rows = await sql`
-      SELECT id, nome, telefono, data, persone, tipo, note, stato, creato_il
+      SELECT id, nome, telefono, data, persone, tipo, note,
+             COALESCE(stato, 'nuova') AS stato, creato_il
       FROM prenotazioni
       ORDER BY creato_il DESC
       LIMIT 200
