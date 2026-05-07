@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cala Sea – Pannello Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0a1766; --navy-deep: #060d45; --navy-light: #111e80;
+      --sand: #e8dcc8; --gold: #c9a227;
+      --green: #4ade80; --red: #f87171; --yellow: #fbbf24;
+      --bg: #070e3e; --surface: rgba(255,255,255,.04);
+      --border: rgba(232,220,200,.1); --text: rgba(255,255,255,.88);
+      --text-dim: rgba(255,255,255,.45);
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Jost', system-ui, sans-serif;
+      --radius: 10px; --tr: .2s ease;
+    }
+    html, body { height: 100%; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+    a { color: var(--sand); text-decoration: none; }
+    button { font-family: var(--sans); cursor: pointer; border: none; }
+
+    /* ── LOGIN ── */
+    #login-wrap {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .login-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%; max-width: 380px;
+      text-align: center;
+    }
+    .a-brand { font-family: var(--serif); letter-spacing: .35em; font-size: 2.2rem; color: var(--sand); }
+    .a-brand .lc { font-weight: 300; color: white; }
+    .a-brand .ls { font-weight: 400; color: var(--sand); }
+    .a-brand-sub { font-size: .68rem; letter-spacing: .25em; text-transform: uppercase; color: var(--text-dim); margin: 6px 0 36px; }
+    .login-label { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; text-align: left; }
+    .login-input {
+      width: 100%; padding: 13px 16px;
+      background: rgba(255,255,255,.06); border: 1px solid var(--border);
+      border-radius: 8px; color: white; font-size: .95rem; font-family: var(--sans);
+      outline: none; transition: border-color var(--tr);
+      margin-bottom: 16px;
+    }
+    .login-input:focus { border-color: rgba(232,220,200,.4); }
+    .login-btn {
+      width: 100%; padding: 13px;
+      background: var(--sand); color: var(--navy-deep);
+      font-weight: 600; font-size: .85rem; letter-spacing: .1em; text-transform: uppercase;
+      border-radius: 8px; transition: opacity var(--tr);
+    }
+    .login-btn:hover { opacity: .85; }
+    .login-err { font-size: .8rem; color: var(--red); margin-top: 12px; min-height: 18px; }
+
+    /* ── DASHBOARD ── */
+    #dashboard { display: none; min-height: 100vh; }
+
+    .a-header {
+      background: rgba(6,13,69,.95);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .a-header-left { display: flex; align-items: center; gap: 12px; }
+    .a-header-logo { font-family: var(--serif); font-size: 1.3rem; letter-spacing: .25em; color: var(--sand); }
+    .a-header-logo .lc { color: white; font-weight: 300; }
+    .a-header-dot { color: var(--text-dim); font-size: .9rem; }
+    .a-header-title { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim); }
+    .a-logout {
+      font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-dim); background: transparent;
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 6px 14px; transition: all var(--tr);
+    }
+    .a-logout:hover { color: var(--text); border-color: rgba(232,220,200,.35); }
+
+    .a-main { padding: 28px 24px; max-width: 1200px; margin: 0 auto; }
+
+    /* ── STATS ── */
+    .a-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+      margin-bottom: 28px;
+    }
+    @media(max-width: 640px) { .a-stats { grid-template-columns: repeat(2, 1fr); } }
+    .a-stat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 18px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .a-stat-n { font-family: var(--serif); font-size: 2.2rem; font-weight: 600; color: var(--sand); line-height: 1; }
+    .a-stat-l { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); }
+
+    /* ── TABS ── */
+    .a-tabs {
+      display: flex; gap: 4px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .a-tab {
+      padding: 11px 20px;
+      background: transparent; color: var(--text-dim);
+      font-size: .8rem; font-weight: 500; letter-spacing: .06em;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px; transition: all var(--tr);
+    }
+    .a-tab:hover { color: var(--text); }
+    .a-tab.active { color: var(--sand); border-bottom-color: var(--sand); }
+
+    /* ── TOOLBAR ── */
+    .a-toolbar {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .a-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+    .af-btn {
+      font-size: .72rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      padding: 7px 16px; border-radius: 50px;
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border); transition: all var(--tr);
+    }
+    .af-btn:hover { border-color: rgba(232,220,200,.4); color: var(--text); }
+    .af-btn.active { background: var(--sand); color: var(--navy-deep); border-color: var(--sand); font-weight: 700; }
+    .a-search {
+      margin-left: auto;
+      padding: 8px 14px; background: rgba(255,255,255,.05);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: white; font-family: var(--sans); font-size: .85rem;
+      outline: none; min-width: 180px; transition: border-color var(--tr);
+    }
+    .a-search:focus { border-color: rgba(232,220,200,.35); }
+    .a-search::placeholder { color: var(--text-dim); }
+
+    /* ── TABLE ── */
+    .a-table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+    .a-table { width: 100%; border-collapse: collapse; }
+    .a-table thead tr { border-bottom: 1px solid var(--border); }
+    .a-table th {
+      padding: 12px 14px; text-align: left;
+      font-size: .65rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text-dim); white-space: nowrap; background: rgba(255,255,255,.03);
+    }
+    .a-table td {
+      padding: 13px 14px; border-bottom: 1px solid rgba(255,255,255,.04);
+      font-size: .85rem; vertical-align: middle;
+    }
+    .a-table tr:last-child td { border-bottom: none; }
+    .a-table tr:hover td { background: rgba(255,255,255,.03); }
+    .a-table td a { color: rgba(232,220,200,.75); }
+    .a-table td a:hover { color: var(--sand); }
+    .td-note { font-size: .78rem; color: var(--text-dim); max-width: 160px; }
+    .td-ricevuta { font-size: .75rem; color: var(--text-dim); white-space: nowrap; }
+
+    /* Status badges */
+    .st-badge {
+      display: inline-block; font-size: .6rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .2rem .65rem; border-radius: 50px; white-space: nowrap;
+    }
+    .st-new  { background: rgba(99,102,241,.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,.3); }
+    .st-ok   { background: rgba(34,197,94,.13);  color: var(--green); border: 1px solid rgba(34,197,94,.3); }
+    .st-no   { background: rgba(239,68,68,.12);  color: var(--red);   border: 1px solid rgba(239,68,68,.3); }
+    .st-actions { display: flex; gap: 4px; margin-top: 5px; }
+    .st-btn {
+      width: 26px; height: 26px; border-radius: 6px;
+      font-size: .8rem; display: flex; align-items: center; justify-content: center;
+      transition: opacity var(--tr), transform var(--tr);
+    }
+    .st-btn:hover { opacity: .75; transform: scale(1.1); }
+    .st-btn.ok  { background: rgba(34,197,94,.18); color: var(--green); }
+    .st-btn.no  { background: rgba(239,68,68,.15); color: var(--red); }
+    .st-btn.wa  { background: rgba(37,211,102,.18); color: #25d366; }
+
+    .no-results {
+      text-align: center; padding: 48px 24px;
+      color: var(--text-dim); font-size: .9rem;
+    }
+
+    /* ── ANNUNCIO TAB ── */
+    .ann-section { max-width: 680px; }
+    .ann-section h2 { font-family: var(--serif); font-size: 1.6rem; font-weight: 400; color: var(--sand); margin-bottom: 8px; }
+    .ann-section > p { font-size: .85rem; color: var(--text-dim); margin-bottom: 24px; line-height: 1.6; }
+    .ann-textarea {
+      width: 100%; min-height: 100px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,.05); border: 1px solid var(--border);
+      border-radius: 10px; color: white; font-family: var(--sans); font-size: .95rem;
+      outline: none; resize: vertical; transition: border-color var(--tr);
+      margin-bottom: 16px;
+    }
+    .ann-textarea:focus { border-color: rgba(232,220,200,.4); }
+    .ann-textarea::placeholder { color: var(--text-dim); }
+    .ann-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-publish {
+      padding: 11px 28px; background: var(--sand); color: var(--navy-deep);
+      font-weight: 700; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
+      border-radius: 8px; transition: opacity var(--tr);
+    }
+    .btn-publish:hover { opacity: .85; }
+    .btn-remove {
+      padding: 11px 22px; background: transparent; color: var(--text-dim);
+      font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
+      border: 1px solid var(--border); border-radius: 8px; transition: all var(--tr);
+    }
+    .btn-remove:hover { border-color: var(--red); color: var(--red); }
+    .ann-preview {
+      margin-top: 24px;
+      background: rgba(201,162,39,.12);
+      border: 1px solid rgba(201,162,39,.25);
+      border-radius: 10px; padding: 16px 18px;
+    }
+    .ann-preview-label { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .ann-preview-text { font-size: .9rem; color: rgba(232,220,200,.9); line-height: 1.5; }
+    .ann-status { font-size: .78rem; margin-top: 12px; min-height: 20px; color: var(--green); }
+
+    /* ── EMPTY ── */
+    .a-empty { text-align: center; padding: 60px 24px; color: var(--text-dim); }
+    .a-empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .a-empty p { font-size: .9rem; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ LOGIN ═══════════════ -->
+<div id="login-wrap">
+  <div class="login-card">
+    <p class="a-brand"><span class="lc">CALA</span><span class="ls">SEA</span></p>
+    <p class="a-brand-sub">Pannello Amministratore</p>
+    <form id="login-form">
+      <p class="login-label">Token di accesso</p>
+      <input type="password" id="token-input" class="login-input" placeholder="••••••••••••" autocomplete="current-password" required />
+      <button type="submit" class="login-btn">Accedi</button>
+    </form>
+    <p id="login-err" class="login-err"></p>
+  </div>
+</div>
+
+<!-- ═══════════════ DASHBOARD ═══════════════ -->
+<div id="dashboard">
+
+  <header class="a-header">
+    <div class="a-header-left">
+      <span class="a-header-logo"><span class="lc">CALA</span><span class="ls">SEA</span></span>
+      <span class="a-header-dot">·</span>
+      <span class="a-header-title">Admin Panel</span>
+    </div>
+    <button id="logout-btn" class="a-logout">Esci</button>
+  </header>
+
+  <main class="a-main">
+
+    <!-- STATS -->
+    <div class="a-stats">
+      <div class="a-stat">
+        <span class="a-stat-n" id="stat-totale">—</span>
+        <span class="a-stat-l">Prenotazioni totali</span>
+      </div>
+      <div class="a-stat">
+        <span class="a-stat-n" id="stat-mese">—</span>
+        <span class="a-stat-l">Questo mese</span>
+      </div>
+      <div class="a-stat">
+        <span class="a-stat-n" id="stat-settimana">—</span>
+        <span class="a-stat-l">Questa settimana</span>
+      </div>
+      <div class="a-stat">
+        <span class="a-stat-n" id="stat-oggi">—</span>
+        <span class="a-stat-l">Oggi</span>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="a-tabs">
+      <button class="a-tab active" data-tab="prenotazioni">📋 Prenotazioni</button>
+      <button class="a-tab" data-tab="annuncio">📢 Annuncio</button>
+    </div>
+
+    <!-- TAB: PRENOTAZIONI -->
+    <div id="panel-prenotazioni">
+      <div class="a-toolbar">
+        <div class="a-filters">
+          <button class="af-btn active" data-range="tutte">Tutte</button>
+          <button class="af-btn" data-range="prossime">Prossime</button>
+          <button class="af-btn" data-range="settimana">Settimana</button>
+          <button class="af-btn" data-range="oggi">Oggi</button>
+        </div>
+        <input type="search" id="search-input" class="a-search" placeholder="Cerca per nome…" />
+      </div>
+      <div class="a-table-wrap">
+        <table class="a-table">
+          <thead>
+            <tr>
+              <th>Data evento</th>
+              <th>Nome</th>
+              <th>Telefono</th>
+              <th>Persone</th>
+              <th>Tipo</th>
+              <th>Note</th>
+              <th>Ricevuta il</th>
+              <th>Stato</th>
+            </tr>
+          </thead>
+          <tbody id="prenota-tbody"></tbody>
+        </table>
+        <div id="no-results" class="a-empty" style="display:none">
+          <div class="a-empty-icon">📭</div>
+          <p>Nessuna prenotazione trovata.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: ANNUNCIO -->
+    <div id="panel-annuncio" style="display:none">
+      <div class="ann-section">
+        <h2>Annuncio sul sito</h2>
+        <p>Scrivi un messaggio che comparirà come banner in cima al sito per tutti i visitatori.<br>Utile per avvisi rapidi: chiusure, offerte del giorno, eventi speciali. Lascia vuoto per nasconderlo.</p>
+        <textarea id="annuncio-input" class="ann-textarea" placeholder="Es: Oggi chiuso per evento privato · Riapertura domani alle 10:00&#10;Es: Speciale del weekend: Frittura Calasea a €18 🎉"></textarea>
+        <div class="ann-actions">
+          <button id="save-annuncio" class="btn-publish">Pubblica sul sito</button>
+          <button id="clear-annuncio" class="btn-remove">Rimuovi annuncio</button>
+        </div>
+        <p id="ann-status" class="ann-status"></p>
+        <div class="ann-preview" id="ann-preview" style="display:none">
+          <p class="ann-preview-label">Anteprima banner</p>
+          <p class="ann-preview-text" id="ann-preview-text"></p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   CALA SEA — Admin Panel JS
+═══════════════════════════════════════ */
+
+let adminToken = '';
+let allPrenotazioni = [];
+let currentFilter = 'tutte';
+
+const loginWrap  = document.getElementById('login-wrap');
+const dashboard  = document.getElementById('dashboard');
+const loginErr   = document.getElementById('login-err');
+
+// Controlla token salvato
+const saved = sessionStorage.getItem('calasea_admin');
+if (saved) { adminToken = saved; boot(); }
+
+// Login
+document.getElementById('login-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const token = document.getElementById('token-input').value.trim();
+  if (!token) return;
+  loginErr.textContent = '';
+  const res = await fetch('/api/prenotazioni?token=' + encodeURIComponent(token));
+  if (res.ok) {
+    adminToken = token;
+    sessionStorage.setItem('calasea_admin', token);
+    boot();
+  } else {
+    loginErr.textContent = 'Token non valido. Riprova.';
+  }
+});
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+  sessionStorage.removeItem('calasea_admin');
+  location.reload();
+});
+
+async function boot() {
+  loginWrap.style.display = 'none';
+  dashboard.style.display = 'block';
+  await Promise.all([loadPrenotazioni(), loadAnnuncio()]);
+}
+
+/* ─── Prenotazioni ─── */
+async function loadPrenotazioni() {
+  const res = await fetch('/api/prenotazioni?token=' + encodeURIComponent(adminToken));
+  if (!res.ok) { sessionStorage.removeItem('calasea_admin'); location.reload(); return; }
+  allPrenotazioni = await res.json();
+  updateStats();
+  renderTable();
+}
+
+function updateStats() {
+  const now = new Date();
+  const thisMonth = now.getMonth(), thisYear = now.getFullYear();
+  const todayStr = now.toISOString().split('T')[0];
+  const startW = new Date(now); startW.setDate(now.getDate() - now.getDay() + 1); startW.setHours(0,0,0,0);
+  const endW = new Date(startW); endW.setDate(startW.getDate() + 7);
+
+  let mese = 0, settimana = 0, oggi = 0;
+  allPrenotazioni.forEach(p => {
+    const d = new Date(p.data + 'T00:00:00');
+    if (d.getMonth() === thisMonth && d.getFullYear() === thisYear) mese++;
+    if (d >= startW && d < endW) settimana++;
+    if (p.data === todayStr) oggi++;
+  });
+
+  document.getElementById('stat-totale').textContent    = allPrenotazioni.length;
+  document.getElementById('stat-mese').textContent      = mese;
+  document.getElementById('stat-settimana').textContent = settimana;
+  document.getElementById('stat-oggi').textContent      = oggi;
+}
+
+function renderTable() {
+  const search   = document.getElementById('search-input').value.toLowerCase();
+  const todayStr = new Date().toISOString().split('T')[0];
+  const now      = new Date();
+  const startW   = new Date(now); startW.setDate(now.getDate() - now.getDay() + 1); startW.setHours(0,0,0,0);
+  const endW     = new Date(startW); endW.setDate(startW.getDate() + 7);
+
+  const filtered = allPrenotazioni.filter(p => {
+    if (search && !p.nome.toLowerCase().includes(search) && !(p.telefono || '').includes(search)) return false;
+    if (currentFilter === 'oggi')     return p.data === todayStr;
+    if (currentFilter === 'prossime') return p.data >= todayStr;
+    if (currentFilter === 'settimana') {
+      const d = new Date(p.data + 'T00:00:00');
+      return d >= startW && d < endW;
+    }
+    return true;
+  });
+
+  const tbody    = document.getElementById('prenota-tbody');
+  const noResult = document.getElementById('no-results');
+
+  if (!filtered.length) {
+    tbody.innerHTML = '';
+    noResult.style.display = 'block';
+    return;
+  }
+  noResult.style.display = 'none';
+
+  tbody.innerHTML = filtered.map(p => {
+    const dataFmt = p.data
+      ? new Date(p.data + 'T00:00:00').toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
+      : '—';
+    const ricevuta = new Date(p.creato_il).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    const stato  = p.stato || 'nuova';
+    const stClass = stato === 'confermata' ? 'st-ok' : stato === 'cancellata' ? 'st-no' : 'st-new';
+    const stLabel = stato === 'confermata' ? '✓ Confermata' : stato === 'cancellata' ? '✗ Cancellata' : '● Nuova';
+    return `<tr>
+      <td><strong>${dataFmt}</strong></td>
+      <td>${esc(p.nome)}</td>
+      <td><a href="tel:${esc(p.telefono)}">${esc(p.telefono)}</a></td>
+      <td>${esc(p.persone)}</td>
+      <td>${esc(p.tipo)}</td>
+      <td class="td-note">${esc(p.note) || '—'}</td>
+      <td class="td-ricevuta">${ricevuta}</td>
+      <td>
+        <span class="st-badge ${stClass}">${stLabel}</span>
+        <div class="st-actions">
+          <button class="st-btn ok" title="Conferma" onclick="aggiornaStato(${p.id},'confermata')">✓</button>
+          <button class="st-btn no" title="Cancella" onclick="aggiornaStato(${p.id},'cancellata')">✗</button>
+          <button class="st-btn wa" title="Scrivi su WhatsApp" onclick="openWA('${esc(p.telefono)}','${esc(p.nome)}')">💬</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function aggiornaStato(id, stato) {
+  const res = await fetch('/api/aggiorna-prenotazione?token=' + encodeURIComponent(adminToken), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, stato })
+  });
+  if (res.ok) {
+    const p = allPrenotazioni.find(x => x.id === id);
+    if (p) p.stato = stato;
+    renderTable();
+  }
+}
+
+function openWA(tel, nome) {
+  window.open('https://wa.me/' + tel.replace(/\D/g,'') + '?text=Ciao%20' + encodeURIComponent(nome) + '!%20Ti%20confermiamo%20la%20tua%20prenotazione%20da%20Cala%20Sea%20%F0%9F%8C%8A', '_blank');
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ─── Tabs ─── */
+document.querySelectorAll('.a-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.a-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-prenotazioni').style.display = 'none';
+    document.getElementById('panel-annuncio').style.display     = 'none';
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).style.display = 'block';
+  });
+});
+
+/* ─── Filtri ─── */
+document.querySelectorAll('.af-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.af-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.range;
+    renderTable();
+  });
+});
+
+document.getElementById('search-input').addEventListener('input', renderTable);
+
+/* ─── Annuncio ─── */
+async function loadAnnuncio() {
+  const res = await fetch('/api/settings');
+  if (!res.ok) return;
+  const s = await res.json();
+  if (s.annuncio) {
+    document.getElementById('annuncio-input').value = s.annuncio;
+    mostraPreview(s.annuncio);
+  }
+}
+
+document.getElementById('annuncio-input').addEventListener('input', e => mostraPreview(e.target.value));
+
+document.getElementById('save-annuncio').addEventListener('click', async () => {
+  const text = document.getElementById('annuncio-input').value.trim();
+  await salvaAnnuncio(text);
+});
+
+document.getElementById('clear-annuncio').addEventListener('click', async () => {
+  document.getElementById('annuncio-input').value = '';
+  document.getElementById('ann-preview').style.display = 'none';
+  await salvaAnnuncio('');
+});
+
+async function salvaAnnuncio(value) {
+  const btn = document.getElementById('save-annuncio');
+  const status = document.getElementById('ann-status');
+  btn.textContent = 'Salvataggio…';
+  const res = await fetch('/api/settings?token=' + encodeURIComponent(adminToken), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ key: 'annuncio', value })
+  });
+  if (res.ok) {
+    btn.textContent = 'Pubblica sul sito';
+    status.textContent = value ? '✓ Annuncio pubblicato sul sito!' : '✓ Annuncio rimosso dal sito.';
+    setTimeout(() => status.textContent = '', 3000);
+  } else {
+    btn.textContent = 'Pubblica sul sito';
+    status.style.color = '#f87171';
+    status.textContent = '⚠ Errore nel salvataggio. Riprova.';
+  }
+}
+
+function mostraPreview(text) {
+  const preview = document.getElementById('ann-preview');
+  const pText   = document.getElementById('ann-preview-text');
+  if (text.trim()) {
+    pText.textContent = text;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>

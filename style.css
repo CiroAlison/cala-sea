@@ -1128,3 +1128,32 @@ a.hs-item:hover { color: var(--white); }
   .agenda-card { flex-wrap: wrap; gap: .8rem; }
   .agenda-info p { white-space: normal; }
 }
+
+/* ═══════════════════════════════════════════
+   BANNER ANNUNCIO (admin-controlled)
+═══════════════════════════════════════════ */
+#annuncio-banner {
+  position: relative;
+  background: linear-gradient(90deg, rgba(201,162,39,.18) 0%, rgba(201,162,39,.08) 100%);
+  border-bottom: 1px solid rgba(201,162,39,.28);
+  padding: 10px 48px 10px 20px;
+  text-align: center;
+  z-index: 200;
+  animation: ann-slidein .4s ease;
+}
+@keyframes ann-slidein {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+#annuncio-text {
+  font-family: 'Jost', sans-serif; font-size: .82rem;
+  font-weight: 500; letter-spacing: .06em;
+  color: rgba(232,220,200,.92);
+}
+#annuncio-close {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  background: transparent; border: none; cursor: pointer;
+  color: rgba(232,220,200,.55); font-size: 1.2rem; line-height: 1;
+  transition: color .2s;
+}
+#annuncio-close:hover { color: var(--sand); }

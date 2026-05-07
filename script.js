@@ -295,6 +295,27 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
   }
 })();
 
+/* ─── Annuncio Banner (dal pannello admin) ─── */
+(function () {
+  fetch('/api/settings')
+    .then(r => r.json())
+    .then(s => {
+      const text = s.annuncio && s.annuncio.trim();
+      if (!text) return;
+      const banner = document.getElementById('annuncio-banner');
+      const span   = document.getElementById('annuncio-text');
+      if (!banner || !span) return;
+      span.textContent = text;
+      banner.style.display = 'block';
+    })
+    .catch(() => {});
+
+  document.getElementById('annuncio-close')?.addEventListener('click', () => {
+    const b = document.getElementById('annuncio-banner');
+    if (b) b.style.display = 'none';
+  });
+})();
+
 /* ─── Loading Screen ─── */
 (function () {
   const loader = document.getElementById('page-loader');
