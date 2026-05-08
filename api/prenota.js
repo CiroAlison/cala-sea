@@ -4,10 +4,19 @@ const sql = neon(process.env.DATABASE_URL);
 
 export const config = { runtime: 'edge' };
 
+const CORS = {
+  'Access-Control-Allow-Origin':  '*',
+  'Access-Control-Allow-Methods': 'POST,OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+const JSON_HEADERS = { 'Content-Type': 'application/json', ...CORS };
+
 export default async function handler(req) {
+  if (req.method === 'OPTIONS') return new Response(null, { status: 200, headers: CORS });
+
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-      status: 405, headers: { 'Content-Type': 'application/json' }
+      status: 405, headers: JSON_HEADERS
     });
   }
 
@@ -16,14 +25,14 @@ export default async function handler(req) {
     body = await req.json();
   } catch {
     return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
-      status: 400, headers: { 'Content-Type': 'application/json' }
+      status: 400, headers: JSON_HEADERS
     });
   }
 
   const { nome, telefono, data, persone, tipo, note } = body;
   if (!nome || !telefono || !data || !persone || !tipo) {
     return new Response(JSON.stringify({ error: 'Campi obbligatori mancanti' }), {
-      status: 400, headers: { 'Content-Type': 'application/json' }
+      status: 400, headers: JSON_HEADERS
     });
   }
 
@@ -37,6 +46,7 @@ export default async function handler(req) {
         persone TEXT NOT NULL,
         tipo TEXT NOT NULL,
         note TEXT,
+        stato TEXT DEFAULT 'nuova',
         creato_il TIMESTAMPTZ DEFAULT NOW()
       )
     `;
@@ -48,13 +58,12 @@ export default async function handler(req) {
     `;
 
     return new Response(JSON.stringify({ ok: true, id: result[0].id }), {
-      status: 201, headers: { 'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*' }
+      status: 201, headers: JSON_HEADERS
     });
   } catch (err) {
     console.error('DB error:', err);
     return new Response(JSON.stringify({ error: 'Errore database' }), {
-      status: 500, headers: { 'Content-Type': 'application/json' }
+      status: 500, headers: JSON_HEADERS
     });
   }
 }

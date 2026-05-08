@@ -22,7 +22,6 @@ async function ensureTable() {
       creato_il   TIMESTAMPTZ DEFAULT NOW()
     )
   `;
-  await sql`ALTER TABLE recensioni ADD COLUMN IF NOT EXISTS stato TEXT DEFAULT 'pending'`;
 }
 
 export default async function handler(req) {

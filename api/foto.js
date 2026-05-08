@@ -11,12 +11,10 @@ async function ensureTable() {
       categoria TEXT DEFAULT 'mare',
       tipo      TEXT DEFAULT 'foto',
       mime      TEXT DEFAULT 'image/jpeg',
-      data      TEXT NOT NULL,
+      data      TEXT,
       creato_il TIMESTAMPTZ DEFAULT NOW()
     )
   `;
-  await sql`ALTER TABLE foto ADD COLUMN IF NOT EXISTS tipo TEXT DEFAULT 'foto'`;
-  try { await sql`ALTER TABLE foto ALTER COLUMN data DROP NOT NULL`; } catch(e) {}
 }
 
 export default async function handler(req) {
@@ -88,7 +86,7 @@ export default async function handler(req) {
       });
     }
     const { nome, categoria, tipo, data, mime } = body;
-    if (!data && data !== '') return new Response(JSON.stringify({ error: 'Media mancante' }), {
+    if (data == null) return new Response(JSON.stringify({ error: 'Media mancante' }), {
       status: 400, headers: { 'Content-Type': 'application/json' }
     });
     const rows = await sql`

@@ -731,7 +731,7 @@ document.getElementById('login-form').addEventListener('submit', async e => {
   document.getElementById('login-err').textContent = '';
   try {
     const res = await fetch('/api/prenotazioni?token=' + encodeURIComponent(t));
-    if (res.ok || res.status === 500) { TOKEN = t; sessionStorage.setItem('cs_admin', t); boot(); }
+    if (res.ok) { TOKEN = t; sessionStorage.setItem('cs_admin', t); boot(); }
     else if (res.status === 401) document.getElementById('login-err').textContent = 'Password non valida.';
     else document.getElementById('login-err').textContent = 'Errore di connessione. Riprova.';
   } catch { document.getElementById('login-err').textContent = 'Nessuna connessione.'; }
@@ -744,9 +744,10 @@ async function boot() {
   initFonts(); initColPreview(); initMediaTypePicker();
   try { await Promise.all([loadPrenotazioni(), loadAllSettings(), loadFotos(), loadRecensioni()]); } catch(e) { console.warn('boot:', e); }
   // Seed media se vuoto, poi pulisci eventuali duplicati silenziosamente
+  // Usa _allFotos già caricato da loadFotos() — evita fetch extra
   setTimeout(async () => {
-    await seedMedia(false);
-    cleanDuplicatesSilent();
+    await seedMedia(false, _allFotos);
+    cleanDuplicatesSilent(_allFotos);
   }, 600);
 }
 
@@ -823,8 +824,8 @@ async function setSt(id, stato) {
 function waMsg(tel,nome) { window.open('https://wa.me/'+tel.replace(/\D/g,'')+'?text=Ciao%20'+encodeURIComponent(nome)+'!%20Ti%20confermiamo%20la%20prenotazione%20da%20Cala%20Sea%20%F0%9F%8C%8A','_blank'); }
 function xe(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
-document.querySelectorAll('.af-btn').forEach(b => b.addEventListener('click',()=>{
-  document.querySelectorAll('.af-btn').forEach(x=>x.classList.remove('active'));
+document.querySelectorAll('.af-btn[data-range]').forEach(b => b.addEventListener('click',()=>{
+  document.querySelectorAll('.af-btn[data-range]').forEach(x=>x.classList.remove('active'));
   b.classList.add('active'); curFilter=b.dataset.range; renderTable();
 }));
 document.getElementById('search-input').addEventListener('input', renderTable);
@@ -927,8 +928,8 @@ function showAnnPreview(t) {
 /* ── CONTATTI ── */
 document.getElementById('save-contatti').addEventListener('click', async () => {
   const keys={c_tel:'c-tel',c_email:'c-email',c_orari:'c-orari',c_indirizzo:'c-indirizzo',c_wa:'c-wa'};
-  let ok=true;
-  for(const [k,id] of Object.entries(keys)) { const r=await saveKey(k,document.getElementById(id).value.trim()); if(!r) ok=false; }
+  const results = await Promise.all(Object.entries(keys).map(([k,id]) => saveKey(k, document.getElementById(id).value.trim())));
+  const ok = results.every(Boolean);
   showStatus('contatti-status',ok?'✓ Contatti aggiornati sul sito!':'⚠ Errore nel salvataggio.',ok);
 });
 
@@ -1267,8 +1268,8 @@ function updateColPreview() {
 }
 document.getElementById('save-stile').addEventListener('click', async () => {
   const vals={col_navy:document.getElementById('col-navy').value,col_sand:document.getElementById('col-sand').value,col_gold:document.getElementById('col-gold').value,font_key:selectedFont};
-  let ok=true;
-  for(const [k,v] of Object.entries(vals)) { const r=await saveKey(k,v); if(!r) ok=false; }
+  const results = await Promise.all(Object.entries(vals).map(([k,v]) => saveKey(k,v)));
+  const ok = results.every(Boolean);
   showStatus('stile-status',ok?'✓ Stile applicato al sito!':'⚠ Errore.',ok);
 });
 document.getElementById('reset-stile').addEventListener('click', async () => {
@@ -1383,14 +1384,13 @@ window.addEventListener('resize', () => { if (prevOpen) resizePreviewFrame(); })
 
 /* ── TESTI HELPER ── */
 async function saveTxtGroup(pairs, statusId) {
-  let ok = true;
-  for (const pair of pairs) {
+  const results = await Promise.all(pairs.map(pair => {
     const [key, id] = pair.split(':');
     const el = document.getElementById(id);
-    if (!el) continue;
-    const r = await saveKey(key, el.value.trim());
-    if (!r) ok = false;
-  }
+    if (!el) return Promise.resolve(true);
+    return saveKey(key, el.value.trim());
+  }));
+  const ok = results.every(Boolean);
   showStatus(statusId, ok ? '✓ Salvato sul sito!' : '⚠ Errore nel salvataggio.', ok);
 }
 
@@ -1498,11 +1498,16 @@ document.querySelectorAll('[data-rev-filter]').forEach(btn => {
 
 /* ── SEED MEDIA DA SITO ── */
 // Pulizia duplicati silenziosa (gira automaticamente all'avvio)
-async function cleanDuplicatesSilent() {
+async function cleanDuplicatesSilent(prefetched) {
   try {
-    const res = await fetch('/api/foto');
-    if (!res.ok) return;
-    const list = await res.json();
+    let list;
+    if (prefetched) {
+      list = prefetched;
+    } else {
+      const res = await fetch('/api/foto');
+      if (!res.ok) return;
+      list = await res.json();
+    }
     const byNome = {};
     list.forEach(f => {
       if (!byNome[f.nome]) byNome[f.nome] = [];
@@ -1529,11 +1534,16 @@ async function cleanDuplicatesSilent() {
   } catch(e) {}
 }
 
-async function seedMedia(force = false) {
+async function seedMedia(force = false, prefetched) {
   try {
-    const res = await fetch('/api/foto');
-    if (!res.ok) return;
-    const existing = await res.json();
+    let existing;
+    if (prefetched) {
+      existing = prefetched;
+    } else {
+      const res = await fetch('/api/foto');
+      if (!res.ok) return;
+      existing = await res.json();
+    }
     if (!force && existing.length > 0) return; // auto: solo se vuoto
     // Deduplicazione: salta i media già presenti (per nome)
     const existingNames = new Set(existing.map(e => e.nome));

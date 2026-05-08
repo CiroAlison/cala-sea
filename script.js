@@ -2,6 +2,9 @@
    CALA SEA – script.js  v3
    ═══════════════════════════════════════════ */
 
+/* ─── HTML escape helper ─── */
+function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
 /* ─── i18n — Traduzione IT / EN ─── */
 const translations = {
   it: {
@@ -150,34 +153,6 @@ function wireMenuTabs(container) {
 }
 wireMenuTabs();
 
-/* ─── Countdown 25 Aprile 2025 ─── */
-function pad(n) { return String(n).padStart(2, '0'); }
-
-function updateCountdown() {
-  const target = new Date('2025-04-25T12:00:00');
-  const now    = new Date();
-  const diff   = target - now;
-
-  if (diff <= 0) {
-    const msg = '<span style="color:var(--sand);font-size:.9rem;font-weight:500">L\'evento è oggi! 🎉</span>';
-    const cd = document.getElementById('countdown25');
-    const ev = document.getElementById('ev-countdown');
-    if (cd) cd.innerHTML = msg;
-    if (ev) ev.innerHTML = msg;
-    return;
-  }
-
-  const days = Math.floor(diff / 864e5);
-  const hrs  = Math.floor((diff % 864e5) / 36e5);
-  const mins = Math.floor((diff % 36e5) / 6e4);
-  const secs = Math.floor((diff % 6e4) / 1e3);
-
-  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = pad(val); };
-  set('cd-days', days); set('cd-hrs', hrs); set('cd-min', mins);
-  set('ev-days', days); set('ev-hrs', hrs); set('ev-min', mins); set('ev-sec', secs);
-}
-updateCountdown();
-setInterval(updateCountdown, 1000);
 
 /* ─── Booking form → WhatsApp ─── */
 const form = document.getElementById('prenota-form');
@@ -368,7 +343,7 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
       (tab.items || []).forEach(item => {
         const mi = document.createElement('div');
         mi.className = 'mi';
-        mi.innerHTML = `<div class="mi-info"><h4>${item.nome}</h4>${item.desc ? '<p>' + item.desc + '</p>' : ''}</div><span class="mi-p">€${item.prezzo}</span>`;
+        mi.innerHTML = `<div class="mi-info"><h4>${esc(item.nome)}</h4>${item.desc ? '<p>' + esc(item.desc) + '</p>' : ''}</div><span class="mi-p">€${esc(item.prezzo)}</span>`;
         grid.appendChild(mi);
       });
       panel.appendChild(grid);
@@ -383,12 +358,6 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
       nota.className = 'menu-footer-note';
       nota.textContent = data.nota;
       container.appendChild(nota);
-    }
-
-    // Update nota also in sec-header eyebrow if set
-    if (data.nota) {
-      const eyebrow = container.querySelector('.sec-header .eyebrow');
-      // Don't overwrite the eyebrow title with nota — only update if there's a dedicated field
     }
 
     // Re-wire tab click handlers using shared function
@@ -574,14 +543,6 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         try {
           const menuData = JSON.parse(s.menu_json);
           if (menuData && Array.isArray(menuData.tabs) && menuData.tabs.length > 0) renderMenu(menuData);
-          // Update menu eyebrow nota if present
-          if (menuData.nota) {
-            const sec = document.getElementById('menu');
-            if (sec) {
-              const eyebrow = sec.querySelector('.sec-header .eyebrow');
-              // keep eyebrow as-is; nota goes in footer of last panel
-            }
-          }
         } catch(e) { /* invalid JSON, keep static menu */ }
       }
 
@@ -746,8 +707,8 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
           <div class="rev-stars">${starStr(rev.stelle)}</div>
           <blockquote class="rev-text">"${rev.testo.replace(/"/g,'&quot;')}"</blockquote>
           <footer class="rev-author">
-            <span class="rev-av">${rev.nome.charAt(0).toUpperCase()}</span>
-            <div><strong>${rev.nome}</strong><small>${dataFmt} · Cala Sea</small></div>
+            <span class="rev-av">${esc(rev.nome.charAt(0).toUpperCase())}</span>
+            <div><strong>${esc(rev.nome)}</strong><small>${dataFmt} · Cala Sea</small></div>
           </footer>`;
         grid.appendChild(article);
         io.observe(article); // fade-in
