@@ -24,6 +24,19 @@ async function ensureTable() {
   `;
 }
 
+async function isAdmin(token) {
+  if (!token) return false;
+  if (token === process.env.ADMIN_TOKEN) return true;
+  try {
+    const rows = await sql`SELECT value FROM settings WHERE key = 'admin_tokens_json'`;
+    if (rows.length && rows[0].value) {
+      const list = JSON.parse(rows[0].value);
+      return Array.isArray(list) && list.some(a => a.token === token);
+    }
+  } catch(e) {}
+  return false;
+}
+
 export default async function handler(req) {
   if (req.method === 'OPTIONS') return new Response(null, { status: 200, headers: CORS });
 
@@ -46,7 +59,7 @@ export default async function handler(req) {
 
   /* ── GET admin: tutte le recensioni con stato ── */
   if (req.method === 'GET' && token) {
-    if (token !== process.env.ADMIN_TOKEN)
+    if (!(await isAdmin(token)))
       return new Response(JSON.stringify({ error: 'Non autorizzato' }), { status: 401, headers: JSON_HEADERS });
     const rows = await sql`
       SELECT id, nome, stelle, testo, data_visita, stato, creato_il
@@ -70,7 +83,6 @@ export default async function handler(req) {
       return new Response(JSON.stringify({ error: 'Stelle non valide' }), { status: 400, headers: JSON_HEADERS });
     if (testo.length > 1000)
       return new Response(JSON.stringify({ error: 'Testo troppo lungo (max 1000 caratteri)' }), { status: 400, headers: JSON_HEADERS });
-
     await sql`
       INSERT INTO recensioni (nome, stelle, testo, data_visita, stato)
       VALUES (${nome.slice(0,100)}, ${stelle}, ${testo.slice(0,1000)}, ${data_visita || null}, 'pending')
@@ -80,7 +92,7 @@ export default async function handler(req) {
 
   /* ── POST admin: approva / rifiuta recensione ── */
   if (req.method === 'POST' && token) {
-    if (token !== process.env.ADMIN_TOKEN)
+    if (!(await isAdmin(token)))
       return new Response(JSON.stringify({ error: 'Non autorizzato' }), { status: 401, headers: JSON_HEADERS });
     let body;
     try { body = await req.json(); } catch {

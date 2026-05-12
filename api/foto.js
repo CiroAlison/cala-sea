@@ -3,6 +3,13 @@ import { neon } from '@neondatabase/serverless';
 const sql = neon(process.env.DATABASE_URL);
 export const config = { runtime: 'edge' };
 
+const CORS = {
+  'Access-Control-Allow-Origin':  '*',
+  'Access-Control-Allow-Methods': 'GET,POST,DELETE',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+const JSON_HEADERS = { 'Content-Type': 'application/json', ...CORS };
+
 async function ensureTable() {
   await sql`
     CREATE TABLE IF NOT EXISTS foto (
@@ -17,25 +24,30 @@ async function ensureTable() {
   `;
 }
 
+async function isAdmin(token) {
+  if (!token) return false;
+  if (token === process.env.ADMIN_TOKEN) return true;
+  try {
+    const rows = await sql`SELECT value FROM settings WHERE key = 'admin_tokens_json'`;
+    if (rows.length && rows[0].value) {
+      const list = JSON.parse(rows[0].value);
+      return Array.isArray(list) && list.some(a => a.token === token);
+    }
+  } catch(e) {}
+  return false;
+}
+
 export default async function handler(req) {
   const url    = new URL(req.url);
   const id     = url.searchParams.get('id');
   const token  = url.searchParams.get('token');
 
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { status: 200, headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,POST,DELETE',
-      'Access-Control-Allow-Headers': 'Content-Type'
-    }});
-  }
+  if (req.method === 'OPTIONS') return new Response(null, { status: 200, headers: CORS });
 
   try {
     await ensureTable();
   } catch (e) {
-    return new Response(JSON.stringify({ error: 'DB non disponibile' }), {
-      status: 500, headers: { 'Content-Type': 'application/json' }
-    });
+    return new Response(JSON.stringify({ error: 'DB non disponibile' }), { status: 500, headers: JSON_HEADERS });
   }
 
   /* ── GET /api/foto?id=X → serve immagine binaria ── */
@@ -62,55 +74,41 @@ export default async function handler(req) {
     }
   }
 
-  /* ── GET /api/foto → lista metadati (senza data) ── */
+  /* ── GET /api/foto → lista metadati ── */
   if (req.method === 'GET') {
     const rows = await sql`SELECT id, nome, categoria, tipo, mime, creato_il FROM foto ORDER BY creato_il DESC`;
-    return new Response(JSON.stringify(rows), { headers: {
-      'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'
-    }});
+    return new Response(JSON.stringify(rows), { headers: JSON_HEADERS });
   }
 
   /* ── Operazioni protette ── */
-  if (token !== process.env.ADMIN_TOKEN) {
-    return new Response(JSON.stringify({ error: 'Non autorizzato' }), {
-      status: 401, headers: { 'Content-Type': 'application/json' }
-    });
+  if (!(await isAdmin(token))) {
+    return new Response(JSON.stringify({ error: 'Non autorizzato' }), { status: 401, headers: JSON_HEADERS });
   }
 
   /* ── POST → carica nuova foto ── */
   if (req.method === 'POST') {
     let body;
     try { body = await req.json(); } catch {
-      return new Response(JSON.stringify({ error: 'JSON non valido' }), {
-        status: 400, headers: { 'Content-Type': 'application/json' }
-      });
+      return new Response(JSON.stringify({ error: 'JSON non valido' }), { status: 400, headers: JSON_HEADERS });
     }
     const { nome, categoria, tipo, data, mime } = body;
-    if (data == null) return new Response(JSON.stringify({ error: 'Media mancante' }), {
-      status: 400, headers: { 'Content-Type': 'application/json' }
-    });
+    if (data == null) return new Response(JSON.stringify({ error: 'Media mancante' }), { status: 400, headers: JSON_HEADERS });
     const rows = await sql`
       INSERT INTO foto (nome, categoria, tipo, mime, data)
       VALUES (${nome || 'media'}, ${categoria || 'mare'}, ${tipo || 'foto'}, ${mime || 'image/jpeg'}, ${data})
       RETURNING id
     `;
-    return new Response(JSON.stringify({ ok: true, id: rows[0].id }), {
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-    });
+    return new Response(JSON.stringify({ ok: true, id: rows[0].id }), { headers: JSON_HEADERS });
   }
 
   /* ── DELETE → elimina foto ── */
   if (req.method === 'DELETE') {
     let body;
     try { body = await req.json(); } catch {
-      return new Response(JSON.stringify({ error: 'JSON non valido' }), {
-        status: 400, headers: { 'Content-Type': 'application/json' }
-      });
+      return new Response(JSON.stringify({ error: 'JSON non valido' }), { status: 400, headers: JSON_HEADERS });
     }
     await sql`DELETE FROM foto WHERE id = ${body.id}`;
-    return new Response(JSON.stringify({ ok: true }), {
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return new Response(JSON.stringify({ ok: true }), { headers: JSON_HEADERS });
   }
 
   return new Response('Method not allowed', { status: 405 });

@@ -368,6 +368,7 @@
       <button class="a-tab" data-tab="testi">✏️ Testi</button>
       <button class="a-tab" data-tab="recensioni" id="tab-recensioni-btn">⭐ Recensioni</button>
       <button class="a-tab" data-tab="mobile">📱 Mobile</button>
+      <button class="a-tab" data-tab="sicurezza">🔐 Sicurezza</button>
     </div>
 
     <!-- ═══ PRENOTAZIONI ═══ -->
@@ -641,6 +642,67 @@
       <p class="a-status" id="mobile-bar-status"></p>
     </div>
 
+    <!-- ═══ SICUREZZA ═══ -->
+    <div id="panel-sicurezza" class="a-panel">
+      <h2 class="a-section-title">Sicurezza &amp; Accessi</h2>
+      <p class="a-section-desc">Gestisci le password di accesso al pannello. Puoi aggiungere altri amministratori e cambiare la tua password.</p>
+
+      <!-- Cambia password -->
+      <div class="a-divider" style="margin-top:0"></div>
+      <p class="a-sub-title">🔑 La tua password</p>
+      <div id="master-notice" class="a-form" style="display:none">
+        <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;padding:14px 18px;font-size:.84rem;color:rgba(255,255,255,.7);line-height:1.6">
+          ⚠️ Sei connesso con la <strong style="color:#fbbf24">password principale</strong>.<br>
+          Questa si cambia dal pannello Vercel:<br>
+          <code style="font-size:.78rem;color:var(--sand)">Vercel → Settings → Environment Variables → ADMIN_TOKEN</code>
+        </div>
+      </div>
+      <div id="change-pwd-form" class="a-form" style="display:none">
+        <div class="fg-row">
+          <div class="fg">
+            <label>Nuova password</label>
+            <input type="password" class="mini-input" id="new-pwd" placeholder="Minimo 6 caratteri" autocomplete="new-password">
+          </div>
+          <div class="fg">
+            <label>Conferma password</label>
+            <input type="password" class="mini-input" id="confirm-pwd" placeholder="Ripeti la nuova password" autocomplete="new-password">
+          </div>
+        </div>
+        <div class="btn-row" style="margin-top:4px">
+          <button class="a-save" onclick="changePassword()">🔑 Cambia password</button>
+        </div>
+        <p class="a-status" id="pwd-status"></p>
+      </div>
+
+      <!-- Altri admin -->
+      <div class="a-divider"></div>
+      <p class="a-sub-title">👥 Amministratori aggiuntivi</p>
+      <p style="font-size:.82rem;color:var(--dim);margin-bottom:16px;line-height:1.5">Chi altro può accedere a questo pannello. Ogni admin ha il proprio nome e una propria password.</p>
+      <div id="admins-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+        <div style="color:var(--dim);font-size:.85rem">Caricamento...</div>
+      </div>
+
+      <!-- Aggiungi admin -->
+      <div class="a-divider"></div>
+      <p class="a-sub-title">➕ Aggiungi amministratore</p>
+      <div class="a-form">
+        <div class="fg-row">
+          <div class="fg">
+            <label>Nome</label>
+            <input type="text" class="mini-input" id="new-admin-nome" placeholder="Es. Giulia, Marco..." maxlength="50">
+          </div>
+          <div class="fg">
+            <label>Password</label>
+            <input type="password" class="mini-input" id="new-admin-pwd" placeholder="Minimo 6 caratteri" autocomplete="new-password">
+          </div>
+        </div>
+        <div class="btn-row" style="margin-top:4px">
+          <button class="a-save" onclick="addAdmin()">➕ Aggiungi</button>
+        </div>
+        <p class="a-status" id="admin-add-status"></p>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -670,6 +732,9 @@ const MB_DEFAULTS = [
   { label:'Prenota',   link:'#prenota',                                                        icon:'none',      bg:'#e8dcc8',   fg:'#0a1766', enabled:true }
 ];
 let mbButtons = MB_DEFAULTS.map(b => ({ ...b }));
+
+/* ── SICUREZZA ── */
+let isMasterAdmin = false, currentAdmins = [];
 const EVENTI_LIST = [
   { emoji:'💍', label:'Matrimoni',            titleKey:'t_ev_wedding_title',    descKey:'t_ev_wedding_desc' },
   { emoji:'🎂', label:'Compleanni',           titleKey:'t_ev_birthday_title',   descKey:'t_ev_birthday_desc' },
@@ -809,7 +874,7 @@ document.getElementById('logout-btn').addEventListener('click', () => { sessionS
 async function boot() {
   loginWrap.style.display = 'none'; dash.style.display = 'block';
   initFonts(); initColPreview(); initMediaTypePicker();
-  try { await Promise.all([loadPrenotazioni(), loadAllSettings(), loadFotos(), loadRecensioni()]); } catch(e) { console.warn('boot:', e); }
+  try { await Promise.all([loadPrenotazioni(), loadAllSettings(), loadFotos(), loadRecensioni(), loadAdmins()]); } catch(e) { console.warn('boot:', e); }
   // Seed media se vuoto, poi pulisci eventuali duplicati silenziosamente
   // Usa _allFotos già caricato da loadFotos() — evita fetch extra
   setTimeout(async () => {
@@ -1683,6 +1748,91 @@ async function seedMedia(force = false, prefetched) {
     }
     loadFotos(currentTipo);
   } catch(e) { console.warn('seedMedia:', e); }
+}
+
+/* ══════════════ SICUREZZA ══════════════ */
+
+async function loadAdmins() {
+  try {
+    const res = await fetch('/api/admins?token=' + encodeURIComponent(TOKEN));
+    if (!res.ok) return;
+    const data = await res.json();
+    isMasterAdmin  = data.isMaster;
+    currentAdmins  = data.admins || [];
+    // Mostra UI corretta per cambio password
+    const masterNotice  = document.getElementById('master-notice');
+    const changePwdForm = document.getElementById('change-pwd-form');
+    if (masterNotice)  masterNotice.style.display  = isMasterAdmin ? 'block' : 'none';
+    if (changePwdForm) changePwdForm.style.display = isMasterAdmin ? 'none'  : 'block';
+    renderAdminsList();
+  } catch(e) { console.warn('loadAdmins:', e); }
+}
+
+function renderAdminsList() {
+  const wrap = document.getElementById('admins-list');
+  if (!wrap) return;
+  if (!currentAdmins.length) {
+    wrap.innerHTML = '<div style="color:var(--dim);font-size:.84rem;padding:8px 0">Nessun amministratore aggiuntivo. Aggiungine uno qui sotto.</div>';
+    return;
+  }
+  wrap.innerHTML = currentAdmins.map(a => `
+    <div style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px 16px">
+      <span style="font-size:1.2rem">👤</span>
+      <span style="flex:1;font-weight:500">${xe(a.nome)}</span>
+      <button class="mb-editor-del" onclick="removeAdmin('${a.id}','${xe(a.nome)}')">🗑 Rimuovi</button>
+    </div>`).join('');
+}
+
+async function addAdmin() {
+  const nome = document.getElementById('new-admin-nome').value.trim();
+  const pwd  = document.getElementById('new-admin-pwd').value;
+  if (!nome || !pwd) { showStatus('admin-add-status', '⚠ Nome e password obbligatori.', false); return; }
+  if (pwd.length < 6) { showStatus('admin-add-status', '⚠ Password troppo corta (minimo 6 caratteri).', false); return; }
+  try {
+    const res = await fetch('/api/admins?token=' + encodeURIComponent(TOKEN), {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'add', nome, token: pwd })
+    });
+    const data = await res.json();
+    if (!res.ok) { showStatus('admin-add-status', '⚠ ' + data.error, false); return; }
+    document.getElementById('new-admin-nome').value = '';
+    document.getElementById('new-admin-pwd').value  = '';
+    showStatus('admin-add-status', `✓ ${nome} aggiunto con successo!`, true);
+    await loadAdmins();
+  } catch(e) { showStatus('admin-add-status', '⚠ Errore di rete.', false); }
+}
+
+async function removeAdmin(id, nome) {
+  if (!confirm(`Rimuovere l'accesso a "${nome}"? Non potrà più entrare nel pannello.`)) return;
+  try {
+    const res = await fetch('/api/admins?token=' + encodeURIComponent(TOKEN), {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'remove', id })
+    });
+    if (res.ok) { showStatus('admin-add-status', `✓ ${nome} rimosso.`, true); await loadAdmins(); }
+  } catch(e) { showStatus('admin-add-status', '⚠ Errore di rete.', false); }
+}
+
+async function changePassword() {
+  const newPwd     = document.getElementById('new-pwd').value;
+  const confirmPwd = document.getElementById('confirm-pwd').value;
+  if (!newPwd || !confirmPwd) { showStatus('pwd-status', '⚠ Compila entrambi i campi.', false); return; }
+  if (newPwd.length < 6) { showStatus('pwd-status', '⚠ Password troppo corta (minimo 6 caratteri).', false); return; }
+  if (newPwd !== confirmPwd) { showStatus('pwd-status', '⚠ Le due password non coincidono.', false); return; }
+  try {
+    const res = await fetch('/api/admins?token=' + encodeURIComponent(TOKEN), {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'change_password', newToken: newPwd })
+    });
+    const data = await res.json();
+    if (!res.ok) { showStatus('pwd-status', '⚠ ' + data.error, false); return; }
+    // Aggiorna token in sessione e in memoria
+    TOKEN = newPwd;
+    sessionStorage.setItem('cs_admin', newPwd);
+    document.getElementById('new-pwd').value     = '';
+    document.getElementById('confirm-pwd').value = '';
+    showStatus('pwd-status', '✓ Password cambiata! Usa la nuova password al prossimo accesso.', true);
+  } catch(e) { showStatus('pwd-status', '⚠ Errore di rete.', false); }
 }
 
 /* ══════════════ MOBILE BAR EDITOR ══════════════ */
