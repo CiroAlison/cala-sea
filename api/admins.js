@@ -88,19 +88,19 @@ export default async function handler(req) {
 
     /* Cambia la propria password */
     if (body.action === 'change_password') {
-      if (isMaster)
-        return new Response(JSON.stringify({
-          error: 'La password principale non si può cambiare da qui — vai su Vercel → Settings → Environment Variables → ADMIN_TOKEN'
-        }), { status: 400, headers: JSON_HEADERS });
       const { newToken } = body;
       if (!newToken || newToken.length < 6)
         return new Response(JSON.stringify({ error: 'Nuova password troppo corta (minimo 6 caratteri)' }), { status: 400, headers: JSON_HEADERS });
       if (newToken === process.env.ADMIN_TOKEN)
         return new Response(JSON.stringify({ error: 'Password non disponibile' }), { status: 400, headers: JSON_HEADERS });
       const idx = list.findIndex(a => a.token === token);
-      if (idx === -1)
-        return new Response(JSON.stringify({ error: 'Admin non trovato' }), { status: 404, headers: JSON_HEADERS });
-      list[idx].token = newToken;
+      if (idx !== -1) {
+        // Admin DB: aggiorna il token esistente
+        list[idx].token = newToken;
+      } else {
+        // Admin master: aggiunge un entry DB con la nuova password
+        list.push({ id: 'master_' + Date.now().toString(36), nome: 'Admin', token: newToken });
+      }
       await saveAdminList(list);
       return new Response(JSON.stringify({ ok: true }), { headers: JSON_HEADERS });
     }

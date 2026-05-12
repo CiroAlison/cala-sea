@@ -650,14 +650,7 @@
       <!-- Cambia password -->
       <div class="a-divider" style="margin-top:0"></div>
       <p class="a-sub-title">🔑 La tua password</p>
-      <div id="master-notice" class="a-form" style="display:none">
-        <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;padding:14px 18px;font-size:.84rem;color:rgba(255,255,255,.7);line-height:1.6">
-          ⚠️ Sei connesso con la <strong style="color:#fbbf24">password principale</strong>.<br>
-          Questa si cambia dal pannello Vercel:<br>
-          <code style="font-size:.78rem;color:var(--sand)">Vercel → Settings → Environment Variables → ADMIN_TOKEN</code>
-        </div>
-      </div>
-      <div id="change-pwd-form" class="a-form" style="display:none">
+      <div class="a-form">
         <div class="fg-row">
           <div class="fg">
             <label>Nuova password</label>
@@ -1757,13 +1750,8 @@ async function loadAdmins() {
     const res = await fetch('/api/admins?token=' + encodeURIComponent(TOKEN));
     if (!res.ok) return;
     const data = await res.json();
-    isMasterAdmin  = data.isMaster;
-    currentAdmins  = data.admins || [];
-    // Mostra UI corretta per cambio password
-    const masterNotice  = document.getElementById('master-notice');
-    const changePwdForm = document.getElementById('change-pwd-form');
-    if (masterNotice)  masterNotice.style.display  = isMasterAdmin ? 'block' : 'none';
-    if (changePwdForm) changePwdForm.style.display = isMasterAdmin ? 'none'  : 'block';
+    isMasterAdmin = data.isMaster;
+    currentAdmins = data.admins || [];
     renderAdminsList();
   } catch(e) { console.warn('loadAdmins:', e); }
 }
