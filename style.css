@@ -780,7 +780,7 @@ a.hs-item:hover { color: var(--white); }
 
 .mobile-bar {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 850;
-  display: grid; grid-template-columns: 1fr 1fr 1fr 1.2fr;
+  display: grid; grid-template-columns: repeat(4, 1fr);
   background: var(--navy-deep);
   border-top: 1px solid rgba(255,255,255,.07);
   padding: 8px 12px calc(8px + env(safe-area-inset-bottom));

@@ -275,6 +275,33 @@
     .import-media-banner{background:rgba(232,220,200,.06);border:1px dashed rgba(232,220,200,.25);border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
     .import-media-text{flex:1;font-size:.83rem;color:rgba(255,255,255,.65);line-height:1.5}
     .import-media-text strong{color:var(--sand);display:block;margin-bottom:3px}
+
+    /* ── MOBILE BAR EDITOR ── */
+    .mb-editor-list{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+    .mb-editor-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;transition:opacity .2s}
+    .mb-editor-card.disabled{opacity:.42}
+    .mb-editor-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+    .mb-editor-order{color:var(--dim);font-size:.7rem;font-weight:700;width:16px;text-align:center;flex-shrink:0}
+    .mb-editor-label{flex:1;font-weight:500;font-size:.88rem}
+    .mb-editor-del{background:transparent;color:var(--dim);border:1px solid var(--border);border-radius:6px;padding:4px 9px;font-size:.75rem;transition:all .15s}
+    .mb-editor-del:hover{color:var(--red);border-color:var(--red)}
+    .toggle-switch{position:relative;display:inline-block;width:36px;height:20px;flex-shrink:0}
+    .toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+    .toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,.15);border-radius:20px;cursor:pointer;transition:.2s}
+    .toggle-slider::before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+    .toggle-switch input:checked+.toggle-slider{background:var(--green)}
+    .toggle-switch input:checked+.toggle-slider::before{transform:translateX(16px)}
+    .mb-preview-wrap{background:var(--navy-deep,#060d45);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;margin:6px 0 20px}
+    .mb-preview-title{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;text-align:center}
+    .mb-preview-bar{display:flex;gap:6px;justify-content:center}
+    .mb-preview-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:9px 14px;border-radius:4px;font-size:.55rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;min-width:58px}
+    .mb-preview-btn.disabled{opacity:.28}
+    .bg-presets{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+    .bg-swatch{width:26px;height:26px;border-radius:6px;border:2px solid transparent;cursor:pointer;transition:border-color .15s;flex-shrink:0}
+    .bg-swatch:hover,.bg-swatch.sel{border-color:var(--sand)}
+    .bg-swatch.ig{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+    .col-input-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .col-thumb{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);cursor:pointer;padding:2px;background:transparent}
   </style>
 </head>
 <body>
@@ -340,6 +367,7 @@
       <button class="a-tab" data-tab="stile">🎨 Stile</button>
       <button class="a-tab" data-tab="testi">✏️ Testi</button>
       <button class="a-tab" data-tab="recensioni" id="tab-recensioni-btn">⭐ Recensioni</button>
+      <button class="a-tab" data-tab="mobile">📱 Mobile</button>
     </div>
 
     <!-- ═══ PRENOTAZIONI ═══ -->
@@ -592,6 +620,27 @@
       <p id="rev-admin-status" class="a-status"></p>
     </div>
 
+    <!-- ═══ MOBILE ═══ -->
+    <div id="panel-mobile" class="a-panel">
+      <h2 class="a-section-title">Barra Mobile</h2>
+      <p class="a-section-desc">Gestisci i bottoni della barra in basso che appare sui cellulari. Puoi attivare/disattivare ogni bottone, cambiare etichetta, link, icona e colori. Massimo 5 bottoni.</p>
+
+      <!-- Anteprima live -->
+      <div class="mb-preview-wrap">
+        <div class="mb-preview-title">Anteprima</div>
+        <div class="mb-preview-bar" id="mb-preview-bar"><!-- generata da JS --></div>
+      </div>
+
+      <!-- Lista bottoni -->
+      <div class="mb-editor-list" id="mb-editor-list"><!-- generata da JS --></div>
+
+      <div class="btn-row" style="margin-top:8px">
+        <button class="a-save-ghost" id="mb-add-btn" onclick="mbAdd()">+ Aggiungi bottone</button>
+        <button class="a-save" onclick="saveMobileBar()">💾 Salva barra</button>
+      </div>
+      <p class="a-status" id="mobile-bar-status"></p>
+    </div>
+
   </main>
 </div>
 
@@ -599,10 +648,28 @@
 /* ══════════════ CALA SEA ADMIN v4 ══════════════ */
 let TOKEN = '', allP = [], curFilter = 'tutte';
 let menuData = null, curMenuTab = 0, pendingFiles = [];
-// Dichiarazioni anticipate per evitare TDZ quando boot() gira prima dell'inizializzazione
 let prevOpen = false, prevWidth = 375, _previewRefreshTimer = null;
 let currentTipo = 'foto', _allFotos = [];
 let allRev = [], curRevFilter = 'tutte';
+
+/* ── MOBILE BAR ── */
+const MB_ICONS_ADMIN = {
+  phone:     `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.4 2.13 2 2 0 012 0h3a2 2 0 012 1.72c.193.96.393 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.307 1.85.507 2.81.7A2 2 0 0122 16.92z"/></svg>`,
+  whatsapp:  `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>`,
+  instagram: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>`,
+  facebook:  `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>`,
+  map:       `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  email:     `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`,
+  none:      ''
+};
+const MB_ICON_LABELS = { phone:'📞 Telefono', whatsapp:'💬 WhatsApp', instagram:'📸 Instagram', facebook:'👤 Facebook', map:'📍 Mappa', email:'✉️ Email', none:'(nessuna)' };
+const MB_DEFAULTS = [
+  { label:'Chiama',    link:'tel:+393278653508',                                               icon:'phone',     bg:'#ffffff14', fg:'#ffffff', enabled:true },
+  { label:'WhatsApp',  link:'https://wa.me/393278653508?text=Ciao%20Cala%20Sea!',              icon:'whatsapp',  bg:'#25d366',   fg:'#ffffff', enabled:true },
+  { label:'Instagram', link:'https://www.instagram.com/calasea_club/',                         icon:'instagram', bg:'gradient-instagram', fg:'#ffffff', enabled:true },
+  { label:'Prenota',   link:'#prenota',                                                        icon:'none',      bg:'#e8dcc8',   fg:'#0a1766', enabled:true }
+];
+let mbButtons = MB_DEFAULTS.map(b => ({ ...b }));
 const EVENTI_LIST = [
   { emoji:'💍', label:'Matrimoni',            titleKey:'t_ev_wedding_title',    descKey:'t_ev_wedding_desc' },
   { emoji:'🎂', label:'Compleanni',           titleKey:'t_ev_birthday_title',   descKey:'t_ev_birthday_desc' },
@@ -900,11 +967,20 @@ async function loadAllSettings() {
     if (menuData.nota) document.getElementById('menu-nota').value = menuData.nota;
     renderMenuEditor();
 
+    // Barra mobile
+    if (s.mobile_bar_json) {
+      try {
+        const parsed = JSON.parse(s.mobile_bar_json);
+        if (Array.isArray(parsed) && parsed.length) mbButtons = parsed;
+      } catch(e) {}
+    }
+    renderMobileBarEditor();
+
     // Salva in background tutti i valori mancanti (primo accesso)
     if (needSeed.length) {
       needSeed.forEach(({ key, value }) => saveKey(key, value));
     }
-  } catch(e) { console.warn('loadAllSettings:', e); menuData = JSON.parse(JSON.stringify(DEFAULT_MENU)); renderMenuEditor(); }
+  } catch(e) { console.warn('loadAllSettings:', e); menuData = JSON.parse(JSON.stringify(DEFAULT_MENU)); renderMenuEditor(); renderMobileBarEditor(); }
 }
 
 /* ── ANNUNCIO ── */
@@ -1607,6 +1683,120 @@ async function seedMedia(force = false, prefetched) {
     }
     loadFotos(currentTipo);
   } catch(e) { console.warn('seedMedia:', e); }
+}
+
+/* ══════════════ MOBILE BAR EDITOR ══════════════ */
+
+function renderMobileBarEditor() {
+  const list = document.getElementById('mb-editor-list');
+  if (!list) return;
+  list.innerHTML = mbButtons.map((btn, i) => {
+    const bgIsGrad = btn.bg === 'gradient-instagram';
+    const bgIsTransp = btn.bg === '#ffffff14' || btn.bg === 'rgba(255,255,255,.07)';
+    const colVal = (bgIsGrad || bgIsTransp) ? '#0a1766' : btn.bg;
+    return `
+    <div class="mb-editor-card${btn.enabled ? '' : ' disabled'}" id="mbedit-${i}">
+      <div class="mb-editor-head">
+        <span class="mb-editor-order">${i + 1}</span>
+        <label class="toggle-switch" title="${btn.enabled ? 'Visibile' : 'Nascosto'}">
+          <input type="checkbox" onchange="mbToggle(${i},this.checked)" ${btn.enabled ? 'checked' : ''}>
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="mb-editor-label">${xe(btn.label)}</span>
+        <button class="mb-editor-del" onclick="mbDelete(${i})" title="Elimina">✕</button>
+      </div>
+      <div class="fg-row">
+        <div class="fg">
+          <label>Etichetta</label>
+          <input class="mini-input" value="${xe(btn.label)}" oninput="mbUpdate(${i},'label',this.value)">
+        </div>
+        <div class="fg">
+          <label>Link / URL</label>
+          <input class="mini-input" value="${xe(btn.link)}" placeholder="https://... oppure #sezione" oninput="mbUpdate(${i},'link',this.value)">
+        </div>
+      </div>
+      <div class="fg-row" style="margin-top:4px">
+        <div class="fg">
+          <label>Icona</label>
+          <select class="mini-input" onchange="mbUpdate(${i},'icon',this.value)">
+            ${Object.entries(MB_ICON_LABELS).map(([k,v]) => `<option value="${k}"${btn.icon===k?' selected':''}>${v}</option>`).join('')}
+          </select>
+        </div>
+        <div class="fg">
+          <label>Colore sfondo</label>
+          <div class="col-input-row">
+            <input type="color" class="col-thumb" value="${colVal}" title="Colore personalizzato"
+              oninput="mbUpdate(${i},'bg',this.value);document.querySelectorAll('#mbedit-${i} .bg-swatch').forEach(s=>s.classList.remove('sel'))">
+            <div class="bg-presets">
+              <div class="bg-swatch${bgIsTransp?' sel':''}" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3)" title="Trasparente scuro"
+                onclick="mbUpdate(${i},'bg','#ffffff14');renderMobileBarEditor()"></div>
+              <div class="bg-swatch${btn.bg==='#25d366'?' sel':''}" style="background:#25d366" title="Verde WhatsApp"
+                onclick="mbUpdate(${i},'bg','#25d366');renderMobileBarEditor()"></div>
+              <div class="bg-swatch ig${bgIsGrad?' sel':''}" title="Gradiente Instagram"
+                onclick="mbUpdate(${i},'bg','gradient-instagram');renderMobileBarEditor()"></div>
+              <div class="bg-swatch${btn.bg==='#e8dcc8'?' sel':''}" style="background:#e8dcc8" title="Sabbia"
+                onclick="mbUpdate(${i},'bg','#e8dcc8');renderMobileBarEditor()"></div>
+              <div class="bg-swatch${btn.bg==='#0a1766'?' sel':''}" style="background:#0a1766;border-color:rgba(255,255,255,.2)" title="Navy"
+                onclick="mbUpdate(${i},'bg','#0a1766');renderMobileBarEditor()"></div>
+            </div>
+          </div>
+        </div>
+        <div class="fg" style="max-width:120px">
+          <label>Colore testo</label>
+          <input type="color" class="col-thumb" value="${btn.fg || '#ffffff'}" style="width:44px"
+            oninput="mbUpdate(${i},'fg',this.value)">
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  renderMbPreview();
+}
+
+function renderMbPreview() {
+  const bar = document.getElementById('mb-preview-bar');
+  if (!bar) return;
+  bar.innerHTML = mbButtons.map(btn => {
+    const bgStyle = btn.bg === 'gradient-instagram'
+      ? 'background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)'
+      : `background:${btn.bg || 'rgba(255,255,255,.07)'}`;
+    return `<div class="mb-preview-btn${btn.enabled ? '' : ' disabled'}" style="${bgStyle};color:${btn.fg || '#fff'}">
+      ${MB_ICONS_ADMIN[btn.icon] || ''}<span>${xe(btn.label)}</span>
+    </div>`;
+  }).join('');
+}
+
+function mbToggle(i, val) {
+  mbButtons[i].enabled = val;
+  const card = document.getElementById('mbedit-' + i);
+  if (card) card.classList.toggle('disabled', !val);
+  renderMbPreview();
+}
+
+function mbUpdate(i, key, val) {
+  mbButtons[i][key] = val;
+  if (key === 'label') {
+    const lbl = document.querySelector(`#mbedit-${i} .mb-editor-label`);
+    if (lbl) lbl.textContent = val;
+  }
+  renderMbPreview();
+}
+
+function mbDelete(i) {
+  if (mbButtons.length <= 1) { showStatus('mobile-bar-status', '⚠ Deve esserci almeno un bottone.', false); return; }
+  mbButtons.splice(i, 1);
+  renderMobileBarEditor();
+}
+
+function mbAdd() {
+  if (mbButtons.length >= 5) { showStatus('mobile-bar-status', '⚠ Massimo 5 bottoni.', false); return; }
+  mbButtons.push({ label: 'Bottone', link: '#', icon: 'none', bg: '#e8dcc8', fg: '#0a1766', enabled: true });
+  renderMobileBarEditor();
+  setTimeout(() => { const list = document.getElementById('mb-editor-list'); if (list) list.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
+}
+
+async function saveMobileBar() {
+  const ok = await saveKey('mobile_bar_json', JSON.stringify(mbButtons));
+  showStatus('mobile-bar-status', ok ? '✓ Barra mobile aggiornata sul sito!' : '⚠ Errore nel salvataggio.', ok);
 }
 </script>
 </body>
