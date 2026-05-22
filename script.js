@@ -5,6 +5,26 @@
 /* ─── HTML escape helper ─── */
 function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+/* ─── Scroll-lock counter (menu + overlay possono coesistere) ─── */
+const _scrollLocks = new Set();
+function lockScroll(key)   { _scrollLocks.add(key);    document.body.style.overflow = 'hidden'; }
+function unlockScroll(key) { _scrollLocks.delete(key); if (!_scrollLocks.size) document.body.style.overflow = ''; }
+
+/* ─── Bottone submit: stato caricamento ─── */
+function setSubmitLoading(btn, loading, idleLabel) {
+  if (!btn) return;
+  btn.disabled   = loading;
+  btn.textContent = loading ? 'Invio…' : idleLabel;
+}
+
+/* ─── Gallery filter condiviso ─── */
+function activateFilter(filter) {
+  document.querySelectorAll('.gf-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
+  document.querySelectorAll('.g-item[data-cat]').forEach(item => {
+    item.classList.toggle('g-hidden', filter !== 'tutti' && item.dataset.cat !== filter);
+  });
+}
+
 /* ─── Icone barra mobile ─── */
 const MB_ICONS = {
   phone:     `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.4 2.13 2 2 0 012 0h3a2 2 0 012 1.72c.193.96.393 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.307 1.85.507 2.81.7A2 2 0 0122 16.92z"/></svg>`,
@@ -147,14 +167,14 @@ function openMenu() {
   burger.classList.add('open');
   navLinks.classList.add('open');
   overlay.classList.add('show');
-  document.body.style.overflow = 'hidden';
+  lockScroll('menu');
   burger.setAttribute('aria-expanded', 'true');
 }
 function closeMenu() {
   burger.classList.remove('open');
   navLinks.classList.remove('open');
   overlay.classList.remove('show');
-  document.body.style.overflow = '';
+  unlockScroll('menu');
   burger.setAttribute('aria-expanded', 'false');
 }
 
@@ -216,7 +236,7 @@ if (form) {
     const note     = document.getElementById('note')?.value.trim() || '';
 
     const submitBtn = form.querySelector('.btn-prenota-submit');
-    if (submitBtn) { submitBtn.textContent = 'Invio…'; submitBtn.disabled = true; }
+    setSubmitLoading(submitBtn, true, 'PRENOTA');
 
     try {
       await fetch('/api/prenota', {
@@ -227,24 +247,23 @@ if (form) {
     } catch(err) { /* continua comunque */ }
 
     // Mostra overlay successo
-    const overlay = document.getElementById('prenota-success');
-    if (overlay) {
-      overlay.classList.add('show');
-      overlay.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+    const successOverlay = document.getElementById('prenota-success');
+    if (successOverlay) {
+      successOverlay.classList.add('show');
+      successOverlay.setAttribute('aria-hidden', 'false');
+      lockScroll('overlay');
     }
 
-    // Reset form
     form.reset();
-    if (submitBtn) { submitBtn.textContent = 'PRENOTA'; submitBtn.disabled = false; }
+    setSubmitLoading(submitBtn, false, 'PRENOTA');
   });
 }
 
 // Chiudi overlay successo
 document.getElementById('psoClose')?.addEventListener('click', () => {
-  const overlay = document.getElementById('prenota-success');
-  if (overlay) { overlay.classList.remove('show'); overlay.setAttribute('aria-hidden', 'true'); }
-  document.body.style.overflow = '';
+  const successOverlay = document.getElementById('prenota-success');
+  if (successOverlay) { successOverlay.classList.remove('show'); successOverlay.setAttribute('aria-hidden', 'true'); }
+  unlockScroll('overlay');
 });
 
 /* ─── Cookie banner ─── */
@@ -432,13 +451,7 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         btn.textContent = emoji + ' ' + cat.charAt(0).toUpperCase() + cat.slice(1);
         filterBar.appendChild(btn);
         existingFilters.add(cat);
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          document.querySelectorAll('.g-item[data-cat]').forEach(item => {
-            item.classList.toggle('g-hidden', item.dataset.cat !== cat);
-          });
-        });
+        btn.addEventListener('click', () => activateFilter(cat));
       }
 
       const a = document.createElement('div');
@@ -458,12 +471,7 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
     });
 
     // Re-apply active filter
-    const activeFilter = document.querySelector('.gf-btn.active')?.dataset.filter || 'tutti';
-    if (activeFilter !== 'tutti') {
-      document.querySelectorAll('.g-item[data-cat]').forEach(item => {
-        item.classList.toggle('g-hidden', item.dataset.cat !== activeFilter);
-      });
-    }
+    activateFilter(document.querySelector('.gf-btn.active')?.dataset.filter || 'tutti');
   }
 
   fetch('/api/settings')
@@ -634,23 +642,9 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
 })();
 
 /* ─── Gallery Filters ─── */
-(function () {
-  const btns  = document.querySelectorAll('.gf-btn');
-  const items = document.querySelectorAll('.g-item[data-cat]');
-  if (!btns.length) return;
-
-  btns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      btns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      items.forEach(item => {
-        const match = filter === 'tutti' || item.dataset.cat === filter;
-        item.classList.toggle('g-hidden', !match);
-      });
-    });
-  });
-})();
+document.querySelectorAll('.gf-btn').forEach(btn =>
+  btn.addEventListener('click', () => activateFilter(btn.dataset.filter))
+);
 
 
 /* ─── Recensioni clienti ─── */
@@ -708,7 +702,7 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
     if (!testo)  { setMsg('Scrivi la tua recensione.', false); return; }
 
     const btn = form.querySelector('.rev-submit-btn');
-    btn.textContent = 'Invio…'; btn.disabled = true;
+    setSubmitLoading(btn, true, 'Invia recensione');
 
     try {
       const res = await fetch('/api/recensioni', {
@@ -730,7 +724,7 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
       }
     } catch { setMsg('⚠ Errore di connessione. Riprova.', false); }
 
-    btn.textContent = 'Invia recensione'; btn.disabled = false;
+    setSubmitLoading(btn, false, 'Invia recensione');
   });
 
   function setMsg(txt, ok) {
@@ -820,7 +814,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   }
 
-  carousel.addEventListener('scroll', updateActive, { passive: true });
+  let rafPending = false;
+  carousel.addEventListener('scroll', () => {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => { updateActive(); rafPending = false; });
+  }, { passive: true });
 
   btnPrev?.addEventListener('click', () => {
     const i = getActiveIdx();
@@ -832,21 +831,30 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 
   /* Drag con mouse */
-  let isDragging = false, startX = 0, scrollLeft = 0;
+  let isDragging = false, startX = 0, startScrollLeft = 0, dragMoved = false;
   carousel.addEventListener('mousedown', e => {
     isDragging = true;
+    dragMoved  = false;
     startX = e.pageX - carousel.offsetLeft;
-    scrollLeft = carousel.scrollLeft;
+    startScrollLeft = carousel.scrollLeft;
     carousel.classList.add('grabbing');
   });
   const endDrag = () => { isDragging = false; carousel.classList.remove('grabbing'); };
   carousel.addEventListener('mouseleave', endDrag);
-  carousel.addEventListener('mouseup', endDrag);
+  carousel.addEventListener('mouseup', e => {
+    endDrag();
+    if (dragMoved) {
+      // Suppress the next click so dragging doesn't trigger slide CTAs
+      carousel.addEventListener('click', ev => ev.stopPropagation(), { capture: true, once: true });
+    }
+  });
   carousel.addEventListener('mousemove', e => {
     if (!isDragging) return;
     e.preventDefault();
-    const x = e.pageX - carousel.offsetLeft;
-    carousel.scrollLeft = scrollLeft - (x - startX) * 1.6;
+    const x    = e.pageX - carousel.offsetLeft;
+    const walk = x - startX;
+    if (Math.abs(walk) > 4) dragMoved = true;
+    carousel.scrollLeft = startScrollLeft - walk * 1.6;
   });
 
   /* Inizializza: centra il primo slide e segna attivo */

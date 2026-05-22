@@ -609,55 +609,9 @@ a.hs-item:hover { color: var(--white); }
 .btn-ta:hover { background: #00af87; color: var(--white); }
 
 /* ═══════════════════════════════════════════
-   EVENTI
-═══════════════════════════════════════════ */
-.eventi-grid {
-  display: grid; grid-template-columns: 1fr; gap: 2px;
-}
-@media(min-width:500px) { .eventi-grid { grid-template-columns: repeat(2, 1fr); } }
-@media(min-width:900px) { .eventi-grid { grid-template-columns: repeat(3, 1fr); } }
-
-.ev-card { overflow: hidden; background: rgba(255,255,255,.04); }
-.ev-card > img { width: 100%; aspect-ratio: 16/10; object-fit: cover; transition: transform .6s ease; display: block; }
-.ev-card:hover > img { transform: scale(1.05); }
-.ev-card-body { padding: 24px 24px 30px; border-top: 1px solid rgba(255,255,255,.06); }
-.ev-card-body h3 { font-family: var(--serif); font-size: 1.3rem; color: var(--white); margin-bottom: 10px; font-weight: 400; }
-.ev-card-body p { font-size: .82rem; line-height: 1.72; color: rgba(255,255,255,.52); margin-bottom: 18px; }
-.ev-link { font-size: .66rem; font-weight: 500; letter-spacing: 1px; color: var(--sand); transition: letter-spacing var(--tr); }
-.ev-link:hover { letter-spacing: 2.5px; }
-
-/* ═══════════════════════════════════════════
    PRENOTA
 ═══════════════════════════════════════════ */
-.prenota-wa { text-align: center; margin-bottom: 10px; }
-.btn-wa-xl {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--green-wa); color: var(--white);
-  font-family: var(--sans); font-weight: 600; font-size: .88rem; letter-spacing: .5px;
-  padding: 17px 36px; border-radius: 3px;
-  box-shadow: 0 4px 22px rgba(37,211,102,.38);
-  transition: background var(--tr), transform var(--tr);
-}
-.btn-wa-xl:hover  { background: #1ebe5d; transform: translateY(-2px); }
-.btn-wa-xl:active { transform: scale(.97); }
-.prenota-note { font-size: .7rem; color: rgba(255,255,255,.4); margin-top: 10px; text-align: center; }
-
-.or-divider {
-  text-align: center; margin: 36px 0; position: relative;
-}
-.or-divider::before {
-  content: ''; position: absolute; top: 50%; left: 0; right: 0;
-  height: 1px; background: rgba(255,255,255,.1);
-}
-.or-divider span {
-  position: relative; background: var(--navy-deep);
-  padding: 0 20px; font-size: .62rem; color: rgba(255,255,255,.36);
-  letter-spacing: 2px; text-transform: uppercase;
-}
-
-.prenota-form { max-width: 680px; margin: 0 auto; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-/* La .prenota-form sovrascrive a 600px; qui manteniamo 480 come fallback globale */
 @media(max-width:480px) { .form-row { grid-template-columns: 1fr; } }
 .form-row .fg { margin-bottom: 14px; }
 
@@ -1194,6 +1148,9 @@ a.hs-item:hover { color: var(--white); }
   gap: 8px;
   justify-content: center;
   margin-top: 36px;
+  /* fade-in in linea con gli altri elementi hero */
+  opacity: 0;
+  animation: fadeUp .7s 1.2s forwards;
 }
 .hnb {
   display: inline-block;
@@ -1612,7 +1569,6 @@ a.hs-item:hover { color: var(--white); }
 /* Contatti / dove siamo: padding mappa */
 @media(max-width:600px) {
   .map-wrap iframe { height: 280px !important; }
-  .contact-cards { grid-template-columns: 1fr; }
 }
 
 /* Evento slide: testo leggibile su piccolo schermo */
