@@ -325,89 +325,149 @@
 ══════════════════════════════════════════ -->
 <section id="menu" class="section bg-navy-deep">
   <div class="container">
-    <header class="sec-header fade-in">
-      <p class="eyebrow light" data-ts="t_menu_eyebrow">Menù weekend · 1 Maggio</p>
-      <h2 class="h-display light">Cala Sea <em>Beach Club</em></h2>
-    </header>
 
-    <div class="tab-bar-wrap fade-in" id="tab-bar-wrap">
-      <div class="tab-bar" role="tablist" id="main-tab-bar">
-        <button class="tab active" data-tab="freddi" role="tab" aria-selected="true">Antipasti Freddi</button>
-        <button class="tab" data-tab="caldi" role="tab" aria-selected="false">Antipasti Caldi</button>
-        <button class="tab" data-tab="primi" role="tab" aria-selected="false">Primi</button>
-        <button class="tab" data-tab="secondi" role="tab" aria-selected="false">Secondi</button>
-        <button class="tab" data-tab="pizza" role="tab" aria-selected="false">🍕 Pizza</button>
-        <button class="tab" data-tab="cocktail" role="tab" aria-selected="false">Cocktail</button>
-        <button class="tab" data-tab="dolci" role="tab" aria-selected="false">Dolci</button>
+    <!-- 3 tab principali -->
+    <div class="mtab-bar fade-in" role="tablist">
+      <button class="mtab active" data-mtab="weekend" role="tab" aria-selected="true">Weekend</button>
+      <button class="mtab" data-mtab="drink" role="tab" aria-selected="false">Drink</button>
+      <button class="mtab" data-mtab="beachclub" role="tab" aria-selected="false">Beach Club</button>
+    </div>
+
+    <h2 class="menu-big-title fade-in"><em>Menu</em></h2>
+
+    <!-- ── WEEKEND ── -->
+    <div class="mtab-panel active" id="mtab-weekend" role="tabpanel">
+      <div class="menu-card">
+
+        <div class="mcat">
+          <h3 class="mcat-title">Antipasti Freddi</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>Insalata di Polpo e Patate</strong><span>Insalatina fresca di montoro, olive, olio evo;</span></div><span class="mci-p">20</span></div>
+            <div class="mci"><div class="mci-info"><strong>Sashimi di Salmone Marinato ai Frutti Rossi</strong><span>Bilanciato di sale, scarola riccia croccante, panna acida;</span></div><span class="mci-p">18</span></div>
+            <div class="mci"><div class="mci-info"><strong>Capra a Tavola</strong><span>Mozzarella di bufala da 150gr, pomodoro costiera sorrentina, basilico, origano, olio evo;</span></div><span class="mci-p">16</span></div>
+            <div class="mci"><div class="mci-info"><strong>Fresellina Italia Integrale</strong><span>Con prosciutto crudo di Parma, burratina di bufala, basilico fresco, olio evo;</span></div><span class="mci-p">15</span></div>
+          </div>
+        </div>
+
+        <div class="mcat">
+          <h3 class="mcat-title">Antipasti Caldi</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>Polipetti alla Luciana</strong><span>Con pomodorini del Vesuvio, capperi, olive;</span></div><span class="mci-p">18</span></div>
+            <div class="mci"><div class="mci-info"><strong>Involtino di Melanzane, Pomodorini del Vesuvio e Basilico</strong><span></span></div><span class="mci-p">16</span></div>
+            <div class="mci"><div class="mci-info"><strong>Calamaretti Spillo Sale Pepe e Limone</strong><span></span></div><span class="mci-p">14</span></div>
+            <div class="mci"><div class="mci-info"><strong>La Polpetta di Chef Ciccio <em>3pz</em></strong><span>Con scarola saltata in padella capperi e oliva, pane raffermo, su fonduta di parmigiano;</span></div><span class="mci-p">12</span></div>
+            <div class="mci"><div class="mci-info"><strong>Granatina di Gambero, Zucchine alla Scapece e Panna Acida</strong><span></span></div><span class="mci-p">20</span></div>
+          </div>
+        </div>
+
+        <div class="mcat">
+          <h3 class="mcat-title">I Primi</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>Bottone Caprese</strong><span>Raviolo ripieno di ricotta e mozzarella, coulis di pomodoro, fonduta di parmigiano, olio al basilico;</span></div><span class="mci-p">22</span></div>
+            <div class="mci"><div class="mci-info"><strong>Tagliolini di Chef Ciro</strong><span>Con pesce spada saltato a crudo, melanzana, pomodorini del vesuvio, basilico;</span></div><span class="mci-p">25</span></div>
+            <div class="mci"><div class="mci-info"><strong>Linguina Cacio e Pepe e Scampi</strong><span></span></div><span class="mci-p">28</span></div>
+            <div class="mci"><div class="mci-info"><strong>Gnocco Cremoso di Timo, Alici e Tartare di Gambero Rosso</strong><span></span></div><span class="mci-p">26</span></div>
+          </div>
+        </div>
+
+        <div class="mcat">
+          <h3 class="mcat-title">I Secondi</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>Frittura Calasea</strong><span>Con gambero del golfo, calamari, maionese all'aneto;</span></div><span class="mci-p">22</span></div>
+            <div class="mci"><div class="mci-info"><strong>Tataki di Tonno, Cremoso di Belladonna e Verdure Grigliate</strong><span></span></div><span class="mci-p">28</span></div>
+          </div>
+        </div>
+
+        <div class="mcat">
+          <h3 class="mcat-title">Le Pizze</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>La Turca</strong><span>Olio evo, origano;</span></div><span class="mci-p">8</span></div>
+            <div class="mci"><div class="mci-info"><strong>Focaccia Pomodorini</strong><span>Pomodorini giallo e rosso, origano, olio evo;</span></div><span class="mci-p">10</span></div>
+            <div class="mci"><div class="mci-info"><strong>La Marinara</strong><span>Pomodoro San Marzano, origano, aglio, olio evo;</span></div><span class="mci-p">14</span></div>
+            <div class="mci"><div class="mci-info"><strong>La Margherita</strong><span>Pomodoro San Marzano, fior di latte di Agerola, olio evo, basilico;</span></div><span class="mci-p">18</span></div>
+            <div class="mci"><div class="mci-info"><strong>Provola e Pepe</strong><span>Provola di Agerola, pepe fresco macinato, basilico, olio evo;</span></div><span class="mci-p">18</span></div>
+            <div class="mci"><div class="mci-info"><strong>Pizza Italia</strong><span>Prosciutto crudo di Parma, fior di latte di Agerola, rucola fresca, scaglie di parmigiano, basilico, olio evo;</span></div><span class="mci-p">20</span></div>
+            <div class="mci"><div class="mci-info"><strong>Capricciosa Calasea</strong><span>Carciofi sott'olio, salame Napoli, funghi, ciuffetti di ricotta, fior di latte di Agerola, basilico, olio evo;</span></div><span class="mci-p">20</span></div>
+          </div>
+        </div>
+
+        <div class="mcat">
+          <h3 class="mcat-title">Dolci della Casa</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>Dolci della Casa</strong><span>Chiedere al personale le disponibilità del giorno.</span></div><span class="mci-p">8</span></div>
+          </div>
+        </div>
+
+        <p class="menu-card-footer">Coperto 2€</p>
       </div>
     </div>
 
-    <div class="tab-panel active" id="tab-freddi" role="tabpanel">
-      <div class="menu-grid">
-        <div class="mi"><div class="mi-info"><h4>Insalata di mare con erbe Montoro</h4><p>Julienne di seppia, gambero, polpo, insalatina fresca di Montoro, olive, olio evo</p></div><span class="mi-p">€20</span></div>
-        <div class="mi"><div class="mi-info"><h4>Sashimi di Salmone marinato ai frutti rossi</h4><p>Bilanciato al sale, scarola riccia croccante, panna acida</p></div><span class="mi-p">€18</span></div>
-        <div class="mi"><div class="mi-info"><h4>Caprese Calasea</h4><p>Mozzarella di bufala da 150g, pomodoro costiera sorrentina, basilico, origano, olio evo</p></div><span class="mi-p">€16</span></div>
-        <div class="mi"><div class="mi-info"><h4>Fresellina Italia integrale</h4><p>Con prosciutto crudo di Parma, mozzarella di bufala, basilico fresco, olio evo</p></div><span class="mi-p">€15</span></div>
+    <!-- ── DRINK ── -->
+    <div class="mtab-panel" id="mtab-drink" role="tabpanel">
+      <div class="menu-card">
+
+        <div class="mcat">
+          <h3 class="mcat-title">Cocktail Signature</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>Cala Sea Signature</strong><span>Gin, limoncello del Vesuvio, menta fresca, acqua tonica;</span></div><span class="mci-p">10</span></div>
+            <div class="mci"><div class="mci-info"><strong>Torre Sunset</strong><span>Rum bianco, succo di ananas, maracuja, sciroppo di ibisco;</span></div><span class="mci-p">10</span></div>
+            <div class="mci"><div class="mci-info"><strong>Spritz Vesuvio</strong><span>Aperol, Prosecco DOC, acqua frizzante, arancia e salvia;</span></div><span class="mci-p">8</span></div>
+            <div class="mci"><div class="mci-info"><strong>Mare Mosso</strong><span>Vodka, succo di limone, sciroppo di basilico, ginger beer;</span></div><span class="mci-p">10</span></div>
+            <div class="mci"><div class="mci-info"><strong>Brezza di Saracena</strong><span>Tequila, succo di pompelmo, sale rosa, jalapeño infuso;</span></div><span class="mci-p">11</span></div>
+            <div class="mci"><div class="mci-info"><strong>Virgin Cala</strong><span>Mango, limone, menta, acqua frizzante – analcolico;</span></div><span class="mci-p">7</span></div>
+          </div>
+        </div>
+
+        <div class="mcat">
+          <h3 class="mcat-title">Vini &amp; Bollicine</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>Prosecco DOC</strong><span>Calice;</span></div><span class="mci-p">6</span></div>
+            <div class="mci"><div class="mci-info"><strong>Vino Bianco della Casa</strong><span>Calice · Bottiglia;</span></div><span class="mci-p">5 · 18</span></div>
+            <div class="mci"><div class="mci-info"><strong>Vino Rosso della Casa</strong><span>Calice · Bottiglia;</span></div><span class="mci-p">5 · 18</span></div>
+          </div>
+        </div>
+
+        <div class="mcat">
+          <h3 class="mcat-title">Birre &amp; Soft</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>Birra Artigianale Locale</strong><span>33cl;</span></div><span class="mci-p">6</span></div>
+            <div class="mci"><div class="mci-info"><strong>Birra Alla Spina</strong><span>Media · Grande;</span></div><span class="mci-p">4 · 6</span></div>
+            <div class="mci"><div class="mci-info"><strong>Acqua Naturale / Frizzante</strong><span>75cl;</span></div><span class="mci-p">3</span></div>
+            <div class="mci"><div class="mci-info"><strong>Soft Drinks &amp; Succhi</strong><span></span></div><span class="mci-p">4</span></div>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div class="tab-panel" id="tab-caldi" role="tabpanel">
-      <div class="menu-grid">
-        <div class="mi"><div class="mi-info"><h4>Polipetti alla Luciana</h4><p>Con pomodorini del Vesuvio, capperi, olive</p></div><span class="mi-p">€18</span></div>
-        <div class="mi"><div class="mi-info"><h4>Mozzarella di bufala dorata</h4><p>Ripiena di melanzane a funghetto, pomodorini del Vesuvio e basilico</p></div><span class="mi-p">€16</span></div>
-        <div class="mi"><div class="mi-info"><h4>Calamaretti spillo sale, pepe e limone</h4><p></p></div><span class="mi-p">€14</span></div>
-        <div class="mi"><div class="mi-info"><h4>La polpetta di Chef Ciccio <small>3 pz</small></h4><p>Con scarola saltata, capperi e oliva, pane raffermo, su fonduta di parmigiano</p></div><span class="mi-p">€12</span></div>
+    <!-- ── BEACHCLUB ── -->
+    <div class="mtab-panel" id="mtab-beachclub" role="tabpanel">
+      <div class="menu-card">
+
+        <div class="mcat">
+          <h3 class="mcat-title">Snack &amp; Light Lunch</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>Toast Gourmet del Beach Club</strong><span>Prosciutto cotto, provolone, pomodorini, olio evo;</span></div><span class="mci-p">8</span></div>
+            <div class="mci"><div class="mci-info"><strong>Bruschette al Pomodoro</strong><span>Pomodorini del Vesuvio, basilico, aglio, olio evo;</span></div><span class="mci-p">6</span></div>
+            <div class="mci"><div class="mci-info"><strong>Frittura di Calamari</strong><span>Con maionese all'aneto e limone;</span></div><span class="mci-p">14</span></div>
+            <div class="mci"><div class="mci-info"><strong>Insalata di Mare</strong><span>Polpo, gamberi, seppie, rucola, limone;</span></div><span class="mci-p">16</span></div>
+            <div class="mci"><div class="mci-info"><strong>Tagliere Misto</strong><span>Salumi e formaggi locali, pane casereccio;</span></div><span class="mci-p">14</span></div>
+          </div>
+        </div>
+
+        <div class="mcat">
+          <h3 class="mcat-title">Beach Drinks</h3>
+          <div class="mcat-items">
+            <div class="mci"><div class="mci-info"><strong>Spritz &amp; Aperitivo</strong><span>Aperol Spritz, Hugo, Campari Soda;</span></div><span class="mci-p">7</span></div>
+            <div class="mci"><div class="mci-info"><strong>Succhi di Frutta Freschi</strong><span>Arancia, Ananas, Pesca;</span></div><span class="mci-p">5</span></div>
+            <div class="mci"><div class="mci-info"><strong>Birra &amp; Soft</strong><span>Birra artigianale, acqua, cola, energy;</span></div><span class="mci-p">4–6</span></div>
+            <div class="mci"><div class="mci-info"><strong>Cocktail Signature</strong><span>Vedi carta Drink;</span></div><span class="mci-p">8–11</span></div>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div class="tab-panel" id="tab-primi" role="tabpanel">
-      <div class="menu-grid">
-        <div class="mi"><div class="mi-info"><h4>Bottone Caprese</h4><p>Raviolo ripieno di ricotta e mozzarella, coulis di pomodoro, fonduta di parmigiano, olio al basilico</p></div><span class="mi-p">€22</span></div>
-        <div class="mi"><div class="mi-info"><h4>Tagliolini di Chef Ciro</h4><p>Con pesce spada saltato a crudo, melanzana, pomodorini del Vesuvio, basilico</p></div><span class="mi-p">€25</span></div>
-        <div class="mi"><div class="mi-info"><h4>Gnocchetto mare e terra</h4><p>Con cremosa cacio e pepe, scampo del mediterraneo, olio evo</p></div><span class="mi-p">€28</span></div>
-      </div>
-    </div>
-
-    <div class="tab-panel" id="tab-secondi" role="tabpanel">
-      <div class="menu-grid">
-        <div class="mi"><div class="mi-info"><h4>Frittura Calasea</h4><p>Con gambero del golfo, calamari, maionese all'aneto</p></div><span class="mi-p">€22</span></div>
-        <div class="mi"><div class="mi-info"><h4>Lingotto di Tonno</h4><p>Con crosta ai semi di papavero su salsa alla belladonna, olive e capperi</p></div><span class="mi-p">€28</span></div>
-      </div>
-      <p class="menu-footer-note">Coperto €2 · Dolce della casa €8</p>
-    </div>
-
-    <div class="tab-panel" id="tab-pizza" role="tabpanel">
-      <div class="menu-grid">
-        <div class="mi"><div class="mi-info"><h4>La Turca</h4><p>Olio evo, origano</p></div><span class="mi-p">€8</span></div>
-        <div class="mi"><div class="mi-info"><h4>Focaccia Pomodorini</h4><p>Pomodorini giallo e rosso, origano, olio evo</p></div><span class="mi-p">€10</span></div>
-        <div class="mi"><div class="mi-info"><h4>La Marinara</h4><p>Pomodoro San Marzano, origano, aglio, olio evo</p></div><span class="mi-p">€14</span></div>
-        <div class="mi"><div class="mi-info"><h4>La Margherita</h4><p>Pomodoro San Marzano, fior di latte di Agerola, olio evo, basilico</p></div><span class="mi-p">€18</span></div>
-        <div class="mi"><div class="mi-info"><h4>Provola e Pepe</h4><p>Provola di Agerola, pepe fresco macinato, basilico, olio evo</p></div><span class="mi-p">€18</span></div>
-        <div class="mi"><div class="mi-info"><h4>Pizza Italia</h4><p>Prosciutto crudo di Parma, fior di latte di Agerola, rucola fresca, scaglie di parmigiano, basilico, olio evo</p></div><span class="mi-p">€20</span></div>
-        <div class="mi"><div class="mi-info"><h4>Capricciosa Calasea</h4><p>Carciofi sott'olio, salame Napoli, funghi, ciuffetti di ricotta, fior di latte di Agerola, basilico, olio evo</p></div><span class="mi-p">€20</span></div>
-      </div>
-    </div>
-
-    <div class="tab-panel" id="tab-cocktail" role="tabpanel">
-      <div class="menu-grid">
-        <div class="mi"><div class="mi-info"><h4>Cala Sea Signature</h4><p>Gin, limoncello del Vesuvio, menta fresca, acqua tonica</p></div><span class="mi-p">€10</span></div>
-        <div class="mi"><div class="mi-info"><h4>Torre Sunset</h4><p>Rum bianco, succo di ananas, maracuja, sciroppo di ibisco</p></div><span class="mi-p">€10</span></div>
-        <div class="mi"><div class="mi-info"><h4>Spritz Vesuvio</h4><p>Aperol, Prosecco DOC, acqua frizzante, arancia e salvia</p></div><span class="mi-p">€8</span></div>
-        <div class="mi"><div class="mi-info"><h4>Mare Mosso</h4><p>Vodka, succo di limone, sciroppo di basilico, ginger beer</p></div><span class="mi-p">€10</span></div>
-        <div class="mi"><div class="mi-info"><h4>Brezza di Saracena</h4><p>Tequila, succo di pompelmo, sale rosa, jalapeño infuso</p></div><span class="mi-p">€11</span></div>
-        <div class="mi"><div class="mi-info"><h4>Virgin Cala</h4><p>Mango, limone, menta, acqua frizzante – analcolico</p></div><span class="mi-p">€7</span></div>
-      </div>
-    </div>
-
-    <div class="tab-panel" id="tab-dolci" role="tabpanel">
-      <div class="menu-grid">
-        <div class="mi"><div class="mi-info"><h4>Dolce della Casa</h4><p>Specialità del giorno preparata dal nostro chef</p></div><span class="mi-p">€8</span></div>
-        <div class="mi"><div class="mi-info"><h4>Tiramisù Calasea</h4><p>Ricetta tradizionale con savoiardi, mascarpone, caffè espresso e cacao amaro</p></div><span class="mi-p">€8</span></div>
-        <div class="mi"><div class="mi-info"><h4>Delizia al Limone</h4><p>Torta tipica della costiera sorrentina con crema al limone e panna fresca</p></div><span class="mi-p">€8</span></div>
-        <div class="mi"><div class="mi-info"><h4>Panna Cotta ai Frutti di Bosco</h4><p>Con coulis di lamponi e mirtilli freschi</p></div><span class="mi-p">€7</span></div>
-      </div>
-      <p class="menu-footer-note">Coperto €2 · Servizio incluso</p>
-    </div>
   </div>
 </section>
 

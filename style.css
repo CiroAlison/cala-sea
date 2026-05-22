@@ -437,6 +437,73 @@ a.hs-item:hover { color: var(--white); }
 .mi-info p  { font-size: .78rem; color: rgba(255,255,255,.46); line-height: 1.5; }
 .mi-p { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; color: var(--sand); white-space: nowrap; flex-shrink: 0; }
 
+/* ─── Menu Nuovo (3 tab: Weekend / Drink / Beach Club) ─── */
+.mtab-bar {
+  display: flex; justify-content: center; gap: 8px;
+  margin-bottom: 28px;
+}
+.mtab {
+  padding: 7px 22px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.35);
+  font-size: .63rem; font-weight: 500; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,.55);
+  white-space: nowrap; transition: var(--tr);
+}
+.mtab:hover  { border-color: var(--sand); color: var(--sand); }
+.mtab.active { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.6); color: var(--white); }
+
+.menu-big-title {
+  font-family: var(--serif); font-size: clamp(3.5rem, 10vw, 6.5rem);
+  font-weight: 400; font-style: italic;
+  color: var(--white); text-align: center;
+  margin: 0 0 40px; letter-spacing: -1px; line-height: 1;
+}
+
+.mtab-panel { display: none; }
+.mtab-panel.active { display: block; }
+
+.menu-card {
+  max-width: 620px; margin: 0 auto;
+  background: #fff; border-radius: 16px;
+  padding: 44px 40px 36px;
+}
+@media(max-width: 600px) { .menu-card { padding: 32px 22px 28px; } }
+
+.mcat { margin-bottom: 36px; }
+.mcat:last-of-type { margin-bottom: 20px; }
+
+.mcat-title {
+  font-family: var(--serif); font-size: 1.45rem; font-weight: 700;
+  color: #0a1766; text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 1.5px solid rgba(10,23,102,.12);
+}
+
+.mcat-items { display: flex; flex-direction: column; gap: 12px; }
+
+.mci {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 12px;
+}
+.mci-info { flex: 1; }
+.mci-info strong {
+  display: block; font-size: .82rem; font-weight: 700;
+  color: #0a1766; text-transform: uppercase; letter-spacing: .5px;
+  margin-bottom: 2px;
+}
+.mci-info span { font-size: .75rem; color: #555; line-height: 1.45; }
+.mci-p {
+  font-family: var(--serif); font-size: .95rem; font-weight: 700;
+  color: #0a1766; white-space: nowrap; flex-shrink: 0; padding-top: 1px;
+}
+
+.menu-card-footer {
+  text-align: center; font-size: .78rem; color: #888;
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-top: 24px; padding-top: 18px;
+  border-top: 1px solid rgba(10,23,102,.1);
+}
+
 /* ─── Menu Speciale 25 Aprile ─── */
 .special-menu {
   max-width: 720px; margin: 0 auto;

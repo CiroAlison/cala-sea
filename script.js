@@ -190,12 +190,11 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
 
-/* ─── Menu tabs ─── */
+/* ─── Menu tabs (vecchi micro-tab, usati in eventuali sezioni admin) ─── */
 function wireMenuTabs(container) {
   const scope = container || document;
   scope.querySelectorAll('.tab').forEach(btn => {
     btn.addEventListener('click', () => {
-      // scope: find the nearest container
       const sec = btn.closest('section') || document;
       sec.querySelectorAll('.tab').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
       sec.querySelectorAll('.tab-panel').forEach(c => c.classList.remove('active'));
@@ -207,6 +206,18 @@ function wireMenuTabs(container) {
   });
 }
 wireMenuTabs();
+
+/* ─── Menu 3-tab (Weekend / Drink / BeachClub) ─── */
+document.querySelectorAll('.mtab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mtab').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+    document.querySelectorAll('.mtab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+    const panel = document.getElementById('mtab-' + btn.dataset.mtab);
+    if (panel) panel.classList.add('active');
+  });
+});
 
 
 /* ─── Booking form → DB + overlay successo ─── */
