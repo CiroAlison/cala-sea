@@ -89,59 +89,67 @@ ul, ol { list-style: none; }
 .ls { font-weight: 300; color: var(--sand); }
 .logo-sub { font-size: .46rem; font-weight: 400; color: rgba(255,255,255,.4); letter-spacing: 2.5px; text-transform: uppercase; }
 
-/* Burger */
-.burger { display: flex; flex-direction: column; gap: 5px; padding: 6px; z-index: 920; }
-.burger span { display: block; width: 24px; height: 1.5px; background: var(--white); transition: var(--tr); }
+/* Burger – nascosto di default, visibile solo <360px */
+.burger { display: none; flex-direction: column; gap: 5px; padding: 6px; z-index: 920; }
+.burger span { display: block; width: 22px; height: 1.5px; background: var(--white); transition: var(--tr); }
 .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 .burger.open span:nth-child(2) { opacity: 0; }
 .burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-/* Nav links – mobile */
+/* Nav links – sempre visibili, scroll orizzontale su mobile */
 .nav-links {
-  position: fixed; top: 0; right: 0; bottom: 0; width: min(300px, 85vw);
-  background: var(--navy-deep);
-  flex-direction: column; justify-content: center;
-  gap: 0; padding: 80px 36px 40px;
-  z-index: 910;
-  transform: translateX(100%); transition: transform var(--tr);
-  display: flex;
+  display: flex; flex-direction: row; align-items: center;
+  flex-wrap: nowrap; gap: 0;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; padding: 0 4px;
+  position: static; transform: none; background: none;
+  width: auto; max-width: calc(100vw - 140px);
 }
-.nav-links.open { transform: translateX(0); }
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links li { flex-shrink: 0; }
 .nav-links li a {
-  display: block; padding: 14px 0;
-  font-size: .82rem; font-weight: 400; letter-spacing: 2px;
-  text-transform: uppercase; color: rgba(255,255,255,.72);
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  display: block; padding: 6px 10px;
+  font-size: .56rem; font-weight: 500; letter-spacing: 1.8px;
+  text-transform: uppercase; color: rgba(255,255,255,.78);
+  border: none; white-space: nowrap;
   transition: color var(--tr);
 }
 .nav-links li a:hover { color: var(--sand); }
 .nav-links .nav-cta {
-  margin-top: 20px !important; background: var(--sand) !important;
-  color: var(--navy) !important; border-radius: 2px !important;
-  text-align: center; padding: 14px 0 !important;
-  font-weight: 600 !important; border: none !important;
+  background: var(--sand) !important; color: var(--navy) !important;
+  padding: 7px 16px !important; border-radius: 2px !important;
+  font-weight: 600 !important; margin-left: 8px;
 }
-.nav-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 905; }
-.nav-overlay.show { display: block; }
+.nav-overlay { display: none !important; }
 
-/* Desktop */
-@media(min-width:900px) {
-  .burger { display: none; }
-  .nav-overlay { display: none !important; }
+/* Desktop – link leggermente più grandi */
+@media(min-width: 900px) {
   .nav-links {
-    position: static; transform: none; background: none;
-    flex-direction: row; width: auto; padding: 0; gap: 28px;
+    gap: 4px; max-width: none; overflow: visible;
+    padding: 0;
   }
   .nav-links li a {
-    padding: 0; font-size: .63rem; letter-spacing: 2px;
-    border: none; color: rgba(255,255,255,.78);
+    padding: 4px 12px; font-size: .63rem; letter-spacing: 2px;
   }
-  .nav-links li a:hover { color: var(--sand); }
   .nav-links .nav-cta {
-    background: var(--sand) !important; color: var(--navy) !important;
-    padding: 9px 22px !important; border-radius: 2px !important;
-    margin-top: 0 !important; font-weight: 600 !important;
+    padding: 9px 22px !important;
   }
+}
+
+/* Fallback hamburger sotto 360px */
+@media(max-width: 359px) {
+  .burger { display: flex; }
+  .nav-links {
+    position: fixed; top: 0; right: 0; bottom: 0; width: 260px;
+    background: var(--navy-deep); flex-direction: column;
+    justify-content: center; gap: 0; padding: 80px 30px 40px;
+    z-index: 910; max-width: 85vw; overflow-x: hidden;
+    transform: translateX(100%); transition: transform var(--tr);
+  }
+  .nav-links.open { transform: translateX(0); }
+  .nav-links li a { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.06); font-size: .8rem; }
+  .nav-overlay { display: block !important; }
+  .nav-overlay:not(.show) { display: none !important; }
 }
 
 /* ═══════════════════════════════════════════
@@ -1206,52 +1214,6 @@ a.hs-item:hover { color: var(--white); }
 }
 #annuncio-close:hover { color: var(--sand); }
 
-/* ═══════════════════════════════════════════
-   HERO — PULSANTI NAVIGAZIONE RAPIDA
-═══════════════════════════════════════════ */
-.hero-nav-btns {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 8px;
-  justify-content: center;
-  margin-top: 36px;
-  /* fade-in in linea con gli altri elementi hero */
-  opacity: 0;
-  animation: fadeUp .7s 1.2s forwards;
-}
-.hnb {
-  display: inline-block;
-  padding: 9px 22px;
-  border: 1px solid rgba(255,255,255,.45);
-  border-radius: 2px;
-  color: rgba(255,255,255,.9);
-  font-family: var(--sans);
-  font-size: .62rem;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  backdrop-filter: blur(6px);
-  background: rgba(255,255,255,.06);
-  transition: background var(--tr), border-color var(--tr), color var(--tr);
-  text-align: center;
-  white-space: nowrap;
-}
-.hnb:hover {
-  background: rgba(255,255,255,.18);
-  border-color: rgba(255,255,255,.8);
-  color: #fff;
-}
-@media(max-width:600px) {
-  .hero-nav-btns {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 7px; width: 100%; max-width: 340px;
-  }
-  .hnb { padding: 10px 12px; font-size: .55rem; letter-spacing: 1.5px; }
-}
-@media(max-width:360px) {
-  .hero-nav-btns { grid-template-columns: repeat(2, 1fr); max-width: 280px; }
-  .hnb { padding: 9px 8px; font-size: .52rem; letter-spacing: 1px; }
-}
 
 /* evento+prenota: rimuovi il padding-bottom della section perché
    il form .prenota-section va direttamente attaccato sotto */
