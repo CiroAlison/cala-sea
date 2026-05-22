@@ -148,6 +148,16 @@
       </a>
       <a href="#menu" class="btn-ghost" data-i18n="hero.cta.menu">Scopri il Menu</a>
     </div>
+
+    <!-- Pulsanti di navigazione rapida sull'hero -->
+    <nav class="hero-nav-btns" aria-label="Navigazione rapida">
+      <a href="#gallery" class="hnb">Gallery</a>
+      <a href="#menu" class="hnb">Menù</a>
+      <a href="#chi-siamo" class="hnb">Chi Siamo</a>
+      <a href="#eventi" class="hnb">Eventi</a>
+      <a href="#recensioni" class="hnb">Recensioni</a>
+      <a href="#contatti" class="hnb">Contatti</a>
+    </nav>
   </div>
 
   <!-- Strip info in basso -->
@@ -328,6 +338,7 @@
         <button class="tab" data-tab="secondi" role="tab" aria-selected="false">Secondi</button>
         <button class="tab" data-tab="pizza" role="tab" aria-selected="false">🍕 Pizza</button>
         <button class="tab" data-tab="cocktail" role="tab" aria-selected="false">Cocktail</button>
+        <button class="tab" data-tab="dolci" role="tab" aria-selected="false">Dolci</button>
       </div>
     </div>
 
@@ -386,6 +397,16 @@
         <div class="mi"><div class="mi-info"><h4>Brezza di Saracena</h4><p>Tequila, succo di pompelmo, sale rosa, jalapeño infuso</p></div><span class="mi-p">€11</span></div>
         <div class="mi"><div class="mi-info"><h4>Virgin Cala</h4><p>Mango, limone, menta, acqua frizzante – analcolico</p></div><span class="mi-p">€7</span></div>
       </div>
+    </div>
+
+    <div class="tab-panel" id="tab-dolci" role="tabpanel">
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-info"><h4>Dolce della Casa</h4><p>Specialità del giorno preparata dal nostro chef</p></div><span class="mi-p">€8</span></div>
+        <div class="mi"><div class="mi-info"><h4>Tiramisù Calasea</h4><p>Ricetta tradizionale con savoiardi, mascarpone, caffè espresso e cacao amaro</p></div><span class="mi-p">€8</span></div>
+        <div class="mi"><div class="mi-info"><h4>Delizia al Limone</h4><p>Torta tipica della costiera sorrentina con crema al limone e panna fresca</p></div><span class="mi-p">€8</span></div>
+        <div class="mi"><div class="mi-info"><h4>Panna Cotta ai Frutti di Bosco</h4><p>Con coulis di lamponi e mirtilli freschi</p></div><span class="mi-p">€7</span></div>
+      </div>
+      <p class="menu-footer-note">Coperto €2 · Servizio incluso</p>
     </div>
   </div>
 </section>
@@ -655,124 +676,142 @@
   <div class="container">
     <header class="sec-header fade-in">
       <p class="eyebrow light">Location esclusiva</p>
-      <h2 class="h-display light">Il tuo <em>Evento</em> speciale</h2>
-      <p class="body-text light center">La Torre Saracena è la cornice perfetta per ogni occasione memorabile</p>
+      <h2 class="h-display light">Scegli uno dei nostri <em>eventi</em> e prenota</h2>
     </header>
-    <div class="eventi-grid">
+  </div>
 
-      <article class="ev-card fade-in">
-        <img src="img/brindisi.jpg" alt="Matrimoni a Cala Sea" loading="lazy" />
-        <div class="ev-card-body">
-          <span class="ev-tag">💍</span>
-          <h3 data-i18n="events.wedding.title">Matrimoni</h3>
-          <p data-i18n="events.wedding.desc">Il giorno più bello della vita, con la vista del Golfo. Menù personalizzato, allestimento floreale, aperitivo sul mare.</p>
-          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20informazioni%20per%20un%20matrimonio." target="_blank" rel="noopener" class="ev-link" data-i18n="events.cta" data-wa="true">Richiedi info →</a>
-        </div>
-      </article>
+  <!-- Carosello eventi -->
+  <div class="eventi-carousel-outer">
+    <button class="ev-arrow ev-prev" aria-label="Evento precedente">&#8249;</button>
+    <div class="eventi-carousel" id="eventiCarousel">
 
-      <article class="ev-card fade-in delay-1">
-        <img src="img/tramonto.jpg" alt="Compleanni a Cala Sea" loading="lazy" />
-        <div class="ev-card-body">
-          <span class="ev-tag">🎂</span>
-          <h3 data-i18n="events.birthday.title">Compleanni</h3>
-          <p data-i18n="events.birthday.desc">Festeggia il tuo compleanno con stile. Torta, musica, vista mare e tutto quello che desideri per una serata indimenticabile.</p>
-          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20organizzare%20una%20festa%20di%20compleanno." target="_blank" rel="noopener" class="ev-link" data-i18n="events.cta" data-wa="true">Richiedi info →</a>
+      <div class="ev-slide">
+        <div class="ev-slide-inner">
+          <img src="img/brindisi.jpg" alt="Matrimoni a Cala Sea" loading="lazy" />
+          <div class="ev-slide-overlay">
+            <span class="ev-slide-tag">💍</span>
+            <h3 data-i18n="events.wedding.title">Matrimoni</h3>
+            <p data-i18n="events.wedding.desc">Il giorno più bello della vita, con la vista del Golfo. Menù personalizzato, allestimento floreale, aperitivo sul mare.</p>
+            <a href="#prenota" class="ev-slide-cta">Prenota Ora</a>
+          </div>
         </div>
-      </article>
+      </div>
 
-      <article class="ev-card fade-in delay-2">
-        <img src="img/terrazza.jpg" alt="Comunioni e Cresime a Cala Sea" loading="lazy" />
-        <div class="ev-card-body">
-          <span class="ev-tag">✝️</span>
-          <h3 data-i18n="events.communion.title">Comunioni &amp; Cresime</h3>
-          <p data-i18n="events.communion.desc">Un giorno speciale nella vita dei vostri figli. Accogliamo i vostri ospiti in un ambiente elegante e familiare.</p>
-          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20informazioni%20per%20una%20comunione%20o%20cresima." target="_blank" rel="noopener" class="ev-link" data-i18n="events.cta" data-wa="true">Richiedi info →</a>
+      <div class="ev-slide">
+        <div class="ev-slide-inner">
+          <img src="img/tramonto.jpg" alt="Compleanni a Cala Sea" loading="lazy" />
+          <div class="ev-slide-overlay">
+            <span class="ev-slide-tag">🎂</span>
+            <h3 data-i18n="events.birthday.title">Compleanni</h3>
+            <p data-i18n="events.birthday.desc">Festeggia il tuo compleanno con stile. Torta, musica, vista mare e tutto quello che desideri per una serata indimenticabile.</p>
+            <a href="#prenota" class="ev-slide-cta">Prenota Ora</a>
+          </div>
         </div>
-      </article>
+      </div>
 
-      <article class="ev-card fade-in">
-        <img src="img/mare.jpg" alt="Battesimi a Cala Sea" loading="lazy" />
-        <div class="ev-card-body">
-          <span class="ev-tag">🕊️</span>
-          <h3 data-i18n="events.baptism.title">Battesimi</h3>
-          <p data-i18n="events.baptism.desc">Celebrate l'arrivo del vostro bambino con una festa indimenticabile sul Golfo di Napoli, circondata da calore e bellezza.</p>
-          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20informazioni%20per%20un%20battesimo." target="_blank" rel="noopener" class="ev-link" data-i18n="events.cta" data-wa="true">Richiedi info →</a>
+      <div class="ev-slide">
+        <div class="ev-slide-inner">
+          <img src="img/terrazza.jpg" alt="Comunioni e Cresime" loading="lazy" />
+          <div class="ev-slide-overlay">
+            <span class="ev-slide-tag">✝️</span>
+            <h3 data-i18n="events.communion.title">Comunioni &amp; Cresime</h3>
+            <p data-i18n="events.communion.desc">Un giorno speciale nella vita dei vostri figli. Accogliamo i vostri ospiti in un ambiente elegante e familiare.</p>
+            <a href="#prenota" class="ev-slide-cta">Prenota Ora</a>
+          </div>
         </div>
-      </article>
+      </div>
 
-      <article class="ev-card fade-in delay-1">
-        <img src="img/piatto1.jpg" alt="Feste di Laurea a Cala Sea" loading="lazy" />
-        <div class="ev-card-body">
-          <span class="ev-tag">🎓</span>
-          <h3 data-i18n="events.graduation.title">Feste di Laurea</h3>
-          <p data-i18n="events.graduation.desc">Hai sudato per arrivarci — ora festeggia come si deve. Menu personalizzato, brindisi sul mare e ricordi per sempre.</p>
-          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20organizzare%20una%20festa%20di%20laurea." target="_blank" rel="noopener" class="ev-link" data-i18n="events.cta" data-wa="true">Richiedi info →</a>
+      <div class="ev-slide">
+        <div class="ev-slide-inner">
+          <img src="img/mare.jpg" alt="Battesimi a Cala Sea" loading="lazy" />
+          <div class="ev-slide-overlay">
+            <span class="ev-slide-tag">🕊️</span>
+            <h3 data-i18n="events.baptism.title">Battesimi</h3>
+            <p data-i18n="events.baptism.desc">Celebrate l'arrivo del vostro bambino con una festa indimenticabile sul Golfo di Napoli.</p>
+            <a href="#prenota" class="ev-slide-cta">Prenota Ora</a>
+          </div>
         </div>
-      </article>
+      </div>
 
-      <article class="ev-card fade-in delay-2">
-        <img src="img/piatto2.jpg" alt="Baby Shower a Cala Sea" loading="lazy" />
-        <div class="ev-card-body">
-          <span class="ev-tag">👶</span>
-          <h3 data-i18n="events.babyshower.title">Baby Shower</h3>
-          <p data-i18n="events.babyshower.desc">Celebrate l'arrivo del bebè in arrivo con dolcezza. Addobbi su misura, dolci artigianali e atmosfera romantica sul mare.</p>
-          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20organizzare%20un%20baby%20shower." target="_blank" rel="noopener" class="ev-link" data-i18n="events.cta" data-wa="true">Richiedi info →</a>
+      <div class="ev-slide">
+        <div class="ev-slide-inner">
+          <img src="img/piatto1.jpg" alt="Feste di Laurea" loading="lazy" />
+          <div class="ev-slide-overlay">
+            <span class="ev-slide-tag">🎓</span>
+            <h3 data-i18n="events.graduation.title">Feste di Laurea</h3>
+            <p data-i18n="events.graduation.desc">Hai sudato per arrivarci — ora festeggia come si deve. Menu personalizzato, brindisi sul mare e ricordi per sempre.</p>
+            <a href="#prenota" class="ev-slide-cta">Prenota Ora</a>
+          </div>
         </div>
-      </article>
+      </div>
 
-      <article class="ev-card fade-in">
-        <img src="img/brindisi.jpg" alt="Anniversari a Cala Sea" loading="lazy" style="object-position: center top;" />
-        <div class="ev-card-body">
-          <span class="ev-tag">💑</span>
-          <h3 data-i18n="events.anniversary.title">Anniversari</h3>
-          <p data-i18n="events.anniversary.desc">Ogni anno in più vale un tramonto sul Golfo. Cena romantica, fiori, candele e il Vesuvio sullo sfondo.</p>
-          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20organizzare%20una%20cena%20anniversario." target="_blank" rel="noopener" class="ev-link" data-i18n="events.cta" data-wa="true">Richiedi info →</a>
+      <div class="ev-slide">
+        <div class="ev-slide-inner">
+          <img src="img/piatto2.jpg" alt="Baby Shower" loading="lazy" />
+          <div class="ev-slide-overlay">
+            <span class="ev-slide-tag">👶</span>
+            <h3 data-i18n="events.babyshower.title">Baby Shower</h3>
+            <p data-i18n="events.babyshower.desc">Celebrate l'arrivo del bebè con dolcezza. Addobbi su misura, dolci artigianali e atmosfera romantica sul mare.</p>
+            <a href="#prenota" class="ev-slide-cta">Prenota Ora</a>
+          </div>
         </div>
-      </article>
+      </div>
 
-      <article class="ev-card fade-in delay-1">
-        <img src="img/tramonto.jpg" alt="DJ Set e Serate Live Cala Sea" loading="lazy" style="object-position: center bottom;" />
-        <div class="ev-card-body">
-          <span class="ev-tag">🎵</span>
-          <h3 data-i18n="events.djset.title">DJ Set &amp; Live Music</h3>
-          <p data-i18n="events.djset.desc">Serate con DJ resident, musica dal vivo, aperitivi al tramonto. Il ritmo giusto per ogni occasione.</p>
-          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20informazioni%20sulle%20serate." target="_blank" rel="noopener" class="ev-link" data-i18n="events.cta" data-wa="true">Richiedi info →</a>
+      <div class="ev-slide">
+        <div class="ev-slide-inner">
+          <img src="img/brindisi.jpg" alt="Anniversari" loading="lazy" style="object-position:center top;" />
+          <div class="ev-slide-overlay">
+            <span class="ev-slide-tag">💑</span>
+            <h3 data-i18n="events.anniversary.title">Anniversari</h3>
+            <p data-i18n="events.anniversary.desc">Ogni anno in più vale un tramonto sul Golfo. Cena romantica, fiori, candele e il Vesuvio sullo sfondo.</p>
+            <a href="#prenota" class="ev-slide-cta">Prenota Ora</a>
+          </div>
         </div>
-      </article>
+      </div>
 
-      <article class="ev-card fade-in delay-2">
-        <img src="img/terrazza.jpg" alt="Eventi Aziendali a Cala Sea" loading="lazy" style="object-position: center bottom;" />
-        <div class="ev-card-body">
-          <span class="ev-tag">🏢</span>
-          <h3 data-i18n="events.corporate.title">Aziendali &amp; Team Building</h3>
-          <p data-i18n="events.corporate.desc">Cene di gala, presentazioni, team building. Il Golfo di Napoli come sfondo per i tuoi successi professionali.</p>
-          <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20organizzare%20un%20evento%20aziendale." target="_blank" rel="noopener" class="ev-link" data-i18n="events.cta" data-wa="true">Richiedi info →</a>
+      <div class="ev-slide">
+        <div class="ev-slide-inner">
+          <img src="img/tramonto.jpg" alt="DJ Set e Serate Live" loading="lazy" style="object-position:center bottom;" />
+          <div class="ev-slide-overlay">
+            <span class="ev-slide-tag">🎵</span>
+            <h3 data-i18n="events.djset.title">DJ Set &amp; Live Music</h3>
+            <p data-i18n="events.djset.desc">Serate con DJ resident, musica dal vivo, aperitivi al tramonto. Il ritmo giusto per ogni occasione.</p>
+            <a href="#prenota" class="ev-slide-cta">Prenota Ora</a>
+          </div>
         </div>
-      </article>
+      </div>
+
+      <div class="ev-slide">
+        <div class="ev-slide-inner">
+          <img src="img/terrazza.jpg" alt="Eventi Aziendali" loading="lazy" style="object-position:center bottom;" />
+          <div class="ev-slide-overlay">
+            <span class="ev-slide-tag">🏢</span>
+            <h3 data-i18n="events.corporate.title">Aziendali &amp; Team Building</h3>
+            <p data-i18n="events.corporate.desc">Cene di gala, presentazioni, team building. Il Golfo di Napoli come sfondo per i tuoi successi professionali.</p>
+            <a href="#prenota" class="ev-slide-cta">Prenota Ora</a>
+          </div>
+        </div>
+      </div>
 
     </div>
+    <button class="ev-arrow ev-next" aria-label="Evento successivo">&#8250;</button>
   </div>
+  <div class="ev-dots" id="evDots"></div>
 </section>
 
 <!-- ══════════════════════════════════════════
      PRENOTA
 ══════════════════════════════════════════ -->
-<section id="prenota" class="section bg-navy-deep">
-  <div class="container">
+<section id="prenota" class="prenota-section">
+  <div class="prenota-bg-img">
+    <img src="img/terrazza.jpg" alt="Terrazza Cala Sea" />
+    <div class="prenota-bg-overlay"></div>
+  </div>
+  <div class="container prenota-container">
     <header class="sec-header fade-in">
-      <p class="eyebrow light">Riserva il tuo posto</p>
+      <p class="prenota-eyebrow">· Riserva il tuo posto ·</p>
       <h2 class="h-display light">Prenota <em>Online</em></h2>
     </header>
-
-    <div class="prenota-wa fade-in">
-      <a href="https://wa.me/393278653508?text=Ciao%20Cala%20Sea!%20Vorrei%20prenotare." target="_blank" rel="noopener" class="btn-wa-xl" data-wa="true">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        Prenota su WhatsApp
-      </a>
-      <p class="prenota-note">Risposta garantita entro 1 ora · 327 865 3508</p>
-    </div>
-
-    <div class="or-divider"><span>oppure compila il form</span></div>
 
     <form id="prenota-form" class="prenota-form fade-in" novalidate>
       <div class="form-row">
@@ -791,7 +830,7 @@
           <input type="date" id="data" name="data" required />
         </div>
         <div class="fg">
-          <label for="persone">Numero persone *</label>
+          <label for="persone">Numero di Persone *</label>
           <select id="persone" name="persone" required>
             <option value="">Quanti siete?</option>
             <option>1</option><option>2</option><option>3</option>
@@ -800,36 +839,56 @@
           </select>
         </div>
       </div>
-      <div class="fg">
-        <label for="tipo">Tipo di prenotazione *</label>
-        <select id="tipo" name="tipo" required>
-          <option value="">Cosa cerchi?</option>
-          <option>Pranzo</option>
-          <option>Cena</option>
-          <option>Aperitivo</option>
-          <option>Menu 25 Aprile (€45 p.p.)</option>
-          <option>Evento privato / Matrimonio</option>
-          <option>Compleanno</option>
-          <option>Comunione / Cresima / Battesimo</option>
-          <option>Festa di Laurea</option>
-          <option>Baby Shower</option>
-          <option>Anniversario</option>
-          <option>Evento Aziendale</option>
-          <option>Altro</option>
-        </select>
-      </div>
-      <div class="fg">
-        <label for="note">Note / Richieste speciali</label>
-        <textarea id="note" name="note" rows="3" placeholder="Allergie, occasioni speciali, preferenze…"></textarea>
+      <div class="form-row">
+        <div class="fg">
+          <label for="tipo">Tipo di prenotazione *</label>
+          <select id="tipo" name="tipo" required>
+            <option value="">Cosa cerchi?</option>
+            <option>Pranzo</option>
+            <option>Cena</option>
+            <option>Aperitivo</option>
+            <option>Evento privato / Matrimonio</option>
+            <option>Compleanno</option>
+            <option>Comunione / Cresima / Battesimo</option>
+            <option>Festa di Laurea</option>
+            <option>Baby Shower</option>
+            <option>Anniversario</option>
+            <option>Evento Aziendale</option>
+            <option>Altro</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label for="note">Note aggiuntive</label>
+          <textarea id="note" name="note" rows="3" placeholder="Allergie, occasioni speciali, preferenze…"></textarea>
+        </div>
       </div>
       <div class="form-check">
         <input type="checkbox" id="privacy" name="privacy" required />
         <label for="privacy">Acconsento al trattamento dei dati personali ai sensi del GDPR. <a href="#" target="_blank">Privacy Policy</a></label>
       </div>
-      <button type="submit" class="btn-primary btn-submit">Invia Prenotazione via WhatsApp</button>
+      <div class="prenota-btn-wrap">
+        <button type="submit" class="btn-prenota-submit">PRENOTA</button>
+      </div>
     </form>
   </div>
 </section>
+
+<!-- ══════════════════════════════════════════
+     OVERLAY PRENOTAZIONE CON SUCCESSO
+══════════════════════════════════════════ -->
+<div id="prenota-success" class="prenota-success-overlay" aria-hidden="true" role="dialog" aria-label="Prenotazione confermata">
+  <div class="pso-bg">
+    <img src="img/terrazza.jpg" alt="" />
+    <div class="pso-bg-shade"></div>
+  </div>
+  <div class="pso-content">
+    <div class="pso-check">✓</div>
+    <p class="pso-title">PRENOTAZIONE EFFETTUATA</p>
+    <p class="pso-title">CON SUCCESSO</p>
+    <p class="pso-sub">Ti contatteremo al più presto per confermare la tua prenotazione.</p>
+    <button class="pso-close" id="psoClose">← Torna al sito</button>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════
      DOVE SIAMO + SOCIAL

@@ -1174,3 +1174,335 @@ a.hs-item:hover { color: var(--white); }
   transition: color .2s;
 }
 #annuncio-close:hover { color: var(--sand); }
+
+/* ═══════════════════════════════════════════
+   HERO — PULSANTI NAVIGAZIONE RAPIDA
+═══════════════════════════════════════════ */
+.hero-nav-btns {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: center; margin-top: 36px;
+}
+.hnb {
+  display: inline-block;
+  padding: 9px 22px;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 2px;
+  color: rgba(255,255,255,.9);
+  font-family: var(--sans);
+  font-size: .62rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+  background: rgba(255,255,255,.06);
+  transition: background var(--tr), border-color var(--tr), color var(--tr);
+}
+.hnb:hover {
+  background: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.8);
+  color: #fff;
+}
+@media(max-width:480px) {
+  .hero-nav-btns { gap: 7px; }
+  .hnb { padding: 8px 14px; font-size: .56rem; letter-spacing: 1.5px; }
+}
+
+/* ═══════════════════════════════════════════
+   EVENTI — CAROSELLO
+═══════════════════════════════════════════ */
+.eventi-carousel-outer {
+  position: relative;
+  padding: 0 0 8px;
+  overflow: hidden;
+}
+.eventi-carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 40px 0 40px calc(50% - 190px);
+  cursor: grab;
+  user-select: none;
+}
+.eventi-carousel::-webkit-scrollbar { display: none; }
+.eventi-carousel.grabbing { cursor: grabbing; }
+
+/* ultimo slide: padding a destra per centrare */
+.ev-slide:last-child { margin-right: calc(50% - 190px); }
+
+.ev-slide {
+  flex: 0 0 380px;
+  scroll-snap-align: center;
+  transition: transform .45s ease, opacity .45s ease;
+  transform: scale(0.87);
+  opacity: 0.5;
+  border-radius: 2px;
+  overflow: hidden;
+}
+@media(max-width:600px) {
+  .ev-slide { flex: 0 0 78vw; }
+  .eventi-carousel { padding-left: calc(50% - 39vw); }
+  .ev-slide:last-child { margin-right: calc(50% - 39vw); }
+}
+.ev-slide.active { transform: scale(1); opacity: 1; }
+
+.ev-slide-inner {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.ev-slide-inner img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .6s ease;
+}
+.ev-slide.active .ev-slide-inner img { transform: scale(1.04); }
+
+.ev-slide-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(6,13,69,.88) 40%, rgba(6,13,69,.1) 100%);
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px 28px 30px;
+  color: #fff;
+}
+.ev-slide-tag { font-size: 2rem; margin-bottom: 10px; line-height: 1; }
+.ev-slide-overlay h3 {
+  font-family: var(--serif); font-size: 2rem;
+  font-weight: 400; line-height: 1.15;
+  letter-spacing: 1px; margin-bottom: 10px;
+}
+.ev-slide-overlay p {
+  font-size: .78rem; line-height: 1.6;
+  color: rgba(255,255,255,.75); margin-bottom: 22px;
+  max-height: 0; overflow: hidden;
+  transition: max-height .4s ease, opacity .4s ease;
+  opacity: 0;
+}
+.ev-slide.active .ev-slide-overlay p {
+  max-height: 80px; opacity: 1;
+}
+.ev-slide-cta {
+  display: inline-block;
+  padding: 11px 28px;
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 2px;
+  font-size: .6rem; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: #fff; background: rgba(255,255,255,.08);
+  transition: background var(--tr), border-color var(--tr);
+  align-self: flex-start;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .4s ease .1s, transform .4s ease .1s, background .2s, border-color .2s;
+}
+.ev-slide.active .ev-slide-cta {
+  opacity: 1; transform: translateY(0);
+}
+.ev-slide-cta:hover { background: rgba(255,255,255,.22); border-color: #fff; }
+
+/* Frecce */
+.ev-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 10; width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+  color: #fff; font-size: 2rem; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--tr);
+  backdrop-filter: blur(4px);
+}
+.ev-arrow:hover { background: rgba(255,255,255,.28); }
+.ev-prev { left: 16px; }
+.ev-next { right: 16px; }
+@media(max-width:600px) { .ev-arrow { display: none; } }
+
+/* Dots */
+.ev-dots {
+  display: flex; justify-content: center; gap: 8px;
+  padding: 0 0 16px;
+}
+.ev-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,255,255,.25);
+  transition: background var(--tr), transform var(--tr);
+}
+.ev-dot.active { background: #fff; transform: scale(1.3); }
+
+/* ═══════════════════════════════════════════
+   PRENOTA — SEZIONE CON SFONDO FOTO
+═══════════════════════════════════════════ */
+.prenota-section {
+  position: relative;
+  padding: 100px 0 80px;
+}
+.prenota-bg-img {
+  position: absolute; inset: 0; z-index: 0;
+  overflow: hidden;
+}
+.prenota-bg-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center;
+}
+.prenota-bg-overlay {
+  position: absolute; inset: 0;
+  background: rgba(6,13,69,.72);
+}
+.prenota-container { position: relative; z-index: 1; }
+
+.prenota-eyebrow {
+  font-family: var(--sans);
+  font-size: .62rem; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(232,220,200,.7);
+  margin-bottom: 10px;
+}
+
+/* Form con sfondo semi-trasparente */
+.prenota-form {
+  max-width: 780px; margin: 0 auto;
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 4px;
+  padding: 40px 36px 36px;
+}
+@media(max-width:600px) { .prenota-form { padding: 28px 18px 24px; } }
+
+/* nota campo textarea si allunga per riempire la riga */
+.prenota-form .form-row .fg:last-child textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* Bottone PRENOTA */
+.prenota-btn-wrap { text-align: center; margin-top: 8px; }
+.btn-prenota-submit {
+  display: inline-block;
+  padding: 16px 64px;
+  border: 2px solid rgba(255,255,255,.7);
+  border-radius: 2px;
+  background: transparent;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--tr), border-color var(--tr), transform var(--tr);
+}
+.btn-prenota-submit:hover {
+  background: rgba(255,255,255,.15);
+  border-color: #fff;
+  transform: translateY(-1px);
+}
+.btn-prenota-submit:active { transform: translateY(0); }
+
+/* Form inputs con bordo bianco */
+.prenota-form .fg label {
+  color: rgba(255,255,255,.6);
+  font-size: .62rem; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  display: block; margin-bottom: 6px;
+}
+.prenota-form .fg input,
+.prenota-form .fg select,
+.prenota-form .fg textarea {
+  width: 100%;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 2px;
+  color: #fff;
+  padding: 12px 14px;
+  font-size: .88rem;
+  font-family: var(--sans);
+  outline: none;
+  transition: border-color .2s;
+}
+.prenota-form .fg input::placeholder,
+.prenota-form .fg textarea::placeholder { color: rgba(255,255,255,.35); }
+.prenota-form .fg input:focus,
+.prenota-form .fg select:focus,
+.prenota-form .fg textarea:focus { border-color: rgba(255,255,255,.7); }
+.prenota-form .fg select option { background: var(--navy-deep); color: #fff; }
+.prenota-form .fg input.error,
+.prenota-form .fg select.error,
+.prenota-form .fg textarea.error { border-color: #f87171; }
+.prenota-form .form-check {
+  margin: 16px 0 20px;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.prenota-form .form-check label {
+  font-size: .72rem; color: rgba(255,255,255,.55); letter-spacing: .3px;
+  text-transform: none; font-weight: 400;
+}
+.prenota-form .form-check a { color: rgba(232,220,200,.7); text-decoration: underline; }
+.prenota-form .form-check input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; }
+.prenota-form .form-check input.error { outline: 2px solid #f87171; }
+
+/* ═══════════════════════════════════════════
+   OVERLAY PRENOTAZIONE CON SUCCESSO
+═══════════════════════════════════════════ */
+.prenota-success-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .5s ease;
+}
+.prenota-success-overlay.show {
+  opacity: 1; pointer-events: all;
+}
+.pso-bg {
+  position: absolute; inset: 0; z-index: 0; overflow: hidden;
+}
+.pso-bg img { width: 100%; height: 100%; object-fit: cover; }
+.pso-bg-shade {
+  position: absolute; inset: 0;
+  background: rgba(6,13,69,.72);
+}
+.pso-content {
+  position: relative; z-index: 1;
+  text-align: center; color: #fff;
+  padding: 40px 24px;
+}
+.pso-check {
+  font-size: 3.5rem; line-height: 1;
+  color: var(--sand);
+  margin-bottom: 28px;
+  animation: pso-pop .5s ease .2s both;
+}
+@keyframes pso-pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+.pso-title {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-weight: 300; letter-spacing: 4px;
+  line-height: 1.25;
+  text-transform: uppercase;
+  animation: pso-rise .6s ease .35s both;
+}
+@keyframes pso-rise {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.pso-sub {
+  margin-top: 16px; margin-bottom: 36px;
+  font-size: .82rem; color: rgba(255,255,255,.65);
+  letter-spacing: .5px;
+  animation: pso-rise .6s ease .5s both;
+}
+.pso-close {
+  display: inline-block;
+  padding: 13px 36px;
+  border: 1px solid rgba(255,255,255,.55);
+  border-radius: 2px;
+  background: transparent;
+  color: rgba(255,255,255,.85);
+  font-family: var(--sans); font-size: .62rem;
+  font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--tr), border-color var(--tr);
+  animation: pso-rise .6s ease .65s both;
+}
+.pso-close:hover { background: rgba(255,255,255,.12); border-color: #fff; }

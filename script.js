@@ -189,13 +189,13 @@ function wireMenuTabs(container) {
 wireMenuTabs();
 
 
-/* ─── Booking form → WhatsApp ─── */
+/* ─── Booking form → DB + overlay successo ─── */
 const form = document.getElementById('prenota-form');
 if (form) {
   const dateInput = document.getElementById('data');
   if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
 
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     let valid = true;
     form.querySelectorAll('[required]').forEach(f => {
@@ -215,30 +215,37 @@ if (form) {
     const tipo     = document.getElementById('tipo').value;
     const note     = document.getElementById('note')?.value.trim() || '';
 
-    const dateStr = data
-      ? new Date(data + 'T00:00:00').toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
-      : '';
+    const submitBtn = form.querySelector('.btn-prenota-submit');
+    if (submitBtn) { submitBtn.textContent = 'Invio…'; submitBtn.disabled = true; }
 
-    const msg = [
-      'Ciao Cala Sea! 👋 Vorrei prenotare:',
-      `👤 Nome: ${nome}`,
-      `📞 Tel: ${telefono}`,
-      `📅 Data: ${dateStr}`,
-      `👥 Persone: ${persone}`,
-      `🍽️ Tipo: ${tipo}`,
-      note ? `📝 Note: ${note}` : ''
-    ].filter(Boolean).join('\n');
+    try {
+      await fetch('/api/prenota', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, telefono, data, persone, tipo, note })
+      });
+    } catch(err) { /* continua comunque */ }
 
-    window.open('https://wa.me/393278653508?text=' + encodeURIComponent(msg), '_blank');
+    // Mostra overlay successo
+    const overlay = document.getElementById('prenota-success');
+    if (overlay) {
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
 
-    // Salva anche nel database (silenzioso, non blocca il flusso WhatsApp)
-    fetch('/api/prenota', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, telefono, data, persone, tipo, note })
-    }).catch(() => {});
+    // Reset form
+    form.reset();
+    if (submitBtn) { submitBtn.textContent = 'PRENOTA'; submitBtn.disabled = false; }
   });
 }
+
+// Chiudi overlay successo
+document.getElementById('psoClose')?.addEventListener('click', () => {
+  const overlay = document.getElementById('prenota-success');
+  if (overlay) { overlay.classList.remove('show'); overlay.setAttribute('aria-hidden', 'true'); }
+  document.body.style.overflow = '';
+});
 
 /* ─── Cookie banner ─── */
 const cookieBanner = document.getElementById('cookie-banner');
@@ -769,3 +776,82 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); closeMenu(); }
   });
 });
+
+/* ─── Carosello eventi ─── */
+(function () {
+  const carousel = document.getElementById('eventiCarousel');
+  if (!carousel) return;
+
+  const slides        = [...carousel.querySelectorAll('.ev-slide')];
+  const dotsContainer = document.getElementById('evDots');
+  const btnPrev       = document.querySelector('.ev-prev');
+  const btnNext       = document.querySelector('.ev-next');
+
+  /* Crea i dots */
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'ev-dot';
+    dot.setAttribute('aria-label', 'Evento ' + (i + 1));
+    dot.addEventListener('click', () => scrollToSlide(i));
+    dotsContainer && dotsContainer.appendChild(dot);
+  });
+
+  function scrollToSlide(idx) {
+    slides[idx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  function getActiveIdx() {
+    const carouselRect = carousel.getBoundingClientRect();
+    const cx = carouselRect.left + carouselRect.width / 2;
+    let best = 0, bestDist = Infinity;
+    slides.forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      const dist = Math.abs(r.left + r.width / 2 - cx);
+      if (dist < bestDist) { bestDist = dist; best = i; }
+    });
+    return best;
+  }
+
+  function updateActive() {
+    const idx = getActiveIdx();
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    if (dotsContainer) {
+      [...dotsContainer.querySelectorAll('.ev-dot')].forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+  }
+
+  carousel.addEventListener('scroll', updateActive, { passive: true });
+
+  btnPrev?.addEventListener('click', () => {
+    const i = getActiveIdx();
+    if (i > 0) scrollToSlide(i - 1);
+  });
+  btnNext?.addEventListener('click', () => {
+    const i = getActiveIdx();
+    if (i < slides.length - 1) scrollToSlide(i + 1);
+  });
+
+  /* Drag con mouse */
+  let isDragging = false, startX = 0, scrollLeft = 0;
+  carousel.addEventListener('mousedown', e => {
+    isDragging = true;
+    startX = e.pageX - carousel.offsetLeft;
+    scrollLeft = carousel.scrollLeft;
+    carousel.classList.add('grabbing');
+  });
+  const endDrag = () => { isDragging = false; carousel.classList.remove('grabbing'); };
+  carousel.addEventListener('mouseleave', endDrag);
+  carousel.addEventListener('mouseup', endDrag);
+  carousel.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - carousel.offsetLeft;
+    carousel.scrollLeft = scrollLeft - (x - startX) * 1.6;
+  });
+
+  /* Inizializza: centra il primo slide e segna attivo */
+  setTimeout(() => {
+    scrollToSlide(0);
+    updateActive();
+  }, 100);
+})();
