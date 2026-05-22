@@ -797,80 +797,78 @@
     <button class="ev-arrow ev-next" aria-label="Evento successivo">&#8250;</button>
   </div>
   <div class="ev-dots" id="evDots"></div>
-</section>
 
-<!-- ══════════════════════════════════════════
-     PRENOTA
-══════════════════════════════════════════ -->
-<section id="prenota" class="prenota-section">
-  <div class="prenota-bg-img">
-    <img src="img/terrazza.jpg" alt="Terrazza Cala Sea" />
-    <div class="prenota-bg-overlay"></div>
-  </div>
-  <div class="container prenota-container">
-    <header class="sec-header fade-in">
-      <p class="prenota-eyebrow">· Riserva il tuo posto ·</p>
-      <h2 class="h-display light">Prenota <em>Online</em></h2>
-    </header>
+  <!-- ── Form prenotazione — stesso blocco visivo del carosello ── -->
+  <div id="prenota" class="prenota-section">
+    <div class="prenota-bg-img">
+      <img src="img/terrazza.jpg" alt="Terrazza Cala Sea" />
+      <div class="prenota-bg-overlay"></div>
+    </div>
+    <div class="container prenota-container">
+      <header class="sec-header fade-in">
+        <p class="prenota-eyebrow">· Riserva il tuo posto ·</p>
+      </header>
 
-    <form id="prenota-form" class="prenota-form fade-in" novalidate>
-      <div class="form-row">
-        <div class="fg">
-          <label for="nome">Nome e Cognome *</label>
-          <input type="text" id="nome" name="nome" placeholder="Mario Rossi" required autocomplete="name" />
+      <form id="prenota-form" class="prenota-form fade-in" novalidate>
+        <div class="form-row">
+          <div class="fg">
+            <label for="nome">Nome e Cognome *</label>
+            <input type="text" id="nome" name="nome" placeholder="Mario Rossi" required autocomplete="name" />
+          </div>
+          <div class="fg">
+            <label for="telefono">Telefono *</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="+39 333 123 4567" required autocomplete="tel" />
+          </div>
         </div>
-        <div class="fg">
-          <label for="telefono">Telefono *</label>
-          <input type="tel" id="telefono" name="telefono" placeholder="+39 333 123 4567" required autocomplete="tel" />
+        <div class="form-row">
+          <div class="fg">
+            <label for="data">Data *</label>
+            <input type="date" id="data" name="data" required />
+          </div>
+          <div class="fg">
+            <label for="persone">Numero di Persone *</label>
+            <select id="persone" name="persone" required>
+              <option value="">Quanti siete?</option>
+              <option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option>
+              <option>7</option><option>8</option><option value="9+">9 o più</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="fg">
-          <label for="data">Data *</label>
-          <input type="date" id="data" name="data" required />
+        <div class="form-row">
+          <div class="fg">
+            <label for="tipo">Tipo di prenotazione *</label>
+            <select id="tipo" name="tipo" required>
+              <option value="">Cosa cerchi?</option>
+              <option>Pranzo</option>
+              <option>Cena</option>
+              <option>Aperitivo</option>
+              <option>Evento privato / Matrimonio</option>
+              <option>Compleanno</option>
+              <option>Comunione / Cresima / Battesimo</option>
+              <option>Festa di Laurea</option>
+              <option>Baby Shower</option>
+              <option>Anniversario</option>
+              <option>Evento Aziendale</option>
+              <option>Altro</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="note">Note aggiuntive</label>
+            <textarea id="note" name="note" rows="3" placeholder="Allergie, occasioni speciali, preferenze…"></textarea>
+          </div>
         </div>
-        <div class="fg">
-          <label for="persone">Numero di Persone *</label>
-          <select id="persone" name="persone" required>
-            <option value="">Quanti siete?</option>
-            <option>1</option><option>2</option><option>3</option>
-            <option>4</option><option>5</option><option>6</option>
-            <option>7</option><option>8</option><option value="9+">9 o più</option>
-          </select>
+        <div class="form-check">
+          <input type="checkbox" id="privacy" name="privacy" required />
+          <label for="privacy">Acconsento al trattamento dei dati personali ai sensi del GDPR. <a href="#" target="_blank">Privacy Policy</a></label>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="fg">
-          <label for="tipo">Tipo di prenotazione *</label>
-          <select id="tipo" name="tipo" required>
-            <option value="">Cosa cerchi?</option>
-            <option>Pranzo</option>
-            <option>Cena</option>
-            <option>Aperitivo</option>
-            <option>Evento privato / Matrimonio</option>
-            <option>Compleanno</option>
-            <option>Comunione / Cresima / Battesimo</option>
-            <option>Festa di Laurea</option>
-            <option>Baby Shower</option>
-            <option>Anniversario</option>
-            <option>Evento Aziendale</option>
-            <option>Altro</option>
-          </select>
+        <div class="prenota-btn-wrap">
+          <button type="submit" class="btn-prenota-submit">PRENOTA</button>
         </div>
-        <div class="fg">
-          <label for="note">Note aggiuntive</label>
-          <textarea id="note" name="note" rows="3" placeholder="Allergie, occasioni speciali, preferenze…"></textarea>
-        </div>
-      </div>
-      <div class="form-check">
-        <input type="checkbox" id="privacy" name="privacy" required />
-        <label for="privacy">Acconsento al trattamento dei dati personali ai sensi del GDPR. <a href="#" target="_blank">Privacy Policy</a></label>
-      </div>
-      <div class="prenota-btn-wrap">
-        <button type="submit" class="btn-prenota-submit">PRENOTA</button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
+
 </section>
 
 <!-- ══════════════════════════════════════════

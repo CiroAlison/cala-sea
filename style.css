@@ -1207,6 +1207,10 @@ a.hs-item:hover { color: var(--white); }
   .hnb { padding: 8px 14px; font-size: .56rem; letter-spacing: 1.5px; }
 }
 
+/* evento+prenota: rimuovi il padding-bottom della section perché
+   il form .prenota-section va direttamente attaccato sotto */
+#eventi { padding-bottom: 0; }
+
 /* ═══════════════════════════════════════════
    EVENTI — CAROSELLO
 ═══════════════════════════════════════════ */
@@ -1331,10 +1335,13 @@ a.hs-item:hover { color: var(--white); }
 
 /* ═══════════════════════════════════════════
    PRENOTA — SEZIONE CON SFONDO FOTO
+   (ora è embedded dentro #eventi, quindi
+    non ha section-padding propria)
 ═══════════════════════════════════════════ */
 .prenota-section {
   position: relative;
-  padding: 100px 0 80px;
+  padding: 80px 0 80px;
+  margin-top: 0;
 }
 .prenota-bg-img {
   position: absolute; inset: 0; z-index: 0;
