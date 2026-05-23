@@ -1648,3 +1648,173 @@ a.hs-item:hover { color: var(--white); }
 }
 .page-back-btn:hover { color: #fff; border-color: rgba(255,255,255,.5); }
 .page-back-btn-wrap { text-align: center; padding-bottom: 60px; }
+
+/* ═══════════════════════════════════════════
+   SEZIONI CON WATERMARK SQUID (Chi Siamo + Servizi)
+   Layout matching PDF
+═══════════════════════════════════════════ */
+.section-watermark {
+  position: relative; background: #FAFAFA; overflow: hidden;
+  padding: 100px 0 120px;
+}
+.section-watermark-img {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%; max-width: 1100px; height: auto;
+  opacity: .08;
+  pointer-events: none; z-index: 0;
+  filter: hue-rotate(0deg);
+}
+.section-watermark .container { position: relative; z-index: 1; }
+
+/* ─── CHI SIAMO ─── */
+.two-col-chi {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 60px; align-items: center;
+  max-width: 1180px; margin: 0 auto;
+}
+.chi-img-stack {
+  position: relative; padding-right: 60px; padding-bottom: 60px;
+}
+.chi-img-main {
+  width: 100%; max-width: 480px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover; display: block;
+  box-shadow: 0 18px 50px -20px rgba(1,0,138,.4);
+  border-radius: 2px;
+}
+.chi-img-overlap {
+  position: absolute; right: 0; bottom: 0;
+  width: 50%; max-width: 240px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover; display: block;
+  box-shadow: 0 18px 50px -20px rgba(1,0,138,.5);
+  border: 4px solid #FAFAFA;
+  border-radius: 2px;
+}
+.chi-title {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  font-weight: 400; color: var(--navy);
+  line-height: 1.25; margin: 0 0 20px;
+}
+.chi-title em { font-style: italic; }
+.chi-body {
+  font-family: var(--sans);
+  font-size: clamp(.78rem, 1vw, .88rem);
+  font-weight: 400; line-height: 1.65;
+  color: #1a1a3a; margin: 0 0 14px;
+  max-width: 520px;
+}
+.chi-stats {
+  display: flex; gap: 36px; margin-top: 30px;
+  flex-wrap: wrap;
+}
+.chi-stat {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.chi-stat-n {
+  font-family: var(--serif);
+  font-size: 1.55rem; font-weight: 500;
+  color: var(--navy); line-height: 1;
+  letter-spacing: 1px;
+}
+.chi-stat-l {
+  font-family: var(--sans);
+  font-size: .58rem; font-weight: 500;
+  color: var(--navy); letter-spacing: 2px;
+  text-transform: uppercase; margin-top: 4px;
+}
+
+/* ─── SERVIZI ─── */
+.svc-header { text-align: center; margin: 0 auto 50px; }
+.svc-eyebrow {
+  font-family: var(--sans);
+  font-size: .58rem; font-weight: 500;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--navy); margin: 0 0 8px;
+}
+.svc-title {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 400; color: var(--navy);
+  line-height: 1.1; margin: 0;
+}
+.svc-title em { font-style: italic; }
+
+.svc-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px; max-width: 1100px;
+  margin: 0 auto; align-items: end;
+}
+.svc-tile { position: relative; }
+.svc-tile-img {
+  position: relative; width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden; border-radius: 2px;
+  box-shadow: 0 12px 36px -16px rgba(1,0,138,.45);
+}
+.svc-tile-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform .6s cubic-bezier(.4,0,.2,1);
+}
+.svc-tile:hover .svc-tile-img img { transform: scale(1.04); }
+
+.svc-tile-label {
+  font-family: var(--serif);
+  font-size: clamp(.95rem, 1.4vw, 1.3rem);
+  font-weight: 400; color: var(--navy);
+  text-align: center; margin: 16px 0 0;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+
+/* Beach card sollevata + testo sopra immagine */
+.svc-tile-raised .svc-tile-img {
+  aspect-ratio: 3 / 4.4;
+  transform: translateY(-18px);
+}
+.svc-tile-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(180deg, rgba(1,0,80,.05) 0%, rgba(1,0,80,.6) 60%, rgba(1,0,80,.85) 100%);
+  padding: 24px 18px;
+}
+.svc-tile-overlay p {
+  font-family: var(--serif);
+  font-size: clamp(.7rem, 1vw, .85rem);
+  font-style: italic; font-weight: 400;
+  color: #fff; text-align: center;
+  line-height: 1.45; margin: 0;
+  max-width: 100%;
+  text-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+
+/* Mobile responsive */
+@media(max-width: 900px) {
+  .two-col-chi {
+    grid-template-columns: 1fr;
+    gap: 40px; padding: 0 20px;
+  }
+  .chi-img-stack { padding-right: 40px; padding-bottom: 40px; max-width: 460px; margin: 0 auto; }
+  .chi-img-overlap { width: 55%; max-width: 200px; }
+  .col-text { padding: 0 4px; }
+  .chi-stats { gap: 24px; }
+  .svc-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px; padding: 0 20px;
+  }
+  .section-watermark { padding: 70px 0 90px; }
+  .section-watermark-img { width: 130%; opacity: .06; }
+  .svc-tile-raised .svc-tile-img { transform: none; aspect-ratio: 3 / 4; }
+  .svc-tile-overlay { padding: 16px 12px; }
+}
+@media(max-width: 480px) {
+  .svc-row { grid-template-columns: 1fr 1fr; }
+  .chi-img-main { max-width: 100%; }
+  .chi-img-overlap { width: 50%; max-width: 160px; border-width: 3px; }
+  .chi-stats { gap: 18px; }
+  .chi-stat-n { font-size: 1.3rem; }
+}
