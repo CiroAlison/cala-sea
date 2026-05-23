@@ -164,22 +164,22 @@ const navLinks = document.getElementById('navLinks');
 const overlay  = document.getElementById('navOverlay');
 
 function openMenu() {
-  burger.classList.add('open');
-  navLinks.classList.add('open');
-  overlay.classList.add('show');
+  burger?.classList.add('open');
+  navLinks?.classList.add('open');
+  overlay?.classList.add('show');
   lockScroll('menu');
-  burger.setAttribute('aria-expanded', 'true');
+  burger?.setAttribute('aria-expanded', 'true');
 }
 function closeMenu() {
-  burger.classList.remove('open');
-  navLinks.classList.remove('open');
-  overlay.classList.remove('show');
+  burger?.classList.remove('open');
+  navLinks?.classList.remove('open');
+  overlay?.classList.remove('show');
   unlockScroll('menu');
-  burger.setAttribute('aria-expanded', 'false');
+  burger?.setAttribute('aria-expanded', 'false');
 }
 
-burger.addEventListener('click', () => navLinks.classList.contains('open') ? closeMenu() : openMenu());
-overlay.addEventListener('click', closeMenu);
+burger?.addEventListener('click', () => navLinks?.classList.contains('open') ? closeMenu() : openMenu());
+overlay?.addEventListener('click', closeMenu);
 window.closeMenu = closeMenu;
 
 /* ─── Scroll fade-in ─── */
@@ -947,7 +947,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 
   // Logo click → always go home
-  document.querySelector('.logo')?.addEventListener('click', function(e) {
+  document.querySelector('.nav-logo-center')?.addEventListener('click', function(e) {
     e.preventDefault();
     showPage('home');
   });
