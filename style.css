@@ -171,11 +171,17 @@ ul, ol { list-style: none; }
   opacity: 0; animation: fadeUp .7s .3s forwards;
 }
 .hero-title {
-  font-family: var(--sans);
-  font-size: clamp(4.5rem, 14vw, 13rem);
-  font-weight: 200; color: var(--white); line-height: 1;
-  letter-spacing: .18em; margin-bottom: 28px;
+  font-family: 'Antonio', var(--sans);
+  font-size: clamp(5rem, 16vw, 15rem);
+  font-weight: 400; color: var(--white); line-height: 1;
+  letter-spacing: .08em; margin-bottom: 28px;
   opacity: 0; animation: fadeUp .9s .5s forwards;
+}
+.s-storta {
+  display: inline-block;
+  transform: skewX(-14deg) translateY(-2px);
+  transform-origin: center;
+  font-style: italic;
 }
 .hero-eyebrow {
   font-family: var(--sans); font-size: .55rem; font-weight: 400;
