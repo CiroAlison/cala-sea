@@ -147,10 +147,12 @@
 </section>
 
 <!-- ══════════════════════════════════════════
-     CHI SIAMO  (con logo watermark in sottofondo)
+     WRAPPER CHI SIAMO + SERVIZI con UN unico logo watermark
 ══════════════════════════════════════════ -->
-<section id="chi-siamo" class="section section-watermark">
-  <img src="img/logo-squid-navy.png" alt="" class="section-watermark-img" aria-hidden="true" />
+<div class="watermark-wrapper">
+  <img src="img/logo-squid-navy.png" alt="" class="watermark-img" aria-hidden="true" />
+
+<section id="chi-siamo" class="section section-on-watermark">
   <div class="container two-col-chi">
     <div class="col-img fade-in">
       <div class="chi-img-stack">
@@ -187,8 +189,7 @@
 <!-- ══════════════════════════════════════════
      SERVIZI – Layout PDF
 ══════════════════════════════════════════ -->
-<section id="servizi" class="section section-watermark">
-  <img src="img/logo-squid-navy.png" alt="" class="section-watermark-img" aria-hidden="true" />
+<section id="servizi" class="section section-on-watermark">
   <div class="container">
     <header class="svc-header fade-in">
       <p class="svc-eyebrow">Cosa offriamo</p>
@@ -210,6 +211,7 @@
             <p>Lettini e ombrelloni premium direttamente sul mare. Servizio attento per la tua giornata da sogno sulla Torre Saracena.</p>
           </div>
         </div>
+        <h3 class="svc-tile-label">Beach Club</h3>
       </article>
 
       <article class="svc-tile fade-in delay-2">
@@ -228,6 +230,7 @@
     </div>
   </div>
 </section>
+</div><!-- /.watermark-wrapper -->
 
 <!-- ══════════════════════════════════════════
      MENU
@@ -613,7 +616,7 @@
 <!-- ══════════════════════════════════════════
      RECENSIONI
 ══════════════════════════════════════════ -->
-<section id="recensioni" class="section">
+<section id="recensioni" class="section bg-navy">
   <div class="container">
     <header class="sec-header fade-in">
       <p class="eyebrow">Cosa dicono di noi</p>

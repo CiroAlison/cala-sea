@@ -1650,22 +1650,31 @@ a.hs-item:hover { color: var(--white); }
 .page-back-btn-wrap { text-align: center; padding-bottom: 60px; }
 
 /* ═══════════════════════════════════════════
-   SEZIONI CON WATERMARK SQUID (Chi Siamo + Servizi)
-   Layout matching PDF
+   WATERMARK WRAPPER (Chi Siamo + Servizi insieme)
+   UN solo logo squid in sottofondo per entrambe le sezioni
 ═══════════════════════════════════════════ */
-.section-watermark {
-  position: relative; background: #FAFAFA; overflow: hidden;
-  padding: 100px 0 120px;
+.watermark-wrapper {
+  position: relative;
+  background: #FAFAFA;
+  overflow: hidden;
 }
-.section-watermark-img {
-  position: absolute; top: 50%; left: 50%;
+.watermark-img {
+  position: absolute;
+  top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 80%; max-width: 1100px; height: auto;
-  opacity: .08;
-  pointer-events: none; z-index: 0;
-  filter: hue-rotate(0deg);
+  width: 92%; max-width: 1280px; height: auto;
+  opacity: .07;
+  pointer-events: none;
+  z-index: 0;
 }
-.section-watermark .container { position: relative; z-index: 1; }
+.section-on-watermark {
+  position: relative;
+  background: transparent;
+  padding: 80px 0;
+}
+.section-on-watermark .container { position: relative; z-index: 1; }
+#chi-siamo.section-on-watermark { padding: 100px 0 50px; }
+#servizi.section-on-watermark  { padding: 50px 0 110px; }
 
 /* ─── CHI SIAMO ─── */
 .two-col-chi {
@@ -1746,48 +1755,63 @@ a.hs-item:hover { color: var(--white); }
 .svc-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px; max-width: 1100px;
+  gap: 20px; max-width: 1100px;
   margin: 0 auto; align-items: end;
 }
-.svc-tile { position: relative; }
+.svc-tile {
+  position: relative;
+  transition: transform .35s cubic-bezier(.34,1.2,.64,1);
+  cursor: pointer;
+}
+.svc-tile:hover {
+  transform: scale(1.06);
+  z-index: 3;
+}
 .svc-tile-img {
   position: relative; width: 100%;
-  aspect-ratio: 3 / 4;
-  overflow: hidden; border-radius: 2px;
+  aspect-ratio: 1 / 1;             /* QUADRATO */
+  overflow: hidden; border-radius: 4px;
   box-shadow: 0 12px 36px -16px rgba(1,0,138,.45);
+  transition: box-shadow .35s ease;
+}
+.svc-tile:hover .svc-tile-img {
+  box-shadow: 0 22px 50px -16px rgba(1,0,138,.55);
 }
 .svc-tile-img img {
   width: 100%; height: 100%;
   object-fit: cover; display: block;
   transition: transform .6s cubic-bezier(.4,0,.2,1);
 }
-.svc-tile:hover .svc-tile-img img { transform: scale(1.04); }
+.svc-tile:hover .svc-tile-img img { transform: scale(1.06); }
 
 .svc-tile-label {
   font-family: var(--serif);
   font-size: clamp(.95rem, 1.4vw, 1.3rem);
   font-weight: 400; color: var(--navy);
-  text-align: center; margin: 16px 0 0;
+  text-align: center; margin: 18px 0 0;
   letter-spacing: 2px; text-transform: uppercase;
+  transition: color .25s ease;
 }
+.svc-tile:hover .svc-tile-label { color: var(--coral); }
 
 /* Beach card sollevata + testo sopra immagine */
 .svc-tile-raised .svc-tile-img {
-  aspect-ratio: 3 / 4.4;
-  transform: translateY(-18px);
+  aspect-ratio: 1 / 1.25;
+  transform: translateY(-22px);
 }
+.svc-tile-raised .svc-tile-label { margin-top: -4px; }
 .svc-tile-overlay {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(180deg, rgba(1,0,80,.05) 0%, rgba(1,0,80,.6) 60%, rgba(1,0,80,.85) 100%);
-  padding: 24px 18px;
+  background: linear-gradient(180deg, rgba(1,0,80,.1) 0%, rgba(1,0,80,.55) 55%, rgba(1,0,80,.85) 100%);
+  padding: 24px 20px;
 }
 .svc-tile-overlay p {
   font-family: var(--serif);
-  font-size: clamp(.7rem, 1vw, .85rem);
+  font-size: clamp(.72rem, 1.05vw, .92rem);
   font-style: italic; font-weight: 400;
   color: #fff; text-align: center;
-  line-height: 1.45; margin: 0;
+  line-height: 1.5; margin: 0;
   max-width: 100%;
   text-shadow: 0 2px 8px rgba(0,0,0,.4);
 }
@@ -1806,9 +1830,10 @@ a.hs-item:hover { color: var(--white); }
     grid-template-columns: repeat(2, 1fr);
     gap: 14px; padding: 0 20px;
   }
-  .section-watermark { padding: 70px 0 90px; }
-  .section-watermark-img { width: 130%; opacity: .06; }
-  .svc-tile-raised .svc-tile-img { transform: none; aspect-ratio: 3 / 4; }
+  .watermark-img { width: 160%; max-width: none; opacity: .055; }
+  #chi-siamo.section-on-watermark { padding: 70px 0 30px; }
+  #servizi.section-on-watermark { padding: 30px 0 80px; }
+  .svc-tile-raised .svc-tile-img { transform: none; aspect-ratio: 1 / 1; }
   .svc-tile-overlay { padding: 16px 12px; }
 }
 @media(max-width: 480px) {
