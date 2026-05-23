@@ -101,26 +101,25 @@
 ══════════════════════════════════════════ -->
 <nav id="navbar" role="navigation" aria-label="Navigazione principale">
   <div class="nav-inner">
-    <a href="#hero" class="logo" aria-label="Cala Sea – home">
-      <span class="logo-mark">
-        <span class="lc">CALA</span><span class="ls">SEA</span>
-      </span>
-      <span class="logo-sub">Torre Saracena</span>
-    </a>
-    <!-- hamburger solo per schermi molto piccoli <360px -->
-    <button class="burger" id="burger" aria-label="Apri menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links" id="navLinks" role="list">
-      <li><a href="#chi-siamo" data-i18n="nav.about">Chi Siamo</a></li>
-      <li><a href="#menu" data-i18n="nav.menu">Menu</a></li>
+    <!-- Link sinistra -->
+    <ul class="nav-links nav-left" role="list">
       <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
+      <li><a href="#menu" data-i18n="nav.menu">Menù</a></li>
+      <li><a href="#chi-siamo" data-i18n="nav.about">Chi Siamo</a></li>
+    </ul>
+
+    <!-- Logo centrale -->
+    <a href="#hero" class="logo nav-logo-center" aria-label="Cala Sea – home">
+      <img src="img/logo-squid.jpg" alt="Cala Sea" class="nav-logo-img" />
+    </a>
+
+    <!-- Link destra -->
+    <ul class="nav-links nav-right" role="list">
       <li><a href="#eventi" data-i18n="nav.events">Eventi</a></li>
       <li><a href="#recensioni" data-i18n="nav.reviews">Recensioni</a></li>
       <li><a href="#contatti" data-i18n="nav.contacts">Contatti</a></li>
       <li><a href="#prenota" class="nav-cta" data-i18n="nav.book">Prenota</a></li>
     </ul>
-    <div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
   </div>
 </nav>
 
@@ -139,7 +138,6 @@
   <div class="hero-content">
     <p class="hero-sub">Beach Club &nbsp;·&nbsp; Ristorante &nbsp;·&nbsp; Cocktail Bar &nbsp;·&nbsp; Eventi Esclusivi</p>
     <h1 class="hero-title">CALASEA</h1>
-    <p class="hero-eyebrow">Torre Saracena &nbsp;·&nbsp; Torre del Greco &nbsp;·&nbsp; Golfo di Napoli</p>
   </div>
 
   <!-- Strip info in basso -->

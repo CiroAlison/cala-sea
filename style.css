@@ -77,42 +77,40 @@ ul, ol { list-style: none; }
   box-shadow: 0 2px 28px rgba(6,13,69,.65);
 }
 .nav-inner {
-  max-width: 1200px; margin: 0 auto; padding: 0 20px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: relative;
+  max-width: 1280px; margin: 0 auto; padding: 0 16px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Logo */
-.logo { display: flex; flex-direction: column; line-height: 1; gap: 3px; }
-.logo-mark { display: flex; align-items: baseline; font-family: var(--serif); font-size: 1.35rem; letter-spacing: 5px; }
-.lc { font-weight: 600; color: var(--white); }
-.ls { font-weight: 300; color: var(--sand); }
-.logo-sub { font-size: .46rem; font-weight: 400; color: rgba(255,255,255,.4); letter-spacing: 2.5px; text-transform: uppercase; }
+/* Logo centrale */
+.nav-logo-center {
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-logo-img {
+  height: 38px; width: auto;
+  object-fit: contain; display: block;
+  filter: brightness(0) invert(1);
+}
 
-/* Burger – nascosto di default, visibile solo <360px */
-.burger { display: none; flex-direction: column; gap: 5px; padding: 6px; z-index: 920; }
-.burger span { display: block; width: 22px; height: 1.5px; background: var(--white); transition: var(--tr); }
-.burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.burger.open span:nth-child(2) { opacity: 0; }
-.burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-/* Nav links – sempre visibili, scroll orizzontale su mobile */
+/* Nav links – sinistra e destra */
 .nav-links {
   display: flex; flex-direction: row; align-items: center;
-  flex-wrap: nowrap; gap: 0;
+  flex-wrap: nowrap; gap: 0; list-style: none; margin: 0; padding: 0;
   overflow-x: auto; -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; padding: 0 4px;
-  position: static; transform: none; background: none;
-  width: auto; max-width: calc(100vw - 140px);
+  scrollbar-width: none;
 }
 .nav-links::-webkit-scrollbar { display: none; }
+.nav-left  { justify-content: flex-end; }
+.nav-right { justify-content: flex-start; }
 .nav-links li { flex-shrink: 0; }
 .nav-links li a {
   display: block; padding: 6px 10px;
   font-size: .56rem; font-weight: 500; letter-spacing: 1.8px;
   text-transform: uppercase; color: rgba(255,255,255,.78);
-  border: none; white-space: nowrap;
-  transition: color var(--tr);
+  white-space: nowrap; transition: color var(--tr);
 }
 .nav-links li a:hover { color: var(--sand); }
 .nav-links .nav-cta {
@@ -121,35 +119,20 @@ ul, ol { list-style: none; }
   font-weight: 600 !important; margin-left: 8px;
 }
 .nav-overlay { display: none !important; }
+.burger { display: none; }
 
-/* Desktop – link leggermente più grandi */
+/* Desktop */
 @media(min-width: 900px) {
-  .nav-links {
-    gap: 4px; max-width: none; overflow: visible;
-    padding: 0;
-  }
-  .nav-links li a {
-    padding: 4px 12px; font-size: .63rem; letter-spacing: 2px;
-  }
-  .nav-links .nav-cta {
-    padding: 9px 22px !important;
-  }
+  .nav-links li a { padding: 4px 14px; font-size: .6rem; letter-spacing: 2px; }
+  .nav-links .nav-cta { padding: 9px 22px !important; }
+  .nav-logo-img { height: 44px; }
 }
 
-/* Fallback hamburger sotto 360px */
-@media(max-width: 359px) {
-  .burger { display: flex; }
-  .nav-links {
-    position: fixed; top: 0; right: 0; bottom: 0; width: 260px;
-    background: var(--navy-deep); flex-direction: column;
-    justify-content: center; gap: 0; padding: 80px 30px 40px;
-    z-index: 910; max-width: 85vw; overflow-x: hidden;
-    transform: translateX(100%); transition: transform var(--tr);
-  }
-  .nav-links.open { transform: translateX(0); }
-  .nav-links li a { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.06); font-size: .8rem; }
-  .nav-overlay { display: block !important; }
-  .nav-overlay:not(.show) { display: none !important; }
+/* Mobile: logo + scrollable links */
+@media(max-width: 600px) {
+  .nav-inner { grid-template-columns: 1fr auto 1fr; gap: 4px; padding: 0 8px; }
+  .nav-links li a { padding: 6px 8px; font-size: .5rem; letter-spacing: 1.5px; }
+  .nav-logo-img { height: 30px; }
 }
 
 /* ═══════════════════════════════════════════
