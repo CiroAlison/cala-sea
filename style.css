@@ -165,30 +165,28 @@ ul, ol { list-style: none; }
   align-items: center; justify-content: center;
 }
 .hero-sub {
-  font-family: var(--sans); font-size: .62rem; font-weight: 400;
-  letter-spacing: 6px; text-transform: uppercase;
-  color: rgba(255,255,255,.75); margin-bottom: 28px;
+  font-family: var(--sans); font-size: clamp(.46rem, 1.05vw, .62rem);
+  font-weight: 500; letter-spacing: clamp(2px, .5vw, 4.5px);
+  text-transform: uppercase; color: rgba(255,255,255,.85);
+  margin-bottom: 22px; white-space: nowrap;
   opacity: 0; animation: fadeUp .7s .3s forwards;
 }
 .hero-title {
-  font-family: 'Antonio', var(--sans);
-  font-size: clamp(5rem, 16vw, 15rem);
+  font-family: 'Bagnard', 'Cormorant Garamond', serif;
+  font-size: clamp(4.5rem, 14vw, 13rem);
   font-weight: 400; color: var(--white); line-height: 1;
-  letter-spacing: .08em; margin-bottom: 28px;
+  letter-spacing: .04em; margin-bottom: 0;
   opacity: 0; animation: fadeUp .9s .5s forwards;
 }
 .s-storta {
   display: inline-block;
-  transform: skewX(-14deg) translateY(-2px);
-  transform-origin: center;
   font-style: italic;
+  font-weight: 700;
+  transform: rotate(-8deg) translateY(-3px);
+  transform-origin: center;
+  margin: 0 -.02em;
 }
-.hero-eyebrow {
-  font-family: var(--sans); font-size: .55rem; font-weight: 400;
-  letter-spacing: 5px; text-transform: uppercase;
-  color: rgba(255,255,255,.5); margin-bottom: 0;
-  opacity: 0; animation: fadeUp .7s .72s forwards;
-}
+.hero-eyebrow { display: none; }
 .hero-tagline { display: none; }
 .hero-ctas    { display: none; }
 
