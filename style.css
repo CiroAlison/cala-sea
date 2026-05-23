@@ -1623,3 +1623,19 @@ a.hs-item:hover { color: var(--white); }
 @media(max-width:899px) {
   .back-top { bottom: calc(72px + env(safe-area-inset-bottom) + 12px); left: 14px; }
 }
+
+/* ── Page Router: sezioni categoria nasconte di default ── */
+.page-section { display: none; }
+.page-section.page-active { display: block; }
+
+/* Back-to-home button nelle pagine categoria */
+.page-back-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; margin: 32px auto 0; 
+  color: rgba(255,255,255,.6); font-size: .65rem; letter-spacing: 2px;
+  text-transform: uppercase; cursor: pointer; background: none;
+  border: 1px solid rgba(255,255,255,.2); border-radius: 50px;
+  transition: color .2s, border-color .2s;
+}
+.page-back-btn:hover { color: #fff; border-color: rgba(255,255,255,.5); }
+.page-back-btn-wrap { text-align: center; padding-bottom: 60px; }

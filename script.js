@@ -874,3 +874,87 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     updateActive();
   }, 100);
 })();
+
+// ══════════════════════════════════════════
+// PAGE ROUTER – homepage / category sections
+// ══════════════════════════════════════════
+(function() {
+  const PAGE_IDS = ['menu', 'gallery', 'video', 'eventi'];
+  const HOME_IDS = ['chi-siamo', 'servizi', 'recensioni', 'contatti'];
+
+  // Cache elements
+  const hero      = document.getElementById('hero');
+  const pageSects = PAGE_IDS.map(id => document.getElementById(id)).filter(Boolean);
+  const homeSects = HOME_IDS.map(id => document.getElementById(id)).filter(Boolean);
+
+  let currentPage = 'home';
+
+  function showPage(pageId, scrollToId) {
+    currentPage = pageId;
+
+    if (pageId === 'home') {
+      // Restore hero + all home sections
+      if (hero) hero.style.display = '';
+      homeSects.forEach(el => { el.style.display = ''; });
+      // Hide all category sections
+      pageSects.forEach(el => { el.classList.remove('page-active'); });
+    } else {
+      // Hide hero + home sections
+      if (hero) hero.style.display = 'none';
+      homeSects.forEach(el => { el.style.display = 'none'; });
+      // Hide all page sections, then show the target
+      pageSects.forEach(el => { el.classList.remove('page-active'); });
+      // For "prenota" show the eventi section (prenota lives inside it logically)
+      const target = document.getElementById(pageId);
+      if (target) target.classList.add('page-active');
+    }
+
+    window.scrollTo({ top: 0 });
+
+    // Scroll to sub-anchor after a tick
+    if (scrollToId) {
+      setTimeout(() => {
+        const el = document.getElementById(scrollToId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 120);
+    }
+  }
+
+  // Intercept all internal anchor clicks
+  document.addEventListener('click', function(e) {
+    const a = e.target.closest('a[href]');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    const targetId = href.slice(1);
+
+    // "prenota" anchor → show eventi page (prenota form is inside eventi)
+    if (targetId === 'prenota') {
+      e.preventDefault();
+      showPage('eventi');
+      setTimeout(() => {
+        document.getElementById('prenota')?.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    } else if (PAGE_IDS.includes(targetId)) {
+      e.preventDefault();
+      showPage(targetId);
+    } else if (HOME_IDS.includes(targetId) || targetId === 'hero') {
+      if (currentPage !== 'home') {
+        e.preventDefault();
+        showPage('home', targetId);
+      }
+    }
+  });
+
+  // Logo click → always go home
+  document.querySelector('.logo')?.addEventListener('click', function(e) {
+    e.preventDefault();
+    showPage('home');
+  });
+
+  // Handle initial hash on load
+  const initHash = location.hash.slice(1);
+  if (PAGE_IDS.includes(initHash)) {
+    showPage(initHash);
+  }
+})();
