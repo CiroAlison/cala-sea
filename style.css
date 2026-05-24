@@ -1794,12 +1794,8 @@ a.hs-item:hover { color: var(--white); }
 }
 .svc-tile:hover .svc-tile-label { color: var(--coral); }
 
-/* Beach card sollevata + testo sopra immagine */
-.svc-tile-raised .svc-tile-img {
-  aspect-ratio: 1 / 1.25;
-  transform: translateY(-22px);
-}
-.svc-tile-raised .svc-tile-label { margin-top: -4px; }
+/* Beach card identica alle altre (solo testo overlay sopra immagine) */
+.svc-tile-raised .svc-tile-img { aspect-ratio: 1 / 1; transform: none; }
 .svc-tile-overlay {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
