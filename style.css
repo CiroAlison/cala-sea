@@ -656,31 +656,33 @@ a.hs-item:hover { color: var(--white); }
 ═══════════════════════════════════════════ */
 .eyebrow-rec {
   font-family: var(--sans);
-  font-size: .58rem;
+  font-size: .5rem;
   font-weight: 400;
-  letter-spacing: 5px;
+  letter-spacing: 4px;
   text-transform: uppercase;
   color: rgba(255,255,255,.45);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .rec-heading {
   font-family: 'Wondar Quason Free', 'Cormorant Garamond', serif;
-  font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
   font-weight: 400;
   font-style: normal;
   color: var(--white);
   letter-spacing: .06em;
   text-transform: uppercase;
   line-height: 1;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 .ta-badge-pill {
   display: inline-flex; align-items: center;
   background: var(--white);
   border-radius: 50px;
-  padding: 4px 12px;
-  margin-top: 2px;
+  padding: 3px 10px;
+  margin-top: 0;
 }
+
+#recensioni .sec-header { margin-bottom: 28px; }
 
 /* ── Carousel ── */
 .rec-carousel-outer {
