@@ -782,6 +782,25 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+/* ─── Carosello recensioni ─── */
+(function () {
+  const track = document.getElementById('recTrack');
+  const prev  = document.getElementById('recPrev');
+  const next  = document.getElementById('recNext');
+  if (!track || !prev || !next) return;
+
+  const pages = [...track.querySelectorAll('.rec-page')];
+  let current = 0;
+
+  function goTo(idx) {
+    current = (idx + pages.length) % pages.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+  }
+
+  prev.addEventListener('click', () => goTo(current - 1));
+  next.addEventListener('click', () => goTo(current + 1));
+})();
+
 /* ─── Carosello eventi ─── */
 (function () {
   const carousel = document.getElementById('eventiCarousel');

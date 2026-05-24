@@ -619,40 +619,44 @@
 <section id="recensioni" class="section bg-navy">
   <div class="container">
     <header class="sec-header fade-in">
-      <p class="eyebrow">Cosa dicono di noi</p>
-      <h2 class="h-display">Recensioni</h2>
-      <div class="ta-badge fade-in">
-        <img src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg" alt="TripAdvisor" height="24" loading="lazy" />
-        <span class="ta-score">★★★★ <strong>4.3</strong> · 151 recensioni</span>
-        <span class="ta-choice">🏆 Travellers' Choice</span>
+      <p class="eyebrow-rec">I NOSTRI CLIENTI</p>
+      <h2 class="rec-heading">Dicono di Noi</h2>
+      <div class="ta-badge-pill fade-in">
+        <img src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg" alt="TripAdvisor" height="22" loading="lazy" />
       </div>
     </header>
 
-    <div class="reviews-grid">
-      <article class="review-card fade-in">
-        <div class="rev-stars">★★★★★</div>
-        <blockquote class="rev-text">"Location spettacolare, vista mozzafiato sul Golfo di Napoli. Pizza e cibo di ottima qualità, cucinati in maniera squisita. Bella terrazza sul mare, tutto ben curato."</blockquote>
-        <footer class="rev-author">
-          <span class="rev-av">A</span>
-          <div><strong>Anita M.</strong><small>Settembre 2024 · TripAdvisor</small></div>
-        </footer>
-      </article>
-      <article class="review-card fade-in delay-1">
-        <div class="rev-stars">★★★★★</div>
-        <blockquote class="rev-text">"Professionalità e ospitalità impareggiabili. Cibo eccellente e servizio impeccabile in una location straordinaria. Consigliato vivamente per occasioni speciali."</blockquote>
-        <footer class="rev-author">
-          <span class="rev-av">D</span>
-          <div><strong>Donato R.</strong><small>Maggio 2024 · TripAdvisor</small></div>
-        </footer>
-      </article>
-      <article class="review-card fade-in delay-2">
-        <div class="rev-stars">★★★★★</div>
-        <blockquote class="rev-text">"Un posto dal potenziale incredibile, mare pulito e personale gentile. Festeggiamento andato benissimo, menù eccezionale con attenzione per le allergie."</blockquote>
-        <footer class="rev-author">
-          <span class="rev-av">S</span>
-          <div><strong>Simona L.</strong><small>Ottobre 2024 · TripAdvisor</small></div>
-        </footer>
-      </article>
+    <div class="rec-carousel-outer fade-in">
+      <button class="rec-arrow rec-prev" id="recPrev" aria-label="Precedente">&#8249;</button>
+      <div class="rec-viewport">
+        <div class="rec-track" id="recTrack">
+
+          <div class="rec-page">
+            <article class="review-card">
+              <div class="rev-stars">★★★★★</div>
+              <blockquote class="rev-text">"Location spettacolare, vista mozzafiato sul Golfo di Napoli. Pizza e cibo di ottima qualità, cucinati in maniera squisita. Bella terrazza sul mare, tutto ben curato."</blockquote>
+              <p class="rev-name">Anita M.</p>
+            </article>
+            <article class="review-card">
+              <div class="rev-stars">★★★★★</div>
+              <blockquote class="rev-text">"Professionalità e ospitalità impareggiabili. Cibo eccellente e servizio impeccabile in una location straordinaria. Consigliato vivamente per occasioni speciali."</blockquote>
+              <p class="rev-name">Donato R.</p>
+            </article>
+            <article class="review-card">
+              <div class="rev-stars">★★★★★</div>
+              <blockquote class="rev-text">"Un posto dal potenziale incredibile, mare pulito e personale gentile. Festeggiamento andato benissimo, menù eccezionale con attenzione per le allergie."</blockquote>
+              <p class="rev-name">Simona L.</p>
+            </article>
+            <article class="review-card">
+              <div class="rev-stars">★★★★★</div>
+              <blockquote class="rev-text">"Serata indimenticabile con vista sul mare da sogno. Il personale è stato attento e premuroso in ogni momento. Torneremo sicuramente!"</blockquote>
+              <p class="rev-name">Marco F.</p>
+            </article>
+          </div>
+
+        </div>
+      </div>
+      <button class="rec-arrow rec-next" id="recNext" aria-label="Successiva">&#8250;</button>
     </div>
 
     <div class="ta-cta fade-in">
