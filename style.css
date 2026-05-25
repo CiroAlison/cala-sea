@@ -11,6 +11,15 @@
   font-style: normal;
   font-display: swap;
 }
+/* ── Cassannet Plus Regular (brand font) ── */
+@font-face {
+  font-family: 'Cassannet Plus';
+  src: url('img/cassannet-plus-regular.woff2') format('woff2'),
+       url('img/cassannet-plus-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   /* Brand palette ufficiale Cala Sea */
@@ -190,12 +199,15 @@ ul, ol { list-style: none; }
   margin: 0; padding: 0; line-height: 1;
   width: 100%;
   opacity: 0; animation: fadeUp .9s .5s forwards;
+  font-family: 'Cassannet Plus', 'Beckman', serif;
+  font-size: clamp(4rem, 14vw, 13rem);
+  font-weight: 400;
+  letter-spacing: .18em;
+  color: var(--white);
+  text-transform: uppercase;
+  text-align: center;
 }
-.hero-logo-img {
-  display: block; margin: 0 auto;
-  width: clamp(280px, 70vw, 880px);
-  height: auto; max-width: 92vw;
-}
+.hero-logo-img { display: none; }
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0;
   margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
@@ -678,8 +690,10 @@ a.hs-item:hover { color: var(--white); }
   display: inline-flex; align-items: center;
   background: var(--white);
   border-radius: 50px;
-  padding: 3px 10px;
+  padding: 4px 10px;
   margin-top: 0;
+  transform: scale(0.75);
+  transform-origin: center;
 }
 
 #recensioni .sec-header { margin-bottom: 28px; }
@@ -705,15 +719,24 @@ a.hs-item:hover { color: var(--white); }
   background: rgba(255,255,255,.14);
   border: 1px solid rgba(255,255,255,.22);
   border-radius: 12px;
-  padding: 32px 26px 28px;
+  padding: 36px 26px 28px;
   text-align: center;
   backdrop-filter: blur(8px);
+  position: relative;
 }
 .rev-stars {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(1,0,138,.95);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 20px;
+  padding: 3px 14px;
   color: rgba(255,255,255,.9);
-  font-size: 1.05rem;
+  font-size: .85rem;
   letter-spacing: 4px;
-  margin-bottom: 18px;
+  white-space: nowrap;
 }
 .rev-text {
   font-family: var(--sans);
