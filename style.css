@@ -684,12 +684,22 @@ a.hs-item:hover { color: var(--white); }
   margin-bottom: 12px;
 }
 .ta-badge-pill {
-  display: inline-flex; align-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--white);
   border-radius: 50px;
-  padding: 4px 12px;
-  margin-top: 4px;
+  padding: 5px 14px;
+  margin-top: 6px;
   line-height: 0;
+  max-width: 160px;
+  overflow: hidden;
+}
+.ta-badge-pill img {
+  height: 16px !important;
+  width: auto !important;
+  max-width: 130px;
+  display: block;
 }
 
 #recensioni .sec-header { margin-bottom: 28px; }
