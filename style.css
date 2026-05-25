@@ -740,10 +740,10 @@ a.hs-item:hover { color: var(--white); }
   top: -16px;
   left: 50%;
   transform: translateX(-50%);
-  background: #0d1f6e;
+  background: #ffffff;
   border-radius: 20px;
   padding: 6px 16px;
-  color: #ffffff;
+  color: #01008A;
   font-size: 14px;
   letter-spacing: 2px;
   white-space: nowrap;
