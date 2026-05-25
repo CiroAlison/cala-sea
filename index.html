@@ -682,76 +682,8 @@
       <button class="rec-arrow rec-next" id="recNext" aria-label="Successiva">&#8250;</button>
     </div>
 
-    <div class="ta-cta fade-in">
-      <a href="https://www.tripadvisor.it/Restaurant_Review-g1063524-d4552507-Reviews-Cala_Sea_Torre_Saracena-Torre_del_Greco_Province_of_Naples_Campania.html" target="_blank" rel="noopener" class="btn-ta">
-        Leggi tutte le 151 recensioni su TripAdvisor →
-      </a>
-    </div>
-
-    <!-- FORM LASCIA RECENSIONE -->
-    <div class="rev-submit-wrap fade-in" id="rev-submit-wrap">
-      <div class="rev-submit-toggle" id="rev-toggle-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        Lascia la tua recensione
-      </div>
-      <form id="rev-form" class="rev-form" style="display:none" novalidate>
-        <p class="rev-form-title">Com'è stata la tua esperienza?</p>
-
-        <!-- Stelle -->
-        <div class="rev-stars-input" id="rev-stars-input" role="group" aria-label="Valutazione">
-          <button type="button" class="rsb" data-v="1" aria-label="1 stella">★</button>
-          <button type="button" class="rsb" data-v="2" aria-label="2 stelle">★</button>
-          <button type="button" class="rsb" data-v="3" aria-label="3 stelle">★</button>
-          <button type="button" class="rsb" data-v="4" aria-label="4 stelle">★</button>
-          <button type="button" class="rsb" data-v="5" aria-label="5 stelle">★</button>
-        </div>
-        <p class="rev-stars-label" id="rev-stars-label">Tocca per valutare</p>
-
-        <div class="rev-form-row">
-          <div class="rev-fg">
-            <label>Nome *</label>
-            <input type="text" id="rev-nome" placeholder="Mario Rossi" required maxlength="100" autocomplete="name" />
-          </div>
-          <div class="rev-fg">
-            <label>Data visita</label>
-            <input type="month" id="rev-data" />
-          </div>
-        </div>
-        <div class="rev-fg">
-          <label>La tua recensione *</label>
-          <textarea id="rev-testo" placeholder="Racconta la tua esperienza a Cala Sea…" required maxlength="1000" rows="3"></textarea>
-          <span class="rev-chars"><span id="rev-char-count">0</span>/1000</span>
-        </div>
-        <button type="submit" class="btn-primary rev-submit-btn">Invia recensione</button>
-        <p id="rev-form-msg" class="rev-form-msg"></p>
-      </form>
-    </div>
   </div>
 </section>
-
-<style>
-/* ── Review submit form ── */
-.rev-submit-wrap{margin-top:32px;border-top:1px solid rgba(255,255,255,.08);padding-top:28px}
-.rev-submit-toggle{display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--gold);font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:10px 22px;border:1px solid rgba(201,162,39,.3);border-radius:50px;transition:all .2s ease;background:rgba(201,162,39,.07)}
-.rev-submit-toggle:hover{background:rgba(201,162,39,.14);border-color:var(--gold)}
-.rev-form{margin-top:22px;max-width:560px}
-.rev-form-title{font-family:var(--serif);font-size:1.35rem;font-weight:400;margin-bottom:16px;color:var(--navy)}
-.rev-stars-input{display:flex;gap:4px;margin-bottom:6px}
-.rsb{background:none;border:none;font-size:2rem;color:#d1d5db;cursor:pointer;padding:0 3px;line-height:1;transition:color .15s,transform .15s}
-.rsb:hover,.rsb.active{color:var(--gold);transform:scale(1.1)}
-.rev-stars-label{font-size:.75rem;color:#9ca3af;margin-bottom:16px;letter-spacing:.06em}
-.rev-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-@media(max-width:480px){.rev-form-row{grid-template-columns:1fr}}
-.rev-fg{margin-bottom:12px;position:relative}
-.rev-fg label{display:block;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;margin-bottom:5px}
-.rev-fg input,.rev-fg textarea{width:100%;padding:11px 14px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;font-size:.92rem;color:#111;outline:none;transition:border-color .2s;font-family:var(--sans)}
-.rev-fg input:focus,.rev-fg textarea:focus{border-color:var(--navy)}
-.rev-fg textarea{resize:vertical;min-height:90px}
-.rev-chars{position:absolute;bottom:10px;right:12px;font-size:.68rem;color:#9ca3af}
-.rev-submit-btn{margin-top:4px;width:auto;padding:12px 32px}
-.rev-form-msg{margin-top:12px;font-size:.85rem;font-weight:500;min-height:20px}
-.rev-form-msg.ok{color:#16a34a}.rev-form-msg.err{color:#dc2626}
-</style>
 
 <!-- ══════════════════════════════════════════
      EVENTI
