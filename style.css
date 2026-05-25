@@ -199,15 +199,12 @@ ul, ol { list-style: none; }
   margin: 0; padding: 0; line-height: 1;
   width: 100%;
   opacity: 0; animation: fadeUp .9s .5s forwards;
-  font-family: 'Cassannet Plus', 'Beckman', serif;
-  font-size: clamp(4rem, 14vw, 13rem);
-  font-weight: 400;
-  letter-spacing: .18em;
-  color: var(--white);
-  text-transform: uppercase;
-  text-align: center;
 }
-.hero-logo-img { display: none; }
+.hero-logo-img {
+  display: block; margin: 0 auto;
+  width: clamp(280px, 70vw, 880px);
+  height: auto; max-width: 92vw;
+}
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0;
   margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
@@ -690,10 +687,9 @@ a.hs-item:hover { color: var(--white); }
   display: inline-flex; align-items: center;
   background: var(--white);
   border-radius: 50px;
-  padding: 4px 10px;
-  margin-top: 0;
-  transform: scale(0.75);
-  transform-origin: center;
+  padding: 4px 12px;
+  margin-top: 4px;
+  line-height: 0;
 }
 
 #recensioni .sec-header { margin-bottom: 28px; }
@@ -713,6 +709,7 @@ a.hs-item:hover { color: var(--white); }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  padding-top: 18px; /* spazio per le stelle che sporgono in alto */
 }
 
 .review-card {
@@ -729,14 +726,15 @@ a.hs-item:hover { color: var(--white); }
   top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(1,0,138,.95);
-  border: 1px solid rgba(255,255,255,.3);
+  background: #ffffff;
+  border: 1px solid rgba(1,0,138,.2);
   border-radius: 20px;
-  padding: 3px 14px;
-  color: rgba(255,255,255,.9);
-  font-size: .85rem;
-  letter-spacing: 4px;
+  padding: 4px 16px;
+  color: var(--navy);
+  font-size: .8rem;
+  letter-spacing: 3px;
   white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
 }
 .rev-text {
   font-family: var(--sans);
