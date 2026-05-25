@@ -694,10 +694,11 @@ a.hs-item:hover { color: var(--white); }
   line-height: 0;
 }
 .ta-badge-pill img {
-  height: 16px !important;
-  width: auto !important;
-  max-width: 130px;
   display: block;
+  width: 100px;
+  height: 16px;
+  object-fit: contain;
+  object-position: center;
 }
 
 #recensioni .sec-header { margin-bottom: 28px; }
@@ -721,12 +722,12 @@ a.hs-item:hover { color: var(--white); }
 }
 
 .review-card {
-  background: rgba(255,255,255,.14);
-  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.15);
   border-radius: 12px;
   padding: 36px 26px 28px;
   text-align: center;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
   position: relative;
 }
 .rev-stars {
