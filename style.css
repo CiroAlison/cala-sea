@@ -664,24 +664,24 @@ a.hs-item:hover { color: var(--white); }
    RECENSIONI
 ═══════════════════════════════════════════ */
 .eyebrow-rec {
-  font-family: var(--sans);
-  font-size: .48rem;
+  font-family: 'Cassannet Plus', var(--sans);
+  font-size: .55rem;
   font-weight: 400;
-  letter-spacing: 4px;
+  letter-spacing: 5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,.45);
-  margin-bottom: 3px;
+  color: rgba(255,255,255,.55);
+  margin-bottom: 4px;
 }
 .rec-heading {
-  font-family: 'Wondar Quason Free', 'Cormorant Garamond', serif;
-  font-size: clamp(1.05rem, 2vw, 1.55rem);
+  font-family: 'Cassannet Plus', var(--sans);
+  font-size: clamp(1.1rem, 2.2vw, 1.7rem);
   font-weight: 400;
   font-style: normal;
   color: var(--white);
-  letter-spacing: .08em;
+  letter-spacing: .1em;
   text-transform: uppercase;
   line-height: 1;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .ta-badge-pill {
   display: inline-flex;
@@ -689,16 +689,14 @@ a.hs-item:hover { color: var(--white); }
   justify-content: center;
   background: var(--white);
   border-radius: 50px;
-  padding: 5px 14px;
+  padding: 5px 16px;
   margin-top: 4px;
   line-height: 0;
 }
 .ta-badge-pill img {
   display: block;
-  width: 100px;
-  height: 16px;
-  object-fit: contain;
-  object-position: center;
+  width: 110px;
+  height: auto;
 }
 
 #recensioni .sec-header { margin-bottom: 28px; }
@@ -722,12 +720,11 @@ a.hs-item:hover { color: var(--white); }
 }
 
 .review-card {
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(255,255,255,.28);
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(255,255,255,.6);
   border-radius: 12px;
   padding: 36px 26px 28px;
   text-align: center;
-  backdrop-filter: blur(4px);
   position: relative;
 }
 .rev-stars {
@@ -735,21 +732,21 @@ a.hs-item:hover { color: var(--white); }
   top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background: #ffffff;
-  border: 1px solid rgba(1,0,138,.2);
+  background: var(--navy);
+  border: 1px solid rgba(255,255,255,.3);
   border-radius: 20px;
   padding: 4px 16px;
-  color: var(--navy);
+  color: #fff;
   font-size: .8rem;
   letter-spacing: 3px;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
 }
 .rev-text {
   font-family: var(--sans);
   font-size: .85rem;
   line-height: 1.78;
-  color: rgba(255,255,255,.75);
+  color: rgba(1,0,138,.75);
   font-style: italic;
   margin: 0 0 20px;
 }
@@ -757,7 +754,7 @@ a.hs-item:hover { color: var(--white); }
   font-family: var(--serif);
   font-size: 1.25rem;
   font-style: italic;
-  color: var(--white);
+  color: var(--navy);
   margin: 0;
 }
 
