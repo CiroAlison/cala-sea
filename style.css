@@ -692,7 +692,7 @@ a.hs-item:hover { color: var(--white); }
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: #ffffff;
+  background: #01008A;
   border-radius: 50px;
   padding: 10px 24px;
   height: 48px;
@@ -740,10 +740,10 @@ a.hs-item:hover { color: var(--white); }
   top: -16px;
   left: 50%;
   transform: translateX(-50%);
-  background: #ffffff;
+  background: #01008A;
   border-radius: 20px;
   padding: 6px 16px;
-  color: #01008A;
+  color: #ffffff;
   font-size: 14px;
   letter-spacing: 2px;
   white-space: nowrap;
