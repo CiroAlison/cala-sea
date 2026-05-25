@@ -728,7 +728,7 @@ a.hs-item:hover { color: var(--white); }
 
 /* ── Cards ── */
 .review-card {
-  background: #b8bdd8;
+  background: #b2b6cf;
   border: 1px solid rgba(255,255,255,0.25);
   border-radius: 12px;
   padding: 28px 24px 20px 24px;
