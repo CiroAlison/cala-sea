@@ -832,7 +832,7 @@ a.hs-item:hover { color: var(--white); }
   align-items: center;
   justify-content: space-between;
   gap: 40px;
-  padding: 130px 80px 160px;
+  padding: 130px 80px 240px;
 }
 
 .ds-info {
