@@ -1558,7 +1558,7 @@ a.hs-item:hover { color: var(--white); }
 }
 .prenota-bg-overlay {
   position: absolute; inset: 0;
-  background: rgba(6,13,69,.72);
+  background: rgba(1,0,138,.52);
 }
 .prenota-container { position: relative; z-index: 1; }
 
@@ -1599,34 +1599,36 @@ a.hs-item:hover { color: var(--white); }
 .prenota-btn-wrap { text-align: center; margin-top: 8px; }
 .btn-prenota-submit {
   display: inline-block;
-  padding: 0;
-  border: none;
+  padding: 12px 52px;
+  border: 1.5px solid rgba(255,255,255,.7);
+  border-radius: 50px;
   background: transparent;
   color: #fff;
-  font-family: 'Ravensara', var(--sans);
-  font-size: clamp(14px, 1.5vw, 18px);
-  font-weight: 100;
-  letter-spacing: 0.28em;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(15px, 1.4vw, 18px);
+  font-weight: 400;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: opacity .2s;
+  transition: background .2s, border-color .2s, opacity .2s;
   outline: none;
   box-shadow: none;
 }
-.btn-prenota-submit:hover { opacity: 0.7; }
-.btn-prenota-submit:active { opacity: 0.5; }
+.btn-prenota-submit:hover { background: rgba(255,255,255,.1); border-color: #fff; }
+.btn-prenota-submit:active { opacity: 0.7; }
 
-/* Label centrata in Ravensara */
+/* Label centrata, serif italic come riferimento */
 .prenota-form .fg label {
-  font-family: 'Ravensara', var(--sans);
-  font-weight: 100;
-  font-size: clamp(11px, 1.1vw, 14px);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.75);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(14px, 1.3vw, 17px);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: rgba(255,255,255,.9);
   display: block;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 /* Campi trasparenti con bordo arrotondato */
 .prenota-form .fg input,
@@ -1634,14 +1636,15 @@ a.hs-item:hover { color: var(--white); }
 .prenota-form .fg textarea {
   width: 100%;
   background: transparent !important;
-  border: 1px solid rgba(255,255,255,.4) !important;
+  border: 1px solid rgba(255,255,255,.55) !important;
   border-radius: 50px !important;
   color: #fff;
-  padding: 10px 20px;
-  font-size: clamp(12px, 1.1vw, 14px);
-  font-family: 'Ravensara', var(--sans);
-  font-weight: 100;
-  letter-spacing: 0.15em;
+  padding: 14px 24px;
+  font-size: clamp(13px, 1.1vw, 15px);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.04em;
   text-align: center;
   outline: none !important;
   box-shadow: none !important;
