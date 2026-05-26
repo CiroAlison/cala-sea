@@ -1628,17 +1628,16 @@ a.hs-item:hover { color: var(--white); }
   text-align: center;
   margin-bottom: 10px;
 }
-/* Campi completamente trasparenti, solo linea sotto */
+/* Campi trasparenti con bordo arrotondato */
 .prenota-form .fg input,
 .prenota-form .fg select,
 .prenota-form .fg textarea {
   width: 100%;
   background: transparent !important;
-  border: none !important;
-  border-bottom: 1px solid rgba(255,255,255,.4) !important;
-  border-radius: 0 !important;
+  border: 1px solid rgba(255,255,255,.4) !important;
+  border-radius: 50px !important;
   color: #fff;
-  padding: 8px 0;
+  padding: 10px 20px;
   font-size: clamp(12px, 1.1vw, 14px);
   font-family: 'Ravensara', var(--sans);
   font-weight: 100;
@@ -1653,14 +1652,15 @@ a.hs-item:hover { color: var(--white); }
 .prenota-form .fg input:focus,
 .prenota-form .fg select:focus,
 .prenota-form .fg textarea:focus {
-  border-bottom-color: rgba(255,255,255,.9) !important;
+  border-color: rgba(255,255,255,.9) !important;
 }
 .prenota-form .fg select option { background: var(--navy-deep); color: #fff; }
 .prenota-form .fg input.error,
 .prenota-form .fg select.error,
-.prenota-form .fg textarea.error { border-bottom-color: #f87171 !important; }
+.prenota-form .fg textarea.error { border-color: #f87171 !important; }
 .prenota-form .fg textarea {
   resize: none;
+  border-radius: 20px !important;
   text-align: left;
   letter-spacing: 0.08em;
 }
