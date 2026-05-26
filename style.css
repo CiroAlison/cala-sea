@@ -1659,7 +1659,7 @@ a.hs-item:hover { color: var(--white); }
 .prenota-form .fg select.error,
 .prenota-form .fg textarea.error { border-color: #f87171 !important; }
 .prenota-form .fg textarea {
-  resize: none;
+  resize: none !important;
   border-radius: 20px !important;
   text-align: left;
   letter-spacing: 0.08em;
@@ -1673,8 +1673,31 @@ a.hs-item:hover { color: var(--white); }
   text-transform: none; font-weight: 400;
 }
 .prenota-form .form-check a { color: rgba(232,220,200,.7); text-decoration: underline; }
-.prenota-form .form-check input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; }
-.prenota-form .form-check input.error { outline: 2px solid #f87171; }
+.prenota-form .form-check input[type="checkbox"] {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 18px; height: 18px;
+  margin-top: 3px; flex-shrink: 0;
+  background: transparent !important;
+  border: 1px solid rgba(255,255,255,.5) !important;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: border-color .2s;
+}
+.prenota-form .form-check input[type="checkbox"]:checked {
+  border-color: rgba(255,255,255,.9) !important;
+}
+.prenota-form .form-check input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px; top: 1px;
+  width: 6px; height: 10px;
+  border: 1.5px solid #fff;
+  border-top: none; border-left: none;
+  transform: rotate(45deg);
+}
+.prenota-form .form-check input.error { border-color: #f87171 !important; }
 
 /* ═══════════════════════════════════════════
    OVERLAY PRENOTAZIONE CON SUCCESSO
