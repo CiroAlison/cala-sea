@@ -803,33 +803,28 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 /* ─── Carosello eventi (coverflow) ─── */
 (function () {
-  const carousel     = document.getElementById('eventiCarousel');
+  const carousel = document.getElementById('eventiCarousel');
   if (!carousel) return;
 
-  const slides       = [...carousel.querySelectorAll('.ev-slide')];
-  const n            = slides.length;
-  const dotsContainer = document.getElementById('evDots');
-  const btnPrev      = document.querySelector('.ev-prev');
-  const btnNext      = document.querySelector('.ev-next');
-  const outer        = carousel.closest('.eventi-carousel-outer');
+  const slides = [...carousel.querySelectorAll('.ev-slide')];
+  const n      = slides.length;
+  const outer  = carousel.closest('.eventi-carousel-outer');
 
-  let current    = 0;
-  let autoTimer  = null;
+  let current   = 0;
+  let autoTimer = null;
 
-  /* Offset in px per ogni posizione relativa al centro */
-  function getSlideW() {
-    return slides[0]?.offsetWidth || 300;
-  }
+  function getSlideW() { return slides[0]?.offsetWidth || 300; }
+
   function buildConfig(w) {
-    const gap = w * 0.88;
+    const gap = w * 0.9;
     return {
       '-3': { x: -gap * 2.6, scale: 0.50, opacity: 0,    zIndex: 0 },
-      '-2': { x: -gap * 1.8, scale: 0.58, opacity: 0.35,  zIndex: 1 },
-      '-1': { x: -gap,       scale: 0.76, opacity: 0.62,  zIndex: 3 },
-       '0': { x: 0,          scale: 1.00, opacity: 1.0,   zIndex: 5 },
-       '1': { x:  gap,       scale: 0.76, opacity: 0.62,  zIndex: 3 },
-       '2': { x:  gap * 1.8, scale: 0.58, opacity: 0.35,  zIndex: 1 },
-       '3': { x:  gap * 2.6, scale: 0.50, opacity: 0,     zIndex: 0 },
+      '-2': { x: -gap * 1.8, scale: 0.58, opacity: 0.35, zIndex: 1 },
+      '-1': { x: -gap,       scale: 0.76, opacity: 0.62, zIndex: 3 },
+       '0': { x: 0,          scale: 1.00, opacity: 1.0,  zIndex: 5 },
+       '1': { x:  gap,       scale: 0.76, opacity: 0.62, zIndex: 3 },
+       '2': { x:  gap * 1.8, scale: 0.58, opacity: 0.35, zIndex: 1 },
+       '3': { x:  gap * 2.6, scale: 0.50, opacity: 0,    zIndex: 0 },
     };
   }
 
@@ -843,66 +838,61 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   function applyPositions() {
     const cfg = buildConfig(getSlideW());
     slides.forEach((slide, i) => {
-      const diff    = getDiff(i);
-      const clamp   = Math.max(-3, Math.min(3, diff));
-      const c       = cfg[String(clamp)];
-      const hidden  = Math.abs(diff) > 2;
+      const diff   = getDiff(i);
+      const clamp  = Math.max(-3, Math.min(3, diff));
+      const c      = cfg[String(clamp)];
+      const hidden = Math.abs(diff) > 2;
 
-      slide.style.transform    = `translateX(calc(-50% + ${c.x}px)) translateY(-50%) scale(${c.scale})`;
-      slide.style.opacity      = hidden ? 0 : c.opacity;
-      slide.style.zIndex       = hidden ? 0 : c.zIndex;
-      slide.style.visibility   = hidden ? 'hidden' : 'visible';
+      slide.style.transform     = `translateX(calc(-50% + ${c.x}px)) translateY(-50%) scale(${c.scale})`;
+      slide.style.opacity       = hidden ? 0 : c.opacity;
+      slide.style.zIndex        = hidden ? 0 : c.zIndex;
+      slide.style.visibility    = hidden ? 'hidden' : 'visible';
       slide.style.pointerEvents = diff === 0 ? 'auto' : 'none';
       slide.classList.toggle('active', diff === 0);
     });
-
-    if (dotsContainer) {
-      [...dotsContainer.querySelectorAll('.ev-dot')].forEach((d, i) =>
-        d.classList.toggle('active', i === current)
-      );
-    }
   }
 
-  function goTo(idx) {
-    current = ((idx % n) + n) % n;
-    applyPositions();
-  }
+  function goTo(idx) { current = ((idx % n) + n) % n; applyPositions(); }
+  function next()    { goTo(current + 1); }
+  function prev()    { goTo(current - 1); }
 
-  function next() { goTo(current + 1); }
-  function prev() { goTo(current - 1); }
+  function startAuto() { stopAuto(); autoTimer = setInterval(next, 4000); }
+  function stopAuto()  { clearInterval(autoTimer); autoTimer = null; }
 
-  function startAuto() {
+  /* Drag mouse */
+  let dragStartX = 0, dragging = false, dragMoved = false;
+  outer?.addEventListener('mousedown', e => {
+    dragging = true; dragMoved = false;
+    dragStartX = e.clientX;
+    outer.classList.add('grabbing');
     stopAuto();
-    autoTimer = setInterval(next, 4000);
-  }
-  function stopAuto() {
-    clearInterval(autoTimer);
-    autoTimer = null;
-  }
-
-  /* Crea i dots */
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'ev-dot';
-    dot.setAttribute('aria-label', 'Evento ' + (i + 1));
-    dot.addEventListener('click', () => { goTo(i); startAuto(); });
-    dotsContainer?.appendChild(dot);
   });
-
-  /* Frecce */
-  btnPrev?.addEventListener('click', () => { prev(); startAuto(); });
-  btnNext?.addEventListener('click', () => { next(); startAuto(); });
-
-  /* Pausa hover */
-  outer?.addEventListener('mouseenter', stopAuto);
-  outer?.addEventListener('mouseleave', startAuto);
+  window.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    outer?.classList.remove('grabbing');
+    startAuto();
+  });
+  window.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const dx = e.clientX - dragStartX;
+    if (Math.abs(dx) > 40) {
+      dragMoved = true;
+      dx < 0 ? next() : prev();
+      dragStartX = e.clientX; // reset so each 40px = 1 step
+    }
+  });
 
   /* Touch swipe */
   let touchStartX = 0;
-  outer?.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  outer?.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    stopAuto();
+  }, { passive: true });
   outer?.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); startAuto(); }
+    if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+    startAuto();
   }, { passive: true });
 
   /* Init */
