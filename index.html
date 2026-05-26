@@ -811,23 +811,23 @@
       <form id="prenota-form" class="prenota-form fade-in" novalidate>
         <div class="form-row">
           <div class="fg">
-            <label for="nome">Nome e Cognome *</label>
-            <input type="text" id="nome" name="nome" placeholder="Mario Rossi" required autocomplete="name" />
+            <label for="nome">Nome e Cognome</label>
+            <input type="text" id="nome" name="nome" required autocomplete="name" />
           </div>
           <div class="fg">
-            <label for="telefono">Telefono *</label>
-            <input type="tel" id="telefono" name="telefono" placeholder="+39 333 123 4567" required autocomplete="tel" />
+            <label for="telefono">Telefono</label>
+            <input type="tel" id="telefono" name="telefono" required autocomplete="tel" />
           </div>
         </div>
         <div class="form-row">
           <div class="fg">
-            <label for="data">Data *</label>
+            <label for="data">Data</label>
             <input type="date" id="data" name="data" required />
           </div>
           <div class="fg">
-            <label for="persone">Numero di Persone *</label>
+            <label for="persone">Numero di Persone</label>
             <select id="persone" name="persone" required>
-              <option value="">Quanti siete?</option>
+              <option value=""></option>
               <option>1</option><option>2</option><option>3</option>
               <option>4</option><option>5</option><option>6</option>
               <option>7</option><option>8</option><option value="9+">9 o più</option>
@@ -836,9 +836,9 @@
         </div>
         <div class="form-row">
           <div class="fg">
-            <label for="tipo">Tipo di prenotazione *</label>
+            <label for="tipo">Tipo di prenotazione</label>
             <select id="tipo" name="tipo" required>
-              <option value="">Cosa cerchi?</option>
+              <option value=""></option>
               <option>Pranzo</option>
               <option>Cena</option>
               <option>Aperitivo</option>
@@ -854,7 +854,7 @@
           </div>
           <div class="fg">
             <label for="note">Note aggiuntive</label>
-            <textarea id="note" name="note" rows="3" placeholder="Allergie, occasioni speciali, preferenze…"></textarea>
+            <textarea id="note" name="note" rows="3"></textarea>
           </div>
         </div>
         <div class="form-check">

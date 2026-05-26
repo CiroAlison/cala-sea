@@ -1563,25 +1563,25 @@ a.hs-item:hover { color: var(--white); }
 .prenota-container { position: relative; z-index: 1; }
 
 .prenota-eyebrow {
-  font-family: var(--sans);
-  font-size: .62rem; font-weight: 500;
-  letter-spacing: 3px; text-transform: uppercase;
-  color: rgba(232,220,200,.7);
-  margin-bottom: 10px;
+  font-family: 'Ravensara', var(--sans);
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-weight: 100;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(232,220,200,.85);
+  margin-bottom: 28px;
+  text-align: center;
 }
 
-/* Form con sfondo semi-trasparente */
+/* Form pulito — nessun box */
 .prenota-form {
   max-width: 780px; margin: 0 auto;
-  background: rgba(255,255,255,.07);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 4px;
+  background: transparent;
+  border: none;
   padding: 40px 36px 36px;
 }
 @media(max-width:600px) {
   .prenota-form { padding: 24px 16px 20px; }
-  /* su mobile: ogni row diventa 1 colonna */
   .prenota-form .form-row { grid-template-columns: 1fr; }
 }
 @media(max-width:360px) { .prenota-form { padding: 20px 12px 16px; } }
@@ -1599,54 +1599,71 @@ a.hs-item:hover { color: var(--white); }
 .prenota-btn-wrap { text-align: center; margin-top: 8px; }
 .btn-prenota-submit {
   display: inline-block;
-  padding: 16px 64px;
-  border: 2px solid rgba(255,255,255,.7);
-  border-radius: 2px;
+  padding: 0;
+  border: none;
   background: transparent;
   color: #fff;
-  font-family: var(--sans);
-  font-size: .68rem; font-weight: 700;
-  letter-spacing: 4px; text-transform: uppercase;
+  font-family: 'Ravensara', var(--sans);
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 100;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background var(--tr), border-color var(--tr), transform var(--tr);
+  transition: opacity .2s;
+  outline: none;
+  box-shadow: none;
 }
-.btn-prenota-submit:hover {
-  background: rgba(255,255,255,.15);
-  border-color: #fff;
-  transform: translateY(-1px);
-}
-.btn-prenota-submit:active { transform: translateY(0); }
+.btn-prenota-submit:hover { opacity: 0.7; }
+.btn-prenota-submit:active { opacity: 0.5; }
 
-/* Form inputs con bordo bianco */
+/* Label centrata in Ravensara */
 .prenota-form .fg label {
-  color: rgba(255,255,255,.6);
-  font-size: .62rem; font-weight: 600;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  display: block; margin-bottom: 6px;
+  font-family: 'Ravensara', var(--sans);
+  font-weight: 100;
+  font-size: clamp(11px, 1.1vw, 14px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.75);
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
 }
+/* Campi completamente trasparenti, solo linea sotto */
 .prenota-form .fg input,
 .prenota-form .fg select,
 .prenota-form .fg textarea {
   width: 100%;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.25);
-  border-radius: 2px;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255,255,255,.4) !important;
+  border-radius: 0 !important;
   color: #fff;
-  padding: 12px 14px;
-  font-size: .88rem;
-  font-family: var(--sans);
-  outline: none;
+  padding: 8px 0;
+  font-size: clamp(12px, 1.1vw, 14px);
+  font-family: 'Ravensara', var(--sans);
+  font-weight: 100;
+  letter-spacing: 0.15em;
+  text-align: center;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none;
+  appearance: none;
   transition: border-color .2s;
 }
-.prenota-form .fg input::placeholder,
-.prenota-form .fg textarea::placeholder { color: rgba(255,255,255,.35); }
 .prenota-form .fg input:focus,
 .prenota-form .fg select:focus,
-.prenota-form .fg textarea:focus { border-color: rgba(255,255,255,.7); }
+.prenota-form .fg textarea:focus {
+  border-bottom-color: rgba(255,255,255,.9) !important;
+}
 .prenota-form .fg select option { background: var(--navy-deep); color: #fff; }
 .prenota-form .fg input.error,
 .prenota-form .fg select.error,
-.prenota-form .fg textarea.error { border-color: #f87171; }
+.prenota-form .fg textarea.error { border-bottom-color: #f87171 !important; }
+.prenota-form .fg textarea {
+  resize: none;
+  text-align: left;
+  letter-spacing: 0.08em;
+}
 .prenota-form .form-check {
   margin: 16px 0 20px;
   display: flex; align-items: flex-start; gap: 10px;
