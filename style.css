@@ -803,9 +803,10 @@ a.hs-item:hover { color: var(--white); }
 
 .ds-word {
   font-family: 'Redrains', 'Cormorant Garamond', serif;
-  font-size: clamp(110px, 16vw, 195px);
-  font-weight: 100;
-  color: var(--navy);
+  font-size: clamp(140px, 20vw, 240px);
+  font-weight: 300;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--navy);
   position: absolute;
   line-height: 0.85;
   pointer-events: none;
