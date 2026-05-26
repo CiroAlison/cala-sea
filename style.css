@@ -811,6 +811,17 @@ a.hs-item:hover { color: var(--white); }
   pointer-events: none;
   user-select: none;
 }
+.ds-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 55%;
+  opacity: .06;
+  pointer-events: none;
+  user-select: none;
+}
+
 .ds-dove  { top: 0;    left: -0.04em; }
 .ds-siamo { bottom: 0; right: -0.04em; }
 
