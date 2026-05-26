@@ -783,6 +783,75 @@ a.hs-item:hover { color: var(--white); }
 .rec-arrow:hover { opacity: .7; }
 
 /* ═══════════════════════════════════════════
+   DOVE SIAMO
+═══════════════════════════════════════════ */
+@font-face {
+  font-family: 'Redrains';
+  src: url('img/redrains-light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+.ds-section {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  min-height: 520px;
+  padding: 0;
+}
+
+.ds-word {
+  font-family: 'Redrains', 'Cormorant Garamond', serif;
+  font-size: clamp(140px, 20vw, 240px);
+  font-weight: 300;
+  color: var(--navy);
+  position: absolute;
+  line-height: 0.85;
+  pointer-events: none;
+  user-select: none;
+}
+.ds-dove  { top: 0;    left: -0.04em; }
+.ds-siamo { bottom: 0; right: -0.04em; }
+
+.ds-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 110px 80px 190px;
+}
+
+.ds-info {
+  font-family: 'Cassannet Plus', var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--navy);
+  line-height: 2.2;
+}
+
+.ds-map {
+  width: 48%;
+  flex-shrink: 0;
+}
+.ds-map iframe {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(1,0,138,.12);
+}
+
+@media(max-width: 767px) {
+  .ds-content { flex-direction: column; padding: 100px 24px 160px; }
+  .ds-map { width: 100%; }
+  .ds-word { font-size: clamp(80px, 22vw, 140px); }
+}
+
+/* ═══════════════════════════════════════════
    PRENOTA
 ═══════════════════════════════════════════ */
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
