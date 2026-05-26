@@ -1402,56 +1402,59 @@ a.hs-item:hover { color: var(--white); }
 @media(max-width:600px) { #eventi { padding-top: 56px; } }
 
 /* ═══════════════════════════════════════════
-   EVENTI — CAROSELLO
+   EVENTI — HEADER
+═══════════════════════════════════════════ */
+.ev-header { text-align: center; padding-bottom: 40px; }
+.ev-header-eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 14px;
+}
+.ev-header-title {
+  font-family: 'Cassannet Plus', var(--sans);
+  font-size: clamp(15px, 2.2vw, 24px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════
+   EVENTI — CAROSELLO COVERFLOW
 ═══════════════════════════════════════════ */
 .eventi-carousel-outer {
   position: relative;
-  padding: 0 0 8px;
   overflow: hidden;
+  padding: 20px 0 0;
 }
 .eventi-carousel {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  padding: 40px 0 40px calc(50% - 190px);
-  cursor: grab;
-  user-select: none;
+  position: relative;
+  height: 500px;
 }
-.eventi-carousel::-webkit-scrollbar { display: none; }
-.eventi-carousel.grabbing { cursor: grabbing; }
-
-/* ultimo slide: padding a destra per centrare */
-.ev-slide:last-child { margin-right: calc(50% - 190px); }
+@media(max-width:767px) { .eventi-carousel { height: 380px; } }
+@media(max-width:480px) { .eventi-carousel { height: 320px; } }
 
 .ev-slide {
-  flex: 0 0 380px;
-  scroll-snap-align: center;
-  transition: transform .45s ease, opacity .45s ease;
-  transform: scale(0.87);
-  opacity: 0.5;
-  border-radius: 2px;
-  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  transition: transform 0.55s cubic-bezier(.4,0,.2,1),
+              opacity  0.55s ease;
+  will-change: transform, opacity;
 }
-@media(max-width:767px) {
-  .ev-slide { flex: 0 0 72vw; }
-  .eventi-carousel { padding-left: calc(50% - 36vw); }
-  .ev-slide:last-child { margin-right: calc(50% - 36vw); }
-}
-@media(max-width:480px) {
-  .ev-slide { flex: 0 0 82vw; }
-  .eventi-carousel { padding-left: calc(50% - 41vw); }
-  .ev-slide:last-child { margin-right: calc(50% - 41vw); }
-}
-.ev-slide.active { transform: scale(1); opacity: 1; }
+@media(max-width:767px) { .ev-slide { width: 220px; } }
+@media(max-width:480px) { .ev-slide { width: 180px; } }
 
 .ev-slide-inner {
   position: relative;
   aspect-ratio: 3/4;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 .ev-slide-inner img {
   width: 100%; height: 100%; object-fit: cover;
@@ -1461,72 +1464,83 @@ a.hs-item:hover { color: var(--white); }
 
 .ev-slide-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(6,13,69,.88) 40%, rgba(6,13,69,.1) 100%);
+  background: linear-gradient(to bottom,
+    rgba(1,0,138,.1) 0%,
+    rgba(1,0,138,.6) 40%,
+    rgba(1,0,138,.88) 100%);
   display: flex; flex-direction: column;
-  justify-content: flex-end;
-  padding: 32px 28px 30px;
-  color: #fff;
-}
-.ev-slide-tag { font-size: 2rem; margin-bottom: 10px; line-height: 1; }
-.ev-slide-overlay h3 {
-  font-family: var(--serif); font-size: 2rem;
-  font-weight: 400; line-height: 1.15;
-  letter-spacing: 1px; margin-bottom: 10px;
-}
-.ev-slide-overlay p {
-  font-size: .78rem; line-height: 1.6;
-  color: rgba(255,255,255,.75); margin-bottom: 22px;
-  max-height: 0; overflow: hidden;
-  transition: max-height .4s ease, opacity .4s ease;
+  align-items: center; justify-content: center;
+  padding: 28px 20px;
+  color: #fff; text-align: center;
   opacity: 0;
+  transition: opacity .45s ease;
 }
-.ev-slide.active .ev-slide-overlay p {
-  max-height: 80px; opacity: 1;
+.ev-slide.active .ev-slide-overlay { opacity: 1; }
+
+.ev-slide-title {
+  font-family: 'Cassannet Plus', var(--sans);
+  font-size: clamp(16px, 2vw, 22px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 14px;
+  line-height: 1.2;
 }
-.ev-slide-cta {
-  display: inline-block;
-  padding: 11px 28px;
-  border: 1px solid rgba(255,255,255,.7);
-  border-radius: 2px;
-  font-size: .6rem; font-weight: 600;
-  letter-spacing: 2px; text-transform: uppercase;
-  color: #fff; background: rgba(255,255,255,.08);
-  transition: background var(--tr), border-color var(--tr);
-  align-self: flex-start;
-  opacity: 0; transform: translateY(8px);
-  transition: opacity .4s ease .1s, transform .4s ease .1s, background .2s, border-color .2s;
+.ev-slide-desc {
+  font-family: var(--serif);
+  font-size: clamp(12px, 1.1vw, 14px);
+  font-style: italic;
+  color: rgba(255,255,255,.85);
+  line-height: 1.65;
 }
-.ev-slide.active .ev-slide-cta {
-  opacity: 1; transform: translateY(0);
-}
-.ev-slide-cta:hover { background: rgba(255,255,255,.22); border-color: #fff; }
 
 /* Frecce */
 .ev-arrow {
   position: absolute; top: 50%; transform: translateY(-50%);
   z-index: 10; width: 48px; height: 48px; border-radius: 50%;
-  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
   color: #fff; font-size: 2rem; line-height: 1;
   display: flex; align-items: center; justify-content: center;
-  transition: background var(--tr);
+  transition: background .2s;
   backdrop-filter: blur(4px);
+  cursor: pointer;
 }
 .ev-arrow:hover { background: rgba(255,255,255,.28); }
-.ev-prev { left: 16px; }
-.ev-next { right: 16px; }
+.ev-prev { left: 20px; }
+.ev-next { right: 20px; }
 @media(max-width:600px) { .ev-arrow { display: none; } }
 
 /* Dots */
 .ev-dots {
   display: flex; justify-content: center; gap: 8px;
-  padding: 0 0 16px;
+  padding: 24px 0 8px;
 }
 .ev-dot {
   width: 7px; height: 7px; border-radius: 50%;
   background: rgba(255,255,255,.25);
-  transition: background var(--tr), transform var(--tr);
+  transition: background .2s, transform .2s;
+  cursor: pointer;
 }
 .ev-dot.active { background: #fff; transform: scale(1.3); }
+
+/* CTA globale */
+.ev-cta-wrap { text-align: center; padding: 24px 0 48px; }
+.ev-cta-btn {
+  display: inline-block;
+  padding: 14px 52px;
+  border: 1.5px solid rgba(255,255,255,.65);
+  border-radius: 2px;
+  font-family: 'Cassannet Plus', var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(255,255,255,.08);
+  transition: background .2s, border-color .2s;
+  cursor: pointer;
+}
+.ev-cta-btn:hover { background: rgba(255,255,255,.22); border-color: #fff; }
 
 /* ═══════════════════════════════════════════
    PRENOTA — SEZIONE CON SFONDO FOTO

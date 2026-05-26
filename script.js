@@ -801,97 +801,113 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   next.addEventListener('click', () => goTo(current + 1));
 })();
 
-/* ─── Carosello eventi ─── */
+/* ─── Carosello eventi (coverflow) ─── */
 (function () {
-  const carousel = document.getElementById('eventiCarousel');
+  const carousel     = document.getElementById('eventiCarousel');
   if (!carousel) return;
 
-  const slides        = [...carousel.querySelectorAll('.ev-slide')];
+  const slides       = [...carousel.querySelectorAll('.ev-slide')];
+  const n            = slides.length;
   const dotsContainer = document.getElementById('evDots');
-  const btnPrev       = document.querySelector('.ev-prev');
-  const btnNext       = document.querySelector('.ev-next');
+  const btnPrev      = document.querySelector('.ev-prev');
+  const btnNext      = document.querySelector('.ev-next');
+  const outer        = carousel.closest('.eventi-carousel-outer');
+
+  let current    = 0;
+  let autoTimer  = null;
+
+  /* Offset in px per ogni posizione relativa al centro */
+  function getSlideW() {
+    return slides[0]?.offsetWidth || 300;
+  }
+  function buildConfig(w) {
+    const gap = w * 0.88;
+    return {
+      '-3': { x: -gap * 2.6, scale: 0.50, opacity: 0,    zIndex: 0 },
+      '-2': { x: -gap * 1.8, scale: 0.58, opacity: 0.35,  zIndex: 1 },
+      '-1': { x: -gap,       scale: 0.76, opacity: 0.62,  zIndex: 3 },
+       '0': { x: 0,          scale: 1.00, opacity: 1.0,   zIndex: 5 },
+       '1': { x:  gap,       scale: 0.76, opacity: 0.62,  zIndex: 3 },
+       '2': { x:  gap * 1.8, scale: 0.58, opacity: 0.35,  zIndex: 1 },
+       '3': { x:  gap * 2.6, scale: 0.50, opacity: 0,     zIndex: 0 },
+    };
+  }
+
+  function getDiff(i) {
+    let d = i - current;
+    if (d >  n / 2) d -= n;
+    if (d < -n / 2) d += n;
+    return d;
+  }
+
+  function applyPositions() {
+    const cfg = buildConfig(getSlideW());
+    slides.forEach((slide, i) => {
+      const diff    = getDiff(i);
+      const clamp   = Math.max(-3, Math.min(3, diff));
+      const c       = cfg[String(clamp)];
+      const hidden  = Math.abs(diff) > 2;
+
+      slide.style.transform    = `translateX(calc(-50% + ${c.x}px)) translateY(-50%) scale(${c.scale})`;
+      slide.style.opacity      = hidden ? 0 : c.opacity;
+      slide.style.zIndex       = hidden ? 0 : c.zIndex;
+      slide.style.visibility   = hidden ? 'hidden' : 'visible';
+      slide.style.pointerEvents = diff === 0 ? 'auto' : 'none';
+      slide.classList.toggle('active', diff === 0);
+    });
+
+    if (dotsContainer) {
+      [...dotsContainer.querySelectorAll('.ev-dot')].forEach((d, i) =>
+        d.classList.toggle('active', i === current)
+      );
+    }
+  }
+
+  function goTo(idx) {
+    current = ((idx % n) + n) % n;
+    applyPositions();
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  function startAuto() {
+    stopAuto();
+    autoTimer = setInterval(next, 4000);
+  }
+  function stopAuto() {
+    clearInterval(autoTimer);
+    autoTimer = null;
+  }
 
   /* Crea i dots */
   slides.forEach((_, i) => {
     const dot = document.createElement('button');
     dot.className = 'ev-dot';
     dot.setAttribute('aria-label', 'Evento ' + (i + 1));
-    dot.addEventListener('click', () => scrollToSlide(i));
-    dotsContainer && dotsContainer.appendChild(dot);
+    dot.addEventListener('click', () => { goTo(i); startAuto(); });
+    dotsContainer?.appendChild(dot);
   });
 
-  function scrollToSlide(idx) {
-    slides[idx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-  }
+  /* Frecce */
+  btnPrev?.addEventListener('click', () => { prev(); startAuto(); });
+  btnNext?.addEventListener('click', () => { next(); startAuto(); });
 
-  function getActiveIdx() {
-    const carouselRect = carousel.getBoundingClientRect();
-    const cx = carouselRect.left + carouselRect.width / 2;
-    let best = 0, bestDist = Infinity;
-    slides.forEach((s, i) => {
-      const r = s.getBoundingClientRect();
-      const dist = Math.abs(r.left + r.width / 2 - cx);
-      if (dist < bestDist) { bestDist = dist; best = i; }
-    });
-    return best;
-  }
+  /* Pausa hover */
+  outer?.addEventListener('mouseenter', stopAuto);
+  outer?.addEventListener('mouseleave', startAuto);
 
-  function updateActive() {
-    const idx = getActiveIdx();
-    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
-    if (dotsContainer) {
-      [...dotsContainer.querySelectorAll('.ev-dot')].forEach((d, i) => d.classList.toggle('active', i === idx));
-    }
-  }
-
-  let rafPending = false;
-  carousel.addEventListener('scroll', () => {
-    if (rafPending) return;
-    rafPending = true;
-    requestAnimationFrame(() => { updateActive(); rafPending = false; });
+  /* Touch swipe */
+  let touchStartX = 0;
+  outer?.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  outer?.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); startAuto(); }
   }, { passive: true });
 
-  btnPrev?.addEventListener('click', () => {
-    const i = getActiveIdx();
-    if (i > 0) scrollToSlide(i - 1);
-  });
-  btnNext?.addEventListener('click', () => {
-    const i = getActiveIdx();
-    if (i < slides.length - 1) scrollToSlide(i + 1);
-  });
-
-  /* Drag con mouse */
-  let isDragging = false, startX = 0, startScrollLeft = 0, dragMoved = false;
-  carousel.addEventListener('mousedown', e => {
-    isDragging = true;
-    dragMoved  = false;
-    startX = e.pageX - carousel.offsetLeft;
-    startScrollLeft = carousel.scrollLeft;
-    carousel.classList.add('grabbing');
-  });
-  const endDrag = () => { isDragging = false; carousel.classList.remove('grabbing'); };
-  carousel.addEventListener('mouseleave', endDrag);
-  carousel.addEventListener('mouseup', e => {
-    endDrag();
-    if (dragMoved) {
-      // Suppress the next click so dragging doesn't trigger slide CTAs
-      carousel.addEventListener('click', ev => ev.stopPropagation(), { capture: true, once: true });
-    }
-  });
-  carousel.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x    = e.pageX - carousel.offsetLeft;
-    const walk = x - startX;
-    if (Math.abs(walk) > 4) dragMoved = true;
-    carousel.scrollLeft = startScrollLeft - walk * 1.6;
-  });
-
-  /* Inizializza: centra il primo slide e segna attivo */
-  setTimeout(() => {
-    scrollToSlide(0);
-    updateActive();
-  }, 100);
+  /* Init */
+  goTo(0);
+  startAuto();
 })();
 
 // ══════════════════════════════════════════
