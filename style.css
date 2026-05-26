@@ -816,14 +816,14 @@ a.hs-item:hover { color: var(--white); }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 55%;
-  opacity: .06;
+  width: 80%;
+  opacity: .07;
   pointer-events: none;
   user-select: none;
 }
 
-.ds-dove  { top: 0;    left: -0.04em; }
-.ds-siamo { bottom: 0; right: -0.04em; }
+.ds-dove  { top: 30px;    left: -0.04em; }
+.ds-siamo { bottom: 20px; right: -0.04em; }
 
 .ds-content {
   position: relative;
@@ -832,7 +832,7 @@ a.hs-item:hover { color: var(--white); }
   align-items: center;
   justify-content: space-between;
   gap: 40px;
-  padding: 110px 80px 190px;
+  padding: 130px 80px 160px;
 }
 
 .ds-info {
@@ -842,7 +842,7 @@ a.hs-item:hover { color: var(--white); }
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--navy);
-  line-height: 2.2;
+  line-height: 1.65;
 }
 
 .ds-map {
