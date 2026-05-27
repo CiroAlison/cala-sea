@@ -1734,8 +1734,8 @@ a.hs-item:hover { color: var(--white); }
 /* Logo watermark grande centrato */
 .pso-watermark {
   position: absolute; z-index: 1;
-  width: min(900px, 92vw);
-  opacity: 0.22;
+  width: min(1400px, 130vw);
+  opacity: 0.28;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
