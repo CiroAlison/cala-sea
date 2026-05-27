@@ -11,6 +11,15 @@
   font-style: normal;
   font-display: swap;
 }
+/* ── Josefin Slab Thin (alternativa Gegor Thin – menu) ── */
+@font-face {
+  font-family: 'Josefin Slab';
+  src: url('img/josefin-slab-thin.woff2') format('woff2'),
+       url('img/josefin-slab-thin.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
 /* ── Elanor Thina (menu section titles) ── */
 @font-face {
   font-family: 'Elanor';
@@ -506,10 +515,11 @@ a.hs-item:hover { color: var(--white); }
 .mtab.active { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.6); color: var(--white); }
 
 .menu-big-title {
-  font-family: 'Elanor', var(--serif); font-size: clamp(3.5rem, 10vw, 6.5rem);
-  font-weight: 400; font-style: italic;
+  font-family: 'Josefin Slab', var(--serif); font-size: clamp(6rem, 20vw, 18rem);
+  font-weight: 100; font-style: italic;
   color: var(--white); text-align: center;
-  margin: 0 0 40px; letter-spacing: -1px; line-height: 1;
+  margin: 0 0 48px; letter-spacing: 0.02em; line-height: 1;
+  white-space: nowrap;
 }
 
 .mtab-panel { display: none; }
@@ -569,8 +579,8 @@ a.hs-item:hover { color: var(--white); }
 .mcat:last-of-type { margin-bottom: 20px; }
 
 .mcat-title {
-  font-family: 'Elanor', var(--serif); font-size: clamp(2rem, 5vw, 3rem); font-weight: 400;
-  color: #0a1766; text-transform: uppercase; letter-spacing: 2px;
+  font-family: 'Josefin Slab', var(--serif); font-size: clamp(1.8rem, 4.5vw, 2.8rem); font-weight: 100;
+  color: #0a1766; text-transform: uppercase; letter-spacing: 3px;
   margin-bottom: 16px; padding-bottom: 10px; line-height: 1;
   border-bottom: 1.5px solid rgba(10,23,102,.12);
 }
@@ -583,14 +593,14 @@ a.hs-item:hover { color: var(--white); }
 }
 .mci-info { flex: 1; }
 .mci-info strong {
-  display: block; font-size: .82rem; font-weight: 700;
-  color: #0a1766; text-transform: uppercase; letter-spacing: .5px;
+  display: block; font-family: 'Josefin Slab', var(--serif); font-size: .85rem; font-weight: 100;
+  color: #0a1766; text-transform: uppercase; letter-spacing: 1.5px;
   margin-bottom: 2px;
 }
-.mci-info span { font-size: .75rem; color: #555; line-height: 1.45; }
+.mci-info span { font-family: 'Josefin Slab', var(--serif); font-size: .78rem; font-weight: 100; color: #666; line-height: 1.45; letter-spacing: 0.5px; }
 .mci-p {
-  font-family: var(--serif); font-size: .95rem; font-weight: 700;
-  color: #0a1766; white-space: nowrap; flex-shrink: 0; padding-top: 1px;
+  font-family: 'Josefin Slab', var(--serif); font-size: .95rem; font-weight: 100;
+  color: #0a1766; white-space: nowrap; flex-shrink: 0; padding-top: 1px; letter-spacing: 1px;
 }
 
 .menu-card-footer {
