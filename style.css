@@ -823,8 +823,8 @@ a.hs-item:hover { color: var(--white); }
   font-family: 'Redrains', 'Cormorant Garamond', serif;
   font-size: clamp(140px, 20vw, 240px);
   font-weight: 300;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--navy);
+  color: var(--navy);
+  -webkit-text-stroke: 0;
   position: absolute;
   line-height: 0.85;
   pointer-events: none;
@@ -1734,8 +1734,8 @@ a.hs-item:hover { color: var(--white); }
 /* Logo watermark grande centrato */
 .pso-watermark {
   position: absolute; z-index: 1;
-  width: min(700px, 85vw);
-  opacity: 0.12;
+  width: min(900px, 92vw);
+  opacity: 0.22;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
