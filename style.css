@@ -11,6 +11,15 @@
   font-style: normal;
   font-display: swap;
 }
+/* ── Elanor Thina (menu section titles) ── */
+@font-face {
+  font-family: 'Elanor';
+  src: url('img/elanor-demo.woff2') format('woff2'),
+       url('img/elanor-demo.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 /* ── Cassannet Plus Regular (brand font) ── */
 @font-face {
   font-family: 'Cassannet Plus';
@@ -497,7 +506,7 @@ a.hs-item:hover { color: var(--white); }
 .mtab.active { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.6); color: var(--white); }
 
 .menu-big-title {
-  font-family: var(--serif); font-size: clamp(3.5rem, 10vw, 6.5rem);
+  font-family: 'Elanor', var(--serif); font-size: clamp(3.5rem, 10vw, 6.5rem);
   font-weight: 400; font-style: italic;
   color: var(--white); text-align: center;
   margin: 0 0 40px; letter-spacing: -1px; line-height: 1;
@@ -505,6 +514,39 @@ a.hs-item:hover { color: var(--white); }
 
 .mtab-panel { display: none; }
 .mtab-panel.active { display: block; }
+
+/* ── Watermark logo sezione menu ── */
+#menu {
+  position: relative;
+  overflow: hidden;
+}
+.menu-section-wm {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  height: 90%;
+  width: auto;
+  max-width: none;
+  opacity: 0.10;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+#menu .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Drink tab: tema verde/oro ── */
+#menu.drink-active {
+  background: #0f3020;
+}
+#menu.drink-active .mtab.active { border-color: #c9a227; color: #c9a227; }
+#menu.drink-active .menu-big-title { color: #c9a227; }
+#menu.drink-active .menu-wm-logo { filter: sepia(1) saturate(2) hue-rotate(60deg) brightness(1.4); opacity: 0.14; }
+#menu.drink-active .mcat-title { color: #0f3020; }
+#menu.drink-active .mci-info strong { color: #0f3020; }
+#menu.drink-active .mci-p { color: #0f3020; }
 
 .menu-card {
   max-width: 620px; margin: 0 auto;
@@ -517,9 +559,9 @@ a.hs-item:hover { color: var(--white); }
 .mcat:last-of-type { margin-bottom: 20px; }
 
 .mcat-title {
-  font-family: var(--serif); font-size: 1.45rem; font-weight: 700;
-  color: #0a1766; text-transform: uppercase; letter-spacing: 1px;
-  margin-bottom: 14px; padding-bottom: 8px;
+  font-family: 'Elanor', var(--serif); font-size: clamp(2rem, 5vw, 3rem); font-weight: 400;
+  color: #0a1766; text-transform: uppercase; letter-spacing: 2px;
+  margin-bottom: 16px; padding-bottom: 10px; line-height: 1;
   border-bottom: 1.5px solid rgba(10,23,102,.12);
 }
 

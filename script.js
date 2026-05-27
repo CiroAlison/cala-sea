@@ -216,6 +216,10 @@ document.querySelectorAll('.mtab').forEach(btn => {
     btn.setAttribute('aria-selected','true');
     const panel = document.getElementById('mtab-' + btn.dataset.mtab);
     if (panel) panel.classList.add('active');
+    const menuSection = document.getElementById('menu');
+    if (menuSection) {
+      menuSection.classList.toggle('drink-active', btn.dataset.mtab === 'drink');
+    }
   });
 });
 
