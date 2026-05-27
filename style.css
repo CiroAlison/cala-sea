@@ -519,6 +519,7 @@ a.hs-item:hover { color: var(--white); }
 #menu {
   position: relative;
   overflow: hidden;
+  transition: background 0.4s ease;
 }
 .menu-section-wm {
   position: absolute;
@@ -537,16 +538,25 @@ a.hs-item:hover { color: var(--white); }
   z-index: 1;
 }
 
-/* ── Drink tab: tema verde/oro ── */
+/* ── Drink tab: tema senape + verde ── */
 #menu.drink-active {
-  background: #0f3020;
+  background: #c8a020;
+  transition: background 0.4s ease;
 }
-#menu.drink-active .mtab.active { border-color: #c9a227; color: #c9a227; }
-#menu.drink-active .menu-big-title { color: #c9a227; }
-#menu.drink-active .menu-wm-logo { filter: sepia(1) saturate(2) hue-rotate(60deg) brightness(1.4); opacity: 0.14; }
-#menu.drink-active .mcat-title { color: #0f3020; }
-#menu.drink-active .mci-info strong { color: #0f3020; }
-#menu.drink-active .mci-p { color: #0f3020; }
+#menu.drink-active .mtab { border-color: rgba(20,80,30,.4); color: rgba(20,80,30,.7); }
+#menu.drink-active .mtab.active { border-color: #1a5c2a; color: #1a5c2a; background: rgba(26,92,42,.1); }
+#menu.drink-active .menu-big-title { color: #1a5c2a; }
+/* Logo watermark: verde su senape */
+#menu.drink-active .menu-section-wm {
+  filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(100deg) brightness(0.45);
+  opacity: 0.28;
+}
+#menu.drink-active .mcat-title { color: #1a5c2a; border-bottom-color: rgba(26,92,42,.2); }
+#menu.drink-active .mci-info strong { color: #1a5c2a; }
+#menu.drink-active .mci-info span { color: #5a4010; }
+#menu.drink-active .mci-p { color: #1a5c2a; }
+#menu.drink-active .menu-card-footer { color: #7a6010; border-top-color: rgba(26,92,42,.15); }
+#menu.drink-active .menu-card { background: #fffef5; }
 
 .menu-card {
   max-width: 620px; margin: 0 auto;
