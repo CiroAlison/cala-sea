@@ -535,10 +535,12 @@ a.hs-item:hover { color: var(--white); }
   position: absolute;
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  height: 90%;
-  width: auto;
+  width: 280vw;
+  height: auto;
   max-width: none;
-  opacity: 0.10;
+  /* colore #16227b: logo navy leggermente più chiaro del bg */
+  filter: brightness(1.5) saturate(1.1);
+  opacity: 1;
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -548,25 +550,25 @@ a.hs-item:hover { color: var(--white); }
   z-index: 1;
 }
 
-/* ── Drink tab: tema senape + verde ── */
+/* ── Drink tab: verde #31701a + logo oro #dcb150 ── */
 #menu.drink-active {
-  background: #c8a020;
+  background: #31701a;
   transition: background 0.4s ease;
 }
-#menu.drink-active .mtab { border-color: rgba(20,80,30,.4); color: rgba(20,80,30,.7); }
-#menu.drink-active .mtab.active { border-color: #1a5c2a; color: #1a5c2a; background: rgba(26,92,42,.1); }
-#menu.drink-active .menu-big-title { color: #1a5c2a; }
-/* Logo watermark: verde su senape */
+#menu.drink-active .mtab { border-color: rgba(220,177,80,.4); color: rgba(220,177,80,.7); }
+#menu.drink-active .mtab.active { border-color: #dcb150; color: #dcb150; background: rgba(220,177,80,.1); }
+#menu.drink-active .menu-big-title { color: #dcb150; }
+/* Logo watermark: oro #dcb150 su verde #31701a */
 #menu.drink-active .menu-section-wm {
-  filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(100deg) brightness(0.45);
-  opacity: 0.28;
+  filter: invert(1) sepia(1) hue-rotate(5deg) saturate(3) brightness(1.05);
+  opacity: 0.90;
 }
-#menu.drink-active .mcat-title { color: #1a5c2a; border-bottom-color: rgba(26,92,42,.2); }
-#menu.drink-active .mci-info strong { color: #1a5c2a; }
-#menu.drink-active .mci-info span { color: #5a4010; }
-#menu.drink-active .mci-p { color: #1a5c2a; }
-#menu.drink-active .menu-card-footer { color: #7a6010; border-top-color: rgba(26,92,42,.15); }
-#menu.drink-active .menu-card { background: #fffef5; }
+#menu.drink-active .mcat-title { color: #31701a; border-bottom-color: rgba(49,112,26,.2); }
+#menu.drink-active .mci-info strong { color: #31701a; }
+#menu.drink-active .mci-info span { color: #5a6040; }
+#menu.drink-active .mci-p { color: #31701a; }
+#menu.drink-active .menu-card-footer { color: #31701a; border-top-color: rgba(49,112,26,.2); }
+#menu.drink-active .menu-card { background: #fffef8; }
 
 .menu-card {
   max-width: 620px; margin: 0 auto;
