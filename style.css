@@ -20,6 +20,15 @@
   font-style: normal;
   font-display: swap;
 }
+/* ── Biotif SemiBold (success overlay) ── */
+@font-face {
+  font-family: 'Biotif';
+  src: url('img/biotif-semibold.woff2') format('woff2'),
+       url('img/biotif-semibold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 /* ── Ravensara Serif Thin (eventi) ── */
 @font-face {
   font-family: 'Ravensara';
@@ -1717,64 +1726,60 @@ a.hs-item:hover { color: var(--white); }
 .pso-bg {
   position: absolute; inset: 0; z-index: 0; overflow: hidden;
 }
-.pso-bg img { width: 100%; height: 100%; object-fit: cover; }
+.pso-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .pso-bg-shade {
   position: absolute; inset: 0;
-  background: rgba(6,13,69,.72);
+  background: rgba(1,0,138,.55);
+}
+/* Logo watermark grande centrato */
+.pso-watermark {
+  position: absolute; z-index: 1;
+  width: min(700px, 85vw);
+  opacity: 0.12;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 .pso-content {
-  position: relative; z-index: 1;
+  position: relative; z-index: 2;
   text-align: center; color: #fff;
   padding: 40px 24px;
 }
-.pso-check {
-  font-size: 3.5rem; line-height: 1;
-  color: var(--sand);
-  margin-bottom: 28px;
-  animation: pso-pop .5s ease .2s both;
-}
-@keyframes pso-pop {
-  from { transform: scale(0.5); opacity: 0; }
-  to   { transform: scale(1);   opacity: 1; }
-}
 .pso-title {
-  font-family: var(--serif);
-  font-size: clamp(1.8rem, 5vw, 3.2rem);
-  font-weight: 300; letter-spacing: 4px;
-  line-height: 1.25;
+  font-family: 'Biotif', var(--sans);
+  font-size: clamp(2.4rem, 7vw, 5.5rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
   text-transform: uppercase;
-  animation: pso-rise .6s ease .35s both;
+  margin-bottom: 0;
+  animation: pso-rise .6s ease .2s both;
 }
 @keyframes pso-rise {
   from { transform: translateY(20px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
 }
-.pso-sub {
-  margin-top: 16px; margin-bottom: 36px;
-  font-size: .82rem; color: rgba(255,255,255,.65);
-  letter-spacing: .5px;
-  animation: pso-rise .6s ease .5s both;
-}
 .pso-close {
   display: inline-block;
-  padding: 13px 36px;
-  border: 1px solid rgba(255,255,255,.55);
-  border-radius: 2px;
+  margin-top: 48px;
+  padding: 0;
+  border: none;
   background: transparent;
-  color: rgba(255,255,255,.85);
-  font-family: var(--sans); font-size: .62rem;
-  font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+  font-family: 'Biotif', var(--sans);
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background var(--tr), border-color var(--tr);
-  animation: pso-rise .6s ease .65s both;
+  transition: color .2s;
+  animation: pso-rise .6s ease .5s both;
 }
-.pso-close:hover { background: rgba(255,255,255,.12); border-color: #fff; }
+.pso-close:hover { color: #fff; }
 
 @media(max-width:600px) {
   .pso-content { padding: 32px 20px; }
-  .pso-check { font-size: 2.8rem; margin-bottom: 20px; }
-  .pso-title { font-size: clamp(1.4rem, 7vw, 2rem); letter-spacing: 2px; }
-  .pso-sub { font-size: .76rem; margin-bottom: 28px; }
+  .pso-title { font-size: clamp(2rem, 10vw, 3rem); letter-spacing: 0.02em; }
 }
 
 /* ═══════════════════════════════════════════
