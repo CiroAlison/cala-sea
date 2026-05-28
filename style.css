@@ -516,10 +516,10 @@ a.hs-item:hover { color: var(--white); }
 
 .menu-big-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(6rem, 20vw, 18rem);
-  font-weight: 300; font-style: italic;
+  font-size: clamp(4.5rem, 15vw, 13rem);
+  font-weight: 200; font-style: italic;
   color: var(--white); text-align: center;
-  margin: 0 0 48px; letter-spacing: 0.01em; line-height: 1;
+  margin: 0 0 40px; letter-spacing: 0.01em; line-height: 1;
   white-space: nowrap;
 }
 
@@ -537,12 +537,12 @@ a.hs-item:hover { color: var(--white); }
   position: absolute;
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  width: 110vw;
+  width: 130vw;
   height: auto;
   max-width: none;
-  /* logo #16227b su sfondo #243673: leggermente più scuro/saturo */
-  filter: brightness(0.75) saturate(1.6) hue-rotate(4deg);
-  opacity: 0.55;
+  /* logo bianco a bassa opacità: watermark elegante su navy */
+  filter: none;
+  opacity: 0.10;
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -559,13 +559,13 @@ a.hs-item:hover { color: var(--white); }
 }
 #menu.drink-active .mtab { border-color: rgba(220,177,80,.4); color: rgba(220,177,80,.7); }
 #menu.drink-active .mtab.active { border-color: #dcb150; color: #dcb150; background: rgba(220,177,80,.1); }
-#menu.drink-active .menu-big-title { color: #dcb150; }
-/* Logo watermark: oro #dcb150 su verde — filter calibrato su #dcb150 */
+#menu.drink-active .menu-big-title { color: var(--white); }
+/* Logo watermark drink: bianco con leggera tinta oro */
 #menu.drink-active .menu-section-wm {
-  filter: brightness(0) saturate(100%) invert(73%) sepia(55%) saturate(500%) hue-rotate(5deg) brightness(103%);
-  opacity: 0.55;
+  filter: sepia(0.5) saturate(2) hue-rotate(15deg) brightness(1.2);
+  opacity: 0.18;
 }
-#menu.drink-active .mcat-title { color: #2a5c16; border-bottom-color: rgba(42,92,22,.2); font-weight: 700; }
+#menu.drink-active .mcat-title { color: #2a5c16; border-bottom-color: rgba(42,92,22,.2); }
 #menu.drink-active .mci-info strong { color: #2a5c16; }
 #menu.drink-active .mci-info span { color: #4a6035; }
 #menu.drink-active .mci-p { color: #2a5c16; }
@@ -583,12 +583,13 @@ a.hs-item:hover { color: var(--white); }
 .mcat:last-of-type { margin-bottom: 20px; }
 
 .mcat-title {
-  font-family: 'Jost', Arial, sans-serif;
-  font-size: clamp(1rem, 2.2vw, 1.35rem);
-  font-weight: 700;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 600;
+  font-style: italic;
   color: #0a1766;
-  text-transform: uppercase;
-  letter-spacing: 3px;
+  text-transform: none;
+  letter-spacing: 0.02em;
   margin-bottom: 16px; padding-bottom: 10px; line-height: 1;
   border-bottom: 1.5px solid rgba(10,23,102,.15);
 }
