@@ -535,14 +535,15 @@ a.hs-item:hover { color: var(--white); }
 }
 .menu-section-wm {
   position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  width: 130vw;
-  height: auto;
+  left: 50%; top: 0;
+  transform: translateX(-50%);
+  height: 100%;
+  width: auto;
+  min-width: 40%;
   max-width: none;
-  /* logo bianco a bassa opacità: watermark elegante su navy */
+  /* seppia alta quanto tutta la sezione */
   filter: none;
-  opacity: 0.10;
+  opacity: 0.12;
   pointer-events: none;
   user-select: none;
   z-index: 0;
