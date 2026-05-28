@@ -515,10 +515,11 @@ a.hs-item:hover { color: var(--white); }
 .mtab.active { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.6); color: var(--white); }
 
 .menu-big-title {
-  font-family: 'Josefin Slab', var(--serif); font-size: clamp(6rem, 20vw, 18rem);
-  font-weight: 100; font-style: italic;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(6rem, 20vw, 18rem);
+  font-weight: 300; font-style: italic;
   color: var(--white); text-align: center;
-  margin: 0 0 48px; letter-spacing: 0.02em; line-height: 1;
+  margin: 0 0 48px; letter-spacing: 0.01em; line-height: 1;
   white-space: nowrap;
 }
 
@@ -529,18 +530,19 @@ a.hs-item:hover { color: var(--white); }
 #menu {
   position: relative;
   overflow: hidden;
+  background: #243673;
   transition: background 0.4s ease;
 }
 .menu-section-wm {
   position: absolute;
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  width: 280vw;
+  width: 110vw;
   height: auto;
   max-width: none;
-  /* colore #16227b: logo navy leggermente più chiaro del bg */
-  filter: brightness(1.5) saturate(1.1);
-  opacity: 1;
+  /* logo #16227b su sfondo #243673: leggermente più scuro/saturo */
+  filter: brightness(0.75) saturate(1.6) hue-rotate(4deg);
+  opacity: 0.55;
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -558,17 +560,17 @@ a.hs-item:hover { color: var(--white); }
 #menu.drink-active .mtab { border-color: rgba(220,177,80,.4); color: rgba(220,177,80,.7); }
 #menu.drink-active .mtab.active { border-color: #dcb150; color: #dcb150; background: rgba(220,177,80,.1); }
 #menu.drink-active .menu-big-title { color: #dcb150; }
-/* Logo watermark: oro #dcb150 su verde #31701a */
+/* Logo watermark: oro #dcb150 su verde — filter calibrato su #dcb150 */
 #menu.drink-active .menu-section-wm {
-  filter: invert(1) sepia(1) hue-rotate(5deg) saturate(3) brightness(1.05);
-  opacity: 0.90;
+  filter: brightness(0) saturate(100%) invert(73%) sepia(55%) saturate(500%) hue-rotate(5deg) brightness(103%);
+  opacity: 0.55;
 }
-#menu.drink-active .mcat-title { color: #31701a; border-bottom-color: rgba(49,112,26,.2); }
-#menu.drink-active .mci-info strong { color: #31701a; }
-#menu.drink-active .mci-info span { color: #5a6040; }
-#menu.drink-active .mci-p { color: #31701a; }
-#menu.drink-active .menu-card-footer { color: #31701a; border-top-color: rgba(49,112,26,.2); }
-#menu.drink-active .menu-card { background: #fffef8; }
+#menu.drink-active .mcat-title { color: #2a5c16; border-bottom-color: rgba(42,92,22,.2); font-weight: 700; }
+#menu.drink-active .mci-info strong { color: #2a5c16; }
+#menu.drink-active .mci-info span { color: #4a6035; }
+#menu.drink-active .mci-p { color: #2a5c16; }
+#menu.drink-active .menu-card-footer { color: #2a5c16; border-top-color: rgba(42,92,22,.2); }
+#menu.drink-active .menu-card { background: #fffef5; }
 
 .menu-card {
   max-width: 620px; margin: 0 auto;
@@ -581,10 +583,14 @@ a.hs-item:hover { color: var(--white); }
 .mcat:last-of-type { margin-bottom: 20px; }
 
 .mcat-title {
-  font-family: 'Josefin Slab', var(--serif); font-size: clamp(1.8rem, 4.5vw, 2.8rem); font-weight: 100;
-  color: #0a1766; text-transform: uppercase; letter-spacing: 3px;
+  font-family: 'Jost', Arial, sans-serif;
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  color: #0a1766;
+  text-transform: uppercase;
+  letter-spacing: 3px;
   margin-bottom: 16px; padding-bottom: 10px; line-height: 1;
-  border-bottom: 1.5px solid rgba(10,23,102,.12);
+  border-bottom: 1.5px solid rgba(10,23,102,.15);
 }
 
 .mcat-items { display: flex; flex-direction: column; gap: 12px; }
@@ -595,14 +601,14 @@ a.hs-item:hover { color: var(--white); }
 }
 .mci-info { flex: 1; }
 .mci-info strong {
-  display: block; font-family: 'Josefin Slab', var(--serif); font-size: .85rem; font-weight: 100;
+  display: block; font-family: 'Jost', Arial, sans-serif; font-size: .82rem; font-weight: 500;
   color: #0a1766; text-transform: uppercase; letter-spacing: 1.5px;
   margin-bottom: 2px;
 }
-.mci-info span { font-family: 'Josefin Slab', var(--serif); font-size: .78rem; font-weight: 100; color: #666; line-height: 1.45; letter-spacing: 0.5px; }
+.mci-info span { font-family: 'Jost', Arial, sans-serif; font-size: .76rem; font-weight: 300; color: #666; line-height: 1.45; letter-spacing: 0.3px; }
 .mci-p {
-  font-family: 'Josefin Slab', var(--serif); font-size: .95rem; font-weight: 100;
-  color: #0a1766; white-space: nowrap; flex-shrink: 0; padding-top: 1px; letter-spacing: 1px;
+  font-family: 'Jost', Arial, sans-serif; font-size: .9rem; font-weight: 400;
+  color: #0a1766; white-space: nowrap; flex-shrink: 0; padding-top: 1px; letter-spacing: 0.5px;
 }
 
 .menu-card-footer {
