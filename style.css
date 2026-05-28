@@ -561,16 +561,16 @@ a.hs-item:hover { color: var(--white); }
 #menu.drink-active .mtab { border-color: rgba(220,177,80,.4); color: rgba(220,177,80,.7); }
 #menu.drink-active .mtab.active { border-color: #dcb150; color: #dcb150; background: rgba(220,177,80,.1); }
 #menu.drink-active .menu-big-title { color: var(--white); }
-/* Logo watermark drink: bianco con leggera tinta oro */
+/* Logo watermark drink: stesso effetto del weekend */
 #menu.drink-active .menu-section-wm {
-  filter: sepia(0.5) saturate(2) hue-rotate(15deg) brightness(1.2);
-  opacity: 0.18;
+  filter: none;
+  opacity: 0.12;
 }
-#menu.drink-active .mcat-title { color: #2a5c16; border-bottom-color: rgba(42,92,22,.2); }
-#menu.drink-active .mci-info strong { color: #2a5c16; }
-#menu.drink-active .mci-info span { color: #4a6035; }
-#menu.drink-active .mci-p { color: #2a5c16; }
-#menu.drink-active .menu-card-footer { color: #2a5c16; border-top-color: rgba(42,92,22,.2); }
+#menu.drink-active .mcat-title { color: #000; border-bottom-color: rgba(0,0,0,.15); }
+#menu.drink-active .mci-info strong { color: #000; }
+#menu.drink-active .mci-info span { color: #333; }
+#menu.drink-active .mci-p { color: #000; }
+#menu.drink-active .menu-card-footer { color: #333; border-top-color: rgba(0,0,0,.12); }
 #menu.drink-active .menu-card { background: #fffef5; }
 
 .menu-card {
