@@ -186,9 +186,11 @@ ul, ol { list-style: none; }
 
 /* Mobile: logo + scrollable links */
 @media(max-width: 600px) {
-  .nav-inner { grid-template-columns: 1fr auto 1fr; gap: 4px; padding: 0 8px; }
-  .nav-links li a { padding: 6px 9px; font-size: .68rem; letter-spacing: 1px; }
-  .nav-logo-img { height: 32px; }
+  .nav-inner { grid-template-columns: 1fr auto 1fr; gap: 2px; padding: 0 4px; }
+  .nav-links { overflow: visible; }
+  .nav-links li a { padding: 5px 5px; font-size: .58rem; letter-spacing: .2px; }
+  .nav-links .nav-cta { display: none !important; }
+  .nav-logo-img { height: 30px; }
 }
 
 /* ═══════════════════════════════════════════
@@ -251,18 +253,18 @@ ul, ol { list-style: none; }
 /* Mobile: sub si auto-rimpicciolisce per stare su una riga */
 @media(max-width: 700px) {
   .hero-sub {
-    font-size: clamp(.6rem, 2.8vw, .78rem);
-    letter-spacing: 1.2px;
-    margin-bottom: 12px;
-    white-space: normal;
-    line-height: 1.5;
+    font-size: 1.85vw;
+    letter-spacing: .3px;
+    margin-bottom: 14px;
+    white-space: nowrap;
+    line-height: 1.4;
   }
   .hero-logo-img { width: 88vw; max-width: 88vw; }
   .hero-content { padding: 70px 12px; }
 }
 @media(max-width: 420px) {
   .hero-sub {
-    font-size: .62rem; letter-spacing: 1px;
+    letter-spacing: .3px;
   }
 }
 
@@ -1894,12 +1896,15 @@ a.hs-item:hover { color: var(--white); }
   .gallery-grid { gap: 3px; }
 }
 
-/* Recensioni carousel: 1 colonna su mobile */
+/* Recensioni carousel: 2 colonne su mobile */
 @media(max-width:599px) {
-  .rec-page { grid-template-columns: 1fr; }
-  .review-card { padding: 24px 18px; }
-  .rec-arrow { font-size: 2.2rem; padding: 0 4px; }
-  .rec-carousel-outer { gap: 6px; }
+  .rec-page { grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 12px; }
+  .rec-carousel-outer { gap: 2px; max-width: 100%; }
+  .review-card { padding: 14px 9px 12px; border-radius: 9px; }
+  .rev-stars { font-size: .7rem; letter-spacing: 1px; margin-bottom: 8px; }
+  .rev-text { font-size: .68rem; line-height: 1.45; }
+  .rev-name { font-size: .72rem; margin-top: 8px; }
+  .rec-arrow { font-size: 1.5rem; padding: 0 1px; }
 }
 
 /* Video section: riduce gap su mobile */

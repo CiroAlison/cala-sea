@@ -603,13 +603,8 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         });
       }
 
-      // Menu dinamico — usa solo se ha almeno 1 tab valido
-      if (s.menu_json) {
-        try {
-          const menuData = JSON.parse(s.menu_json);
-          if (menuData && Array.isArray(menuData.tabs) && menuData.tabs.length > 0) renderMenu(menuData);
-        } catch(e) { /* invalid JSON, keep static menu */ }
-      }
+      // Menu dinamico DISATTIVATO: usiamo solo il menu statico (card bianca) in index.html.
+      // Evita il menu duplicato che veniva iniettato sotto la card.
 
       // Barra mobile dinamica
       if (s.mobile_bar_json) {
