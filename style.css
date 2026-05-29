@@ -612,6 +612,7 @@ a.hs-item:hover { color: var(--white); }
   font-family: 'Jost', Arial, sans-serif; font-size: .9rem; font-weight: 400;
   color: #0a1766; white-space: nowrap; flex-shrink: 0; padding-top: 1px; letter-spacing: 0.5px;
 }
+.mci-p::after { content: ' €'; }
 
 .menu-card-footer {
   text-align: center; font-size: .78rem; color: #888;

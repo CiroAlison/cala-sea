@@ -920,6 +920,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
   function showPage(pageId, scrollToId) {
     currentPage = pageId;
+    const footer = document.getElementById('footer');
 
     if (pageId === 'home') {
       // Restore hero + all home sections
@@ -927,10 +928,13 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       homeSects.forEach(el => { el.style.display = ''; });
       // Hide all category sections
       pageSects.forEach(el => { el.classList.remove('page-active'); });
+      // Restore footer
+      if (footer) footer.style.display = '';
     } else {
-      // Hide hero + home sections
+      // Hide hero + home sections + footer
       if (hero) hero.style.display = 'none';
       homeSects.forEach(el => { el.style.display = 'none'; });
+      if (footer) footer.style.display = 'none';
       // Hide all page sections, then show the target
       pageSects.forEach(el => { el.classList.remove('page-active'); });
       // For "prenota" show the eventi section (prenota lives inside it logically)
