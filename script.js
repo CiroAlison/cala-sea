@@ -151,7 +151,7 @@ const backTop   = document.getElementById('backTop');
 
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
-  navbar.classList.toggle('scrolled', y > 60);
+  if (navbar)    navbar.classList.toggle('scrolled', y > 60);
   if (mobileBar) mobileBar.classList.toggle('show', y > window.innerHeight * 0.5);
   if (backTop)   backTop.classList.toggle('show', y > 400);
 }, { passive: true });
