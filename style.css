@@ -228,7 +228,8 @@ ul, ol { list-style: none; }
   font-weight: 500;
   letter-spacing: clamp(1.5px, .45vw, 4.5px);
   text-transform: uppercase;
-  color: rgba(255,255,255,.95);
+  color: #fff;
+  text-shadow: 0 1px 10px rgba(0,0,0,.6), 0 0 2px rgba(0,0,0,.5);
   margin: 0 0 14px 0;
   white-space: nowrap;
   opacity: 0; animation: fadeUp .7s .3s forwards;
