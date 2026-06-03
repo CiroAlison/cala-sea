@@ -800,9 +800,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   next.addEventListener('click', () => goTo(current + 1));
 })();
 
-/* ─── Carosello eventi (coverflow) ─── */
-(function () {
-  const carousel = document.getElementById('eventiCarousel');
+/* ─── Carosello coverflow (eventi + servizi) ─── */
+function initCoverflow(carouselId) {
+  const carousel = document.getElementById(carouselId);
   if (!carousel) return;
 
   const slides = [...carousel.querySelectorAll('.ev-slide')];
@@ -897,7 +897,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   /* Init */
   goTo(0);
   startAuto();
-})();
+}
+initCoverflow('eventiCarousel');
+initCoverflow('serviziCarousel');
 
 // ══════════════════════════════════════════
 // PAGE ROUTER – homepage / category sections
