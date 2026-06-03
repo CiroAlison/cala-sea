@@ -2107,7 +2107,7 @@ a.hs-item:hover { color: var(--white); }
   object-fit: cover; display: block;
   transition: transform .6s cubic-bezier(.4,0,.2,1);
 }
-.svc-tile:hover .svc-tile-img img { transform: scale(1.06); }
+.svc-tile:hover .svc-tile-img img { transform: scale(1.14); }
 
 .svc-tile-label {
   font-family: var(--serif);
