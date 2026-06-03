@@ -2130,9 +2130,15 @@ a.hs-item:hover { color: var(--white); }
   transition: opacity .35s ease;
 }
 .svc-tile:hover .svc-tile-overlay { opacity: 1; }
-/* Su touch (niente hover) le descrizioni restano sempre visibili */
+/* Su touch (niente hover): descrizione sempre visibile in basso, foto in vista */
 @media(hover: none) {
-  .svc-tile-overlay { opacity: 1; }
+  .svc-tile-overlay {
+    opacity: 1;
+    align-items: flex-end;
+    background: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(1,0,80,.55) 70%, rgba(1,0,80,.9) 100%);
+    padding: 14px 12px;
+  }
+  .svc-tile-overlay p { font-size: clamp(.62rem, 2.6vw, .8rem); }
 }
 .svc-tile-overlay p {
   font-family: var(--serif);
