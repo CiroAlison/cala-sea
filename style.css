@@ -149,9 +149,8 @@ ul, ol { list-style: none; }
   flex-shrink: 0;
 }
 .nav-logo-img {
-  height: 40px; width: auto;
+  height: 57px; width: auto;
   object-fit: contain; display: block;
-  margin-top: 4px;
 }
 
 /* Nav links – sinistra e destra */
@@ -184,7 +183,7 @@ ul, ol { list-style: none; }
 @media(min-width: 900px) {
   .nav-links li a { padding: 4px 14px; font-size: .6rem; letter-spacing: 2px; }
   .nav-links .nav-cta { padding: 9px 22px !important; }
-  .nav-logo-img { height: 44px; }
+  .nav-logo-img { height: 65px; }
 }
 
 /* Mobile: logo + scrollable links */
@@ -193,7 +192,7 @@ ul, ol { list-style: none; }
   .nav-links { overflow: visible; }
   .nav-links li a { padding: 5px 5px; font-size: .58rem; letter-spacing: .2px; }
   .nav-links .nav-cta { display: none !important; }
-  .nav-logo-img { height: 34px; }
+  .nav-logo-img { height: 44px; }
 }
 
 /* ═══════════════════════════════════════════
@@ -2203,7 +2202,7 @@ a.hs-item:hover { color: var(--white); }
 
 /* Navbar: logo non tagliato su telefoni piccoli */
 @media(max-width: 390px) {
-  .nav-logo-img { height: 34px; }
+  .nav-logo-img { height: 40px; }
 }
 
 /* Chi Siamo: foto stack più compatta e leggibile su mobile */
