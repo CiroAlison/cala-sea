@@ -2175,5 +2175,5 @@ a.hs-item:hover { color: var(--white); }
   .chi-img-main { max-width: 100%; }
   .chi-img-overlap { width: 50%; max-width: 160px; border-width: 3px; }
   .chi-stats { gap: 18px; }
-  .chi-stat-n { font-size: 1.9rem; }
+  .chi-stat-n { font-size: 2.6rem; }
 }
