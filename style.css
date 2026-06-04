@@ -2043,7 +2043,7 @@ a.hs-item:hover { color: var(--white); }
 }
 .chi-stats {
   display: flex; gap: 36px; margin-top: 30px;
-  flex-wrap: wrap;
+  flex-wrap: wrap; justify-content: center;
 }
 .chi-stat {
   display: flex; flex-direction: column; gap: 2px;
