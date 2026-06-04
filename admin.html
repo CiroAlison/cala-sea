@@ -205,6 +205,15 @@
     .ann-preview-label{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
     .ann-preview-text{font-size:.88rem;color:rgba(232,220,200,.9);line-height:1.5}
 
+    /* ── IMG PICKER ── */
+    .img-picker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin:10px 0 16px}
+    .img-picker-item{position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;border:2px solid transparent;cursor:pointer;transition:border-color .2s,transform .15s}
+    .img-picker-item img{width:100%;height:100%;object-fit:cover;display:block}
+    .img-picker-item:hover{transform:scale(1.04)}
+    .img-picker-item.selected{border-color:var(--sand);box-shadow:0 0 0 2px var(--sand)}
+    .img-picker-label{position:absolute;bottom:0;left:0;right:0;font-size:.52rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(0,0,0,.6);color:#fff;padding:3px 4px;text-align:center;opacity:0;transition:opacity .2s}
+    .img-picker-item:hover .img-picker-label,.img-picker-item.selected .img-picker-label{opacity:1}
+
     /* ── SEPARATORE ── */
     .a-divider{height:1px;background:var(--border);margin:24px 0}
     .a-sub-title{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
@@ -537,10 +546,12 @@
       <details class="txt-group">
         <summary class="txt-group-title">👥 Chi Siamo</summary>
         <div class="a-form" style="margin-top:14px">
-          <div class="fg"><label>Titolo sezione</label><input type="text" id="t-chisiamo-h2" placeholder="Un angolo di paradiso sulla costa vesuviana" /></div>
           <div class="fg"><label>Paragrafo 1</label><textarea id="t-chisiamo-p1" placeholder="Cala Sea nasce dall'amore..."></textarea></div>
           <div class="fg"><label>Paragrafo 2</label><textarea id="t-chisiamo-p2" placeholder="Ti aspettiamo su lettini esclusivi..."></textarea></div>
-          <button class="a-save" onclick="saveTxtGroup(['t_chisiamo_h2:t-chisiamo-h2','t_chisiamo_p1:t-chisiamo-p1','t_chisiamo_p2:t-chisiamo-p2'],'chisiamo-status')">Salva Chi Siamo</button>
+          <div class="a-divider"></div>
+          <label style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:6px">📷 Foto sovrapposta</label>
+          <div class="img-picker-grid" id="chi-img-picker"></div>
+          <button class="a-save" onclick="saveChiSiamo()">Salva Chi Siamo</button>
           <p id="chisiamo-status" class="a-status"></p>
         </div>
       </details>
@@ -749,7 +760,7 @@ const SITE_DEFAULTS = {
   c_wa:         '393278653508',
   t_tagline:    'Dove il mare incontra il lusso',
   t_sub:        'Beach Club · Ristorante · Cocktail Bar · Eventi Esclusivi',
-  t_chisiamo_h2:'Un angolo di paradiso sulla costa vesuviana',
+  chi_img_overlap:'img/ig-new6.jpg',
   t_chisiamo_p1:'Cala Sea nasce dall\'amore per il mare di Torre del Greco. Adagiato sulla storica Torre Saracena, il nostro beach club è il luogo dove il sole, l\'acqua cristallina e i sapori autentici del Golfo di Napoli si fondono in un\'esperienza unica.',
   t_chisiamo_p2:'Ti aspettiamo su lettini esclusivi, tra cocktail artigianali e cucina di mare preparata con ingredienti freschi e locali. Il tutto con la maestosità del Vesuvio sullo sfondo.',
   t_menu_eyebrow:'Menù weekend · 1 Maggio',
@@ -995,9 +1006,9 @@ async function loadAllSettings() {
     document.getElementById('t-tagline').value  = val('t_tagline');
     document.getElementById('t-sub').value      = val('t_sub');
     // Chi siamo
-    document.getElementById('t-chisiamo-h2').value = val('t_chisiamo_h2');
     document.getElementById('t-chisiamo-p1').value = val('t_chisiamo_p1');
     document.getElementById('t-chisiamo-p2').value = val('t_chisiamo_p2');
+    buildChiImgPicker(val('chi_img_overlap'));
     // Servizi
     document.getElementById('t-svc1-title').value = val('t_svc1_title');
     document.getElementById('t-svc1-desc').value  = val('t_svc1_desc');
@@ -1415,6 +1426,63 @@ document.getElementById('reset-stile').addEventListener('click', async () => {
   await Promise.all([saveKey('col_navy','#0a1766'),saveKey('col_sand','#e8dcc8'),saveKey('col_gold','#c9a227'),saveKey('font_key','default')]);
   showStatus('stile-status','✓ Stile ripristinato ai valori originali.',true);
 });
+
+/* ── CHI SIAMO IMG PICKER ── */
+const CHI_IMG_OPTIONS = [
+  {src:'img/ig-new6.jpg',  label:'Crudi'},
+  {src:'img/terrazza.jpg', label:'Terrazza'},
+  {src:'img/piatto1.jpg',  label:'Piatto 1'},
+  {src:'img/piatto2.jpg',  label:'Piatto 2'},
+  {src:'img/brindisi.jpg', label:'Brindisi'},
+  {src:'img/mare.jpg',     label:'Mare'},
+  {src:'img/tramonto.jpg', label:'Tramonto'},
+  {src:'img/ig-new1.jpg',  label:'IG 1'},
+  {src:'img/ig-new2.jpg',  label:'IG 2'},
+  {src:'img/ig-new3.jpg',  label:'IG 3'},
+  {src:'img/ig-new4.jpg',  label:'IG 4'},
+  {src:'img/ig-new5.jpg',  label:'IG 5'},
+  {src:'img/ig-new7.jpg',  label:'IG 7'},
+  {src:'img/ig-new8.jpg',  label:'IG 8'},
+  {src:'img/ig-new9.jpg',  label:'IG 9'},
+  {src:'img/ig-new10.jpg', label:'IG 10'},
+  {src:'img/ig-new11.jpg', label:'IG 11'},
+  {src:'img/ig-new12.jpg', label:'IG 12'},
+  {src:'img/ig-new13.jpg', label:'IG 13'},
+  {src:'img/ig-new14.jpg', label:'IG 14'},
+  {src:'img/ig-new15.jpg', label:'IG 15'},
+  {src:'img/ig-new16.jpg', label:'IG 16'},
+];
+let chiImgSelected = 'img/ig-new6.jpg';
+
+function buildChiImgPicker(current) {
+  chiImgSelected = current || 'img/ig-new6.jpg';
+  const grid = document.getElementById('chi-img-picker');
+  if (!grid) return;
+  grid.innerHTML = CHI_IMG_OPTIONS.map(o => `
+    <div class="img-picker-item${o.src === chiImgSelected ? ' selected' : ''}"
+         onclick="selectChiImg('${o.src}',this)" title="${o.label}">
+      <img src="${o.src}" loading="lazy" alt="${o.label}" />
+      <span class="img-picker-label">${o.label}</span>
+    </div>`).join('');
+}
+
+function selectChiImg(src, el) {
+  chiImgSelected = src;
+  document.querySelectorAll('#chi-img-picker .img-picker-item').forEach(i => i.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+async function saveChiSiamo() {
+  const p1  = document.getElementById('t-chisiamo-p1');
+  const p2  = document.getElementById('t-chisiamo-p2');
+  const res = await Promise.all([
+    saveKey('t_chisiamo_p1', p1 ? p1.value.trim() : ''),
+    saveKey('t_chisiamo_p2', p2 ? p2.value.trim() : ''),
+    saveKey('chi_img_overlap', chiImgSelected),
+  ]);
+  const ok = res.every(Boolean);
+  showStatus('chisiamo-status', ok ? '✓ Salvato sul sito!' : '⚠ Errore nel salvataggio.', ok);
+}
 
 /* ── TESTI ── */ // (salvataggi gestiti da saveTxtGroup per ogni gruppo)
 

@@ -558,6 +558,12 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         }
       });
 
+      // Foto sovrapposta Chi Siamo
+      if (s.chi_img_overlap) {
+        const el = document.getElementById('chi-img-overlap');
+        if (el) el.src = s.chi_img_overlap;
+      }
+
       // Override testi eventi (sovrascrivono le traduzioni i18n)
       const evKeys = {
         't_ev_wedding_title':    'events.wedding.title',
