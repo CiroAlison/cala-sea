@@ -623,6 +623,15 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
     })
     .catch(() => {});
 
+  // Play/pause video statici nella gallery quando entrano nel viewport
+  document.querySelectorAll('.g-item video').forEach(vid => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) vid.play().catch(() => {});
+      else { vid.pause(); vid.currentTime = 0; }
+    }, { threshold: 0.4 });
+    obs.observe(vid);
+  });
+
   // Carica foto custom dalla galleria admin (separato per non bloccare settings)
   fetch('/api/foto')
     .then(r => r.json())

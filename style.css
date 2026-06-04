@@ -124,15 +124,15 @@ ul, ol { list-style: none; }
 ═══════════════════════════════════════════ */
 #navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-  padding: 18px 0;
-  padding-top: calc(18px + env(safe-area-inset-top));
+  padding: 14px 0 14px;
+  padding-top: calc(22px + env(safe-area-inset-top));
   background: transparent;
   transition: background var(--tr), padding var(--tr), box-shadow var(--tr);
 }
 #navbar.scrolled {
   background: var(--navy);
-  padding: 12px 0;
-  padding-top: calc(12px + env(safe-area-inset-top));
+  padding: 10px 0 10px;
+  padding-top: calc(16px + env(safe-area-inset-top));
   box-shadow: 0 2px 28px rgba(6,13,69,.65);
 }
 .nav-inner {
