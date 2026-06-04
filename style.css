@@ -2200,9 +2200,8 @@ a.hs-item:hover { color: var(--white); }
   }
 }
 
-/* Navbar: logo non tagliato + link compatti su telefoni piccoli */
+/* Navbar: logo non tagliato su telefoni piccoli */
 @media(max-width: 390px) {
-  .nav-links li a { font-size: .52rem; padding: 5px 3px; letter-spacing: 0; }
   .nav-logo-img { height: 34px; }
 }
 
