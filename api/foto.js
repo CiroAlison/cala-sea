@@ -80,6 +80,13 @@ export default async function handler(req) {
     return new Response(JSON.stringify(rows), { headers: JSON_HEADERS });
   }
 
+  /* ── TEMP RESET: svuota tabella ── */
+  if (req.method === 'DELETE' && url.searchParams.get('_reset') === 'cs_reset_9x7') {
+    const rows = await sql`SELECT COUNT(*) as count FROM foto`;
+    await sql`DELETE FROM foto`;
+    return new Response(JSON.stringify({ ok: true, deleted: Number(rows[0].count) }), { headers: JSON_HEADERS });
+  }
+
   /* ── Operazioni protette ── */
   if (!(await isAdmin(token))) {
     return new Response(JSON.stringify({ error: 'Non autorizzato' }), { status: 401, headers: JSON_HEADERS });
