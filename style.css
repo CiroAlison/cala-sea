@@ -1965,6 +1965,13 @@ a.hs-item:hover { color: var(--white); }
 .page-section { display: none; }
 .page-section.page-active { display: block; }
 
+/* Il contenuto delle page-section deve SEMPRE stare sotto la navbar fissa.
+   Senza questo, su mobile (dove .section padding-top è ridotto a 48-60px)
+   i tab del menu si infilano sotto la navbar e cliccando "Drink" si colpisce
+   il logo centrale (che porta alla home). padding-top > altezza navbar + gap. */
+.section.page-section { padding-top: 104px; }
+@media(min-width: 768px) { .section.page-section { padding-top: 128px; } }
+
 /* Back-to-home button nelle pagine categoria */
 .page-back-btn {
   display: inline-flex; align-items: center; gap: 8px;
