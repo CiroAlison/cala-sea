@@ -951,9 +951,12 @@ a.hs-item:hover { color: var(--white); }
 }
 
 @media(max-width: 767px) {
-  .ds-content { flex-direction: column; padding: 100px 24px 160px; }
+  .ds-content { flex-direction: column; padding: 90px 24px 130px; }
   .ds-map { width: 100%; }
-  .ds-word { font-size: clamp(80px, 22vw, 140px); }
+  /* parole decorative DOVE/SIAMO più piccole e discrete su mobile */
+  .ds-word { font-size: clamp(46px, 14vw, 84px); opacity: .9; }
+  .ds-dove  { top: 18px; }
+  .ds-siamo { bottom: 12px; }
 }
 
 /* ═══════════════════════════════════════════
