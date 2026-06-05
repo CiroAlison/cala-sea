@@ -356,26 +356,34 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
 /* ─── Applica impostazioni dal pannello admin ─── */
 (function () {
 
-  // Definizioni font (devono corrispondere a quelle in admin.html)
+  // Definizioni font (devono corrispondere a quelle in admin.html).
+  // I font con `custom:true` sono già caricati via @font-face in style.css
+  // (o via Google Fonts nell'head di index.html) → niente caricamento extra.
   const FONTS = [
-    { key:'default',  serif:"'Cormorant Garamond',serif", sans:"'Jost',sans-serif",          gfUrl:'Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600' },
-    { key:'playfair', serif:"'Playfair Display',serif",   sans:"'Montserrat',sans-serif",     gfUrl:'Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600' },
-    { key:'garamond', serif:"'EB Garamond',serif",        sans:"'Raleway',sans-serif",        gfUrl:'EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Raleway:wght@300;400;500;600' },
-    { key:'cinzel',   serif:"'Cinzel',serif",             sans:"'Raleway',sans-serif",        gfUrl:'Cinzel:wght@400;500;600;700&family=Raleway:wght@300;400;500;600' },
-    { key:'libre',    serif:"'Libre Baskerville',serif",  sans:"'Nunito',sans-serif",         gfUrl:'Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700' },
+    { key:'default',      serif:"'Cormorant Garamond',serif",          sans:"'Jost',sans-serif",       gfUrl:'Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600' },
+    { key:'cassannet',    serif:"'Cassannet Plus',sans-serif",         sans:"'Jost',sans-serif",       custom:true },
+    { key:'bigshoulders', serif:"'Big Shoulders Display',sans-serif",  sans:"'Jost',sans-serif",       custom:true },
+    { key:'beckman',      serif:"'Beckman',serif",                     sans:"'Jost',sans-serif",       custom:true },
+    { key:'bodoni',       serif:"'Bodoni Moda',serif",                 sans:"'Jost',sans-serif",       gfUrl:'Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Jost:wght@200;300;400;500;600' },
+    { key:'playfair',     serif:"'Playfair Display',serif",            sans:"'Montserrat',sans-serif", gfUrl:'Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600' },
+    { key:'garamond',     serif:"'EB Garamond',serif",                 sans:"'Raleway',sans-serif",    gfUrl:'EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Raleway:wght@300;400;500;600' },
+    { key:'cinzel',       serif:"'Cinzel',serif",                      sans:"'Raleway',sans-serif",    gfUrl:'Cinzel:wght@400;500;600;700&family=Raleway:wght@300;400;500;600' },
+    { key:'libre',        serif:"'Libre Baskerville',serif",           sans:"'Nunito',sans-serif",     gfUrl:'Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700' },
+    { key:'italiana',     serif:"'Italiana',serif",                    sans:"'Josefin Sans',sans-serif", gfUrl:'Italiana&family=Josefin+Sans:wght@300;400;600' },
+    { key:'spectral',     serif:"'Spectral',serif",                    sans:"'Poppins',sans-serif",    gfUrl:'Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:wght@300;400;500;600' },
+    { key:'gilda',        serif:"'Gilda Display',serif",               sans:"'Cabin',sans-serif",      gfUrl:'Gilda+Display&family=Cabin:wght@400;500;600' },
+    { key:'yeseva',       serif:"'Yeseva One',serif",                  sans:"'Lato',sans-serif",       gfUrl:'Yeseva+One&family=Lato:wght@300;400;700' },
   ];
 
   function loadFont(fontDef) {
     if (!fontDef || fontDef.key === 'default') return;
-    const link = document.createElement('link');
-    link.rel  = 'stylesheet';
-    link.href = 'https://fonts.googleapis.com/css2?family=' + fontDef.gfUrl + '&display=swap';
-    document.head.appendChild(link);
-    link.onload = () => {
-      document.documentElement.style.setProperty('--serif', fontDef.serif);
-      document.documentElement.style.setProperty('--sans',  fontDef.sans);
-    };
-    // Apply immediately in case fonts are already cached
+    // Font Google: carica lo stylesheet. Font custom (@font-face già in style.css): salta.
+    if (fontDef.gfUrl && !fontDef.custom) {
+      const link = document.createElement('link');
+      link.rel  = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=' + fontDef.gfUrl + '&display=swap';
+      document.head.appendChild(link);
+    }
     document.documentElement.style.setProperty('--serif', fontDef.serif);
     document.documentElement.style.setProperty('--sans',  fontDef.sans);
   }
@@ -563,6 +571,50 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         const el = document.getElementById('chi-img-overlap');
         if (el) el.src = s.chi_img_overlap;
       }
+
+      // Titolo Chi Siamo (con a-capo: \n → <br>, racchiuso in <em> corsivo)
+      if (s.t_chisiamo_title && s.t_chisiamo_title.trim()) {
+        const el = document.querySelector('.chi-title');
+        if (el) {
+          const safe = s.t_chisiamo_title
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/\r?\n/g, '<br>');
+          el.innerHTML = '<em>' + safe + '</em>';
+        }
+      }
+
+      // === LAYOUT — allineamento testi (sinistra/centro/destra) ===
+      const ALIGN_MAP = {
+        align_hero_sub:  '.hero-sub',
+        align_chi_title: '.chi-title',
+        align_chi_body:  '.chi-body',
+        align_svc_title: '.svc-title',
+        align_menu_title:'.menu-big-title',
+      };
+      Object.entries(ALIGN_MAP).forEach(([key, sel]) => {
+        const v = s[key];
+        if (v && /^(left|center|right)$/.test(v)) {
+          document.querySelectorAll(sel).forEach(el => { el.style.textAlign = v; });
+        }
+      });
+      // Chi Siamo: allineamento testo sposta anche le statistiche
+      if (s.align_chi_body && /^(left|center|right)$/.test(s.align_chi_body)) {
+        const stats = document.querySelector('.chi-stats');
+        const jc = s.align_chi_body === 'left' ? 'flex-start' : s.align_chi_body === 'right' ? 'flex-end' : 'center';
+        if (stats) stats.style.justifyContent = jc;
+      }
+
+      // === LAYOUT — posizione immagini (object-position) ===
+      const IMGPOS_MAP = {
+        imgpos_chi_main:    '.chi-img-main',
+        imgpos_chi_overlap: '#chi-img-overlap',
+      };
+      Object.entries(IMGPOS_MAP).forEach(([key, sel]) => {
+        const v = s[key];
+        if (v && v.trim()) {
+          document.querySelectorAll(sel).forEach(el => { el.style.objectPosition = v; });
+        }
+      });
 
       // Override testi eventi (sovrascrivono le traduzioni i18n)
       const evKeys = {

@@ -7,8 +7,13 @@
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@200;300;400;500;600&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Big+Shoulders+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+    /* Font brand custom (per l'anteprima nel pannello Stile) */
+    @font-face{font-family:'Beckman';src:url('img/beckman.otf') format('opentype');font-weight:400;font-display:swap}
+    @font-face{font-family:'Cassannet Plus';src:url('img/cassannet-plus-regular.woff2') format('woff2'),url('img/cassannet-plus-regular.woff') format('woff');font-weight:400;font-display:swap}
+    @font-face{font-family:'Elanor';src:url('img/elanor-demo.woff2') format('woff2'),url('img/elanor-demo.woff') format('woff');font-weight:400;font-display:swap}
+    @font-face{font-family:'Ravensara';src:url('img/ravensara-thin.woff2') format('woff2'),url('img/ravensara-thin.woff') format('woff');font-weight:100;font-display:swap}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
       --navy:#0a1766;--navy-deep:#060d45;--sand:#e8dcc8;--gold:#c9a227;
@@ -214,6 +219,16 @@
     .img-picker-label{position:absolute;bottom:0;left:0;right:0;font-size:.52rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(0,0,0,.6);color:#fff;padding:3px 4px;text-align:center;opacity:0;transition:opacity .2s}
     .img-picker-item:hover .img-picker-label,.img-picker-item.selected .img-picker-label{opacity:1}
 
+    /* ── LAYOUT: controlli allineamento/posizione ── */
+    .lay-row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:13px 0;border-bottom:1px solid rgba(232,220,200,.07)}
+    .lay-row:last-child{border-bottom:none}
+    .lay-row-label{font-size:.84rem;color:var(--text)}
+    .lay-seg{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+    .lay-seg button{padding:8px 12px;background:transparent;color:var(--dim);font-size:.78rem;min-width:42px;transition:all var(--tr);border-right:1px solid var(--border)}
+    .lay-seg button:last-child{border-right:none}
+    .lay-seg button:hover{color:var(--text)}
+    .lay-seg button.active{background:var(--sand);color:var(--navy-deep);font-weight:700}
+
     /* ── SEPARATORE ── */
     .a-divider{height:1px;background:var(--border);margin:24px 0}
     .a-sub-title{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
@@ -375,6 +390,7 @@
       <button class="a-tab" data-tab="menu">🍽️ Menu</button>
       <button class="a-tab" data-tab="stile">🎨 Stile</button>
       <button class="a-tab" data-tab="testi">✏️ Testi</button>
+      <button class="a-tab" data-tab="layout">📐 Layout</button>
       <button class="a-tab" data-tab="recensioni" id="tab-recensioni-btn">⭐ Recensioni</button>
       <button class="a-tab" data-tab="mobile">📱 Mobile</button>
       <button class="a-tab" data-tab="sicurezza">🔐 Sicurezza</button>
@@ -546,6 +562,7 @@
       <details class="txt-group">
         <summary class="txt-group-title">👥 Chi Siamo</summary>
         <div class="a-form" style="margin-top:14px">
+          <div class="fg"><label>Titolo sezione <span style="color:var(--dim);text-transform:none;letter-spacing:0">(vai a capo con Invio per spezzare la riga)</span></label><textarea id="t-chisiamo-title" rows="2" placeholder="Un angolo di paradiso&#10;sulla costa vesuviana"></textarea></div>
           <div class="fg"><label>Paragrafo 1</label><textarea id="t-chisiamo-p1" placeholder="Cala Sea nasce dall'amore..."></textarea></div>
           <div class="fg"><label>Paragrafo 2</label><textarea id="t-chisiamo-p2" placeholder="Ti aspettiamo su lettini esclusivi..."></textarea></div>
           <div class="a-divider"></div>
@@ -612,6 +629,37 @@
         </div>
       </details>
 
+    </div>
+
+    <!-- ═══ LAYOUT / POSIZIONI ═══ -->
+    <div id="panel-layout" class="a-panel">
+      <h2 class="a-section-title">Layout & Posizioni</h2>
+      <p class="a-section-desc">Sposta e allinea i testi, i titoli e le immagini delle sezioni principali. Ogni modifica si applica subito dopo il salvataggio.</p>
+
+      <!-- ALLINEAMENTO TESTI -->
+      <details class="txt-group" open>
+        <summary class="txt-group-title">↔️ Allineamento testi</summary>
+        <div class="a-form" style="margin-top:14px">
+          <div id="align-controls"><!-- generato da JS --></div>
+          <button class="a-save" onclick="saveLayoutAlign()" style="margin-top:6px">Salva allineamenti</button>
+          <p id="align-status" class="a-status"></p>
+        </div>
+      </details>
+
+      <!-- POSIZIONE IMMAGINI -->
+      <details class="txt-group">
+        <summary class="txt-group-title">🖼️ Posizione immagini (Chi Siamo)</summary>
+        <div class="a-form" style="margin-top:14px">
+          <p class="a-section-desc" style="margin-bottom:14px">Sposta l'inquadratura dentro la cornice della foto, se un soggetto importante viene tagliato.</p>
+          <div id="imgpos-controls"><!-- generato da JS --></div>
+          <button class="a-save" onclick="saveLayoutImgpos()" style="margin-top:6px">Salva posizioni</button>
+          <p id="imgpos-status" class="a-status"></p>
+        </div>
+      </details>
+
+      <div class="btn-row" style="margin-top:18px">
+        <button onclick="resetLayout()" class="a-save-ghost">Ripristina layout originale</button>
+      </div>
     </div>
 
     <!-- ═══ RECENSIONI ═══ -->
@@ -795,19 +843,58 @@ const SITE_DEFAULTS = {
   col_sand:     '#e8dcc8',
   col_gold:     '#c9a227',
   font_key:     'default',
+  t_chisiamo_title: 'Un angolo di paradiso\nsulla costa vesuviana',
+  // Layout — allineamenti testo (left/center/right)
+  align_hero_sub:  'center',
+  align_chi_title: 'left',
+  align_chi_body:  'left',
+  align_svc_title: 'center',
+  align_menu_title:'center',
+  // Layout — posizione immagini (object-position)
+  imgpos_chi_main:    'center',
+  imgpos_chi_overlap: 'center',
 };
 
+// Campi del pannello Layout
+const ALIGN_FIELDS = [
+  { key:'align_hero_sub',  label:'Hero — sottotitolo' },
+  { key:'align_chi_title', label:'Chi Siamo — titolo' },
+  { key:'align_chi_body',  label:'Chi Siamo — testo + statistiche' },
+  { key:'align_svc_title', label:'Servizi — titolo' },
+  { key:'align_menu_title',label:'Menu — titolo grande' },
+];
+const ALIGN_OPTS = [
+  { v:'left',   ico:'⬅', t:'Sinistra' },
+  { v:'center', ico:'↔', t:'Centro' },
+  { v:'right',  ico:'➡', t:'Destra' },
+];
+const IMGPOS_FIELDS = [
+  { key:'imgpos_chi_main',    label:'Foto principale' },
+  { key:'imgpos_chi_overlap', label:'Foto sovrapposta' },
+];
+const IMGPOS_OPTS = [
+  { v:'top',    ico:'⬆', t:'Alto' },
+  { v:'center', ico:'⊙', t:'Centro' },
+  { v:'bottom', ico:'⬇', t:'Basso' },
+  { v:'left',   ico:'⬅', t:'Sinistra' },
+  { v:'right',  ico:'➡', t:'Destra' },
+];
+const layoutState = {};
+
 const FONTS = [
-  { key:'default',   name:'Classico Marino',    serif:"'Cormorant Garamond',serif",   sans:"'Jost',sans-serif",          gfUrl:'Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@300;400;500;600' },
-  { key:'playfair',  name:'Elegante Moderno',   serif:"'Playfair Display',serif",     sans:"'Montserrat',sans-serif",    gfUrl:'Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600' },
-  { key:'garamond',  name:'Letterario',         serif:"'EB Garamond',serif",          sans:"'Raleway',sans-serif",       gfUrl:'EB+Garamond:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600' },
-  { key:'cinzel',    name:'Imperiale',          serif:"'Cinzel',serif",               sans:"'Raleway',sans-serif",       gfUrl:'Cinzel:wght@400;600&family=Raleway:wght@300;400;500;600' },
-  { key:'libre',     name:'Caldo & Moderno',    serif:"'Libre Baskerville',serif",    sans:"'Nunito',sans-serif",        gfUrl:'Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600' },
-  { key:'bodoni',    name:'Alta Moda',          serif:"'Bodoni Moda',serif",          sans:"'DM Sans',sans-serif",       gfUrl:'Bodoni+Moda:ital,opsz,wght@0,6,400;0,6,600;1,6,400&family=DM+Sans:wght@300;400;500;600' },
-  { key:'italiana',  name:'Italiano Chic',      serif:"'Italiana',serif",             sans:"'Josefin Sans',sans-serif",  gfUrl:'Italiana&family=Josefin+Sans:wght@300;400;600' },
-  { key:'spectral',  name:'Contemporaneo',      serif:"'Spectral',serif",             sans:"'Poppins',sans-serif",       gfUrl:'Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:wght@300;400;500;600' },
-  { key:'gilda',     name:'Raffinato',          serif:"'Gilda Display',serif",        sans:"'Cabin',sans-serif",         gfUrl:'Gilda+Display&family=Cabin:wght@400;500;600' },
-  { key:'yeseva',    name:'Solare',             serif:"'Yeseva One',serif",           sans:"'Lato',sans-serif",          gfUrl:'Yeseva+One&family=Lato:wght@300;400;700' },
+  { key:'default',      name:'Classico Marino ⭐',  serif:"'Cormorant Garamond',serif",         sans:"'Jost',sans-serif",          gfUrl:'Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@300;400;500;600' },
+  { key:'cassannet',    name:'Brand Cala Sea ⭐',   serif:"'Cassannet Plus',sans-serif",        sans:"'Jost',sans-serif",          custom:true },
+  { key:'bigshoulders', name:'Impatto Moderno',     serif:"'Big Shoulders Display',sans-serif", sans:"'Jost',sans-serif",          custom:true },
+  { key:'beckman',      name:'Vintage Display',     serif:"'Beckman',serif",                    sans:"'Jost',sans-serif",          custom:true },
+  { key:'bodoni',       name:'Alta Moda',           serif:"'Bodoni Moda',serif",                sans:"'Jost',sans-serif",          gfUrl:'Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500;600' },
+  { key:'playfair',     name:'Elegante Moderno',    serif:"'Playfair Display',serif",           sans:"'Montserrat',sans-serif",    gfUrl:'Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600' },
+  { key:'garamond',     name:'Letterario',          serif:"'EB Garamond',serif",                sans:"'Raleway',sans-serif",       gfUrl:'EB+Garamond:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600' },
+  { key:'cinzel',       name:'Imperiale',           serif:"'Cinzel',serif",                     sans:"'Raleway',sans-serif",       gfUrl:'Cinzel:wght@400;600&family=Raleway:wght@300;400;500;600' },
+  { key:'libre',        name:'Caldo & Moderno',     serif:"'Libre Baskerville',serif",          sans:"'Nunito',sans-serif",        gfUrl:'Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600' },
+  { key:'italiana',     name:'Italiano Chic',       serif:"'Italiana',serif",                   sans:"'Josefin Sans',sans-serif",  gfUrl:'Italiana&family=Josefin+Sans:wght@300;400;600' },
+  { key:'spectral',     name:'Contemporaneo',       serif:"'Spectral',serif",                   sans:"'Poppins',sans-serif",       gfUrl:'Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:wght@300;400;500;600' },
+  { key:'gilda',        name:'Raffinato',           serif:"'Gilda Display',serif",              sans:"'Cabin',sans-serif",         gfUrl:'Gilda+Display&family=Cabin:wght@400;500;600' },
+  { key:'yeseva',       name:'Solare',              serif:"'Yeseva One',serif",                 sans:"'Lato',sans-serif",          gfUrl:'Yeseva+One&family=Lato:wght@300;400;700' },
 ];
 
 const DEFAULT_MENU = {
@@ -1006,9 +1093,12 @@ async function loadAllSettings() {
     document.getElementById('t-tagline').value  = val('t_tagline');
     document.getElementById('t-sub').value      = val('t_sub');
     // Chi siamo
+    document.getElementById('t-chisiamo-title').value = val('t_chisiamo_title');
     document.getElementById('t-chisiamo-p1').value = val('t_chisiamo_p1');
     document.getElementById('t-chisiamo-p2').value = val('t_chisiamo_p2');
     buildChiImgPicker(val('chi_img_overlap'));
+    // Layout & posizioni
+    buildLayoutControls(s);
     // Servizi
     document.getElementById('t-svc1-title').value = val('t_svc1_title');
     document.getElementById('t-svc1-desc').value  = val('t_svc1_desc');
@@ -1380,9 +1470,9 @@ function initFonts() {
       <p class="font-card-name">${f.name}</p>
       <p class="font-card-preview" style="font-family:${f.serif}">Cala <em>Sea</em><small style="font-family:${f.sans}">Beach Club</small></p>
     </div>`).join('');
-  // Pre-carica tutti i font per la preview
+  // Pre-carica i font Google per la preview (i custom sono già via @font-face)
   FONTS.forEach(f => {
-    if (f.key === 'default') return;
+    if (f.key === 'default' || f.custom || !f.gfUrl) return;
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = 'https://fonts.googleapis.com/css2?family=' + f.gfUrl + '&display=swap';
@@ -1503,15 +1593,74 @@ function selectChiImg(src, el) {
 }
 
 async function saveChiSiamo() {
+  const ti  = document.getElementById('t-chisiamo-title');
   const p1  = document.getElementById('t-chisiamo-p1');
   const p2  = document.getElementById('t-chisiamo-p2');
   const res = await Promise.all([
+    saveKey('t_chisiamo_title', ti ? ti.value.replace(/\r/g,'').trim() : ''),
     saveKey('t_chisiamo_p1', p1 ? p1.value.trim() : ''),
     saveKey('t_chisiamo_p2', p2 ? p2.value.trim() : ''),
     saveKey('chi_img_overlap', chiImgSelected),
   ]);
   const ok = res.every(Boolean);
   showStatus('chisiamo-status', ok ? '✓ Salvato sul sito!' : '⚠ Errore nel salvataggio.', ok);
+}
+
+/* ── LAYOUT / POSIZIONI ── */
+function buildLayoutControls(s) {
+  // memorizza i valori correnti (DB o default)
+  [...ALIGN_FIELDS, ...IMGPOS_FIELDS].forEach(f => {
+    layoutState[f.key] = (s && s[f.key] && s[f.key].trim()) ? s[f.key].trim() : SITE_DEFAULTS[f.key];
+  });
+  // Allineamenti
+  const ac = document.getElementById('align-controls');
+  if (ac) {
+    ac.innerHTML = ALIGN_FIELDS.map(f => `
+      <div class="lay-row">
+        <span class="lay-row-label">${f.label}</span>
+        <span class="lay-seg" id="seg-${f.key}">
+          ${ALIGN_OPTS.map(o => `<button title="${o.t}" onclick="setLayout('${f.key}','${o.v}')" data-v="${o.v}">${o.ico}</button>`).join('')}
+        </span>
+      </div>`).join('');
+  }
+  // Posizione immagini
+  const ic = document.getElementById('imgpos-controls');
+  if (ic) {
+    ic.innerHTML = IMGPOS_FIELDS.map(f => `
+      <div class="lay-row">
+        <span class="lay-row-label">${f.label}</span>
+        <span class="lay-seg" id="seg-${f.key}">
+          ${IMGPOS_OPTS.map(o => `<button title="${o.t}" onclick="setLayout('${f.key}','${o.v}')" data-v="${o.v}">${o.ico}</button>`).join('')}
+        </span>
+      </div>`).join('');
+  }
+  // evidenzia i valori attivi
+  [...ALIGN_FIELDS, ...IMGPOS_FIELDS].forEach(f => highlightSeg(f.key, layoutState[f.key]));
+}
+function highlightSeg(key, val) {
+  const seg = document.getElementById('seg-' + key);
+  if (!seg) return;
+  seg.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.v === val));
+}
+function setLayout(key, val) {
+  layoutState[key] = val;
+  highlightSeg(key, val);
+}
+async function saveLayoutAlign() {
+  const res = await Promise.all(ALIGN_FIELDS.map(f => saveKey(f.key, layoutState[f.key])));
+  const ok = res.every(Boolean);
+  showStatus('align-status', ok ? '✓ Allineamenti salvati sul sito!' : '⚠ Errore nel salvataggio.', ok);
+}
+async function saveLayoutImgpos() {
+  const res = await Promise.all(IMGPOS_FIELDS.map(f => saveKey(f.key, layoutState[f.key])));
+  const ok = res.every(Boolean);
+  showStatus('imgpos-status', ok ? '✓ Posizioni salvate sul sito!' : '⚠ Errore nel salvataggio.', ok);
+}
+async function resetLayout() {
+  [...ALIGN_FIELDS, ...IMGPOS_FIELDS].forEach(f => { layoutState[f.key] = SITE_DEFAULTS[f.key]; highlightSeg(f.key, SITE_DEFAULTS[f.key]); });
+  const res = await Promise.all([...ALIGN_FIELDS, ...IMGPOS_FIELDS].map(f => saveKey(f.key, SITE_DEFAULTS[f.key])));
+  const ok = res.every(Boolean);
+  showStatus('align-status', ok ? '✓ Layout ripristinato.' : '⚠ Errore.', ok);
 }
 
 /* ── TESTI ── */ // (salvataggi gestiti da saveTxtGroup per ogni gruppo)
