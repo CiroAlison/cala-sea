@@ -584,17 +584,28 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
       }
 
       // === LAYOUT — allineamento testi (sinistra/centro/destra) ===
+      // selettori scope-ati per sezione → ogni sezione del sito è indipendente
       const ALIGN_MAP = {
-        align_hero_sub:  '.hero-sub',
-        align_chi_title: '.chi-title',
-        align_chi_body:  '.chi-body',
-        align_svc_title: '.svc-title',
-        align_menu_title:'.menu-big-title',
+        align_hero_sub:   '.hero-sub',
+        align_chi_title:  '.chi-title',
+        align_chi_body:   '.chi-body',
+        align_svc_title:  '.svc-title',
+        align_menu_title: '.menu-big-title',
+        align_gallery:    '#gallery .sec-header',
+        align_video:      '#video .sec-header',
+        align_recensioni: '#recensioni .sec-header',
+        align_eventi:     '#eventi .ev-header',
+        align_prenota:    '#prenota .sec-header',
+        align_contatti:   '.ds-info',
       };
       Object.entries(ALIGN_MAP).forEach(([key, sel]) => {
         const v = s[key];
         if (v && /^(left|center|right)$/.test(v)) {
-          document.querySelectorAll(sel).forEach(el => { el.style.textAlign = v; });
+          document.querySelectorAll(sel).forEach(el => {
+            el.style.textAlign = v;
+            // override anche i figli testuali con text-align esplicito nel CSS
+            el.querySelectorAll('p, h1, h2, h3, h4, h5, h6').forEach(t => { t.style.textAlign = v; });
+          });
         }
       });
       // Chi Siamo: allineamento testo sposta anche le statistiche

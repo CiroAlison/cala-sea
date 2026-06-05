@@ -850,18 +850,30 @@ const SITE_DEFAULTS = {
   align_chi_body:  'left',
   align_svc_title: 'center',
   align_menu_title:'center',
+  align_gallery:   'center',
+  align_video:     'center',
+  align_recensioni:'center',
+  align_eventi:    'center',
+  align_prenota:   'center',
+  align_contatti:  'left',
   // Layout — posizione immagini (object-position)
   imgpos_chi_main:    'center',
   imgpos_chi_overlap: 'center',
 };
 
-// Campi del pannello Layout
+// Campi del pannello Layout — una riga per ogni sezione del sito
 const ALIGN_FIELDS = [
-  { key:'align_hero_sub',  label:'Hero — sottotitolo' },
-  { key:'align_chi_title', label:'Chi Siamo — titolo' },
-  { key:'align_chi_body',  label:'Chi Siamo — testo + statistiche' },
-  { key:'align_svc_title', label:'Servizi — titolo' },
-  { key:'align_menu_title',label:'Menu — titolo grande' },
+  { key:'align_hero_sub',   label:'Hero — sottotitolo' },
+  { key:'align_chi_title',  label:'Chi Siamo — titolo' },
+  { key:'align_chi_body',   label:'Chi Siamo — testo + statistiche' },
+  { key:'align_svc_title',  label:'Servizi — titolo' },
+  { key:'align_menu_title', label:'Menu — titolo grande' },
+  { key:'align_gallery',    label:'Gallery — intestazione' },
+  { key:'align_video',      label:'Video — intestazione' },
+  { key:'align_recensioni', label:'Recensioni — intestazione' },
+  { key:'align_eventi',     label:'Eventi — intestazione' },
+  { key:'align_prenota',    label:'Prenota — intestazione' },
+  { key:'align_contatti',   label:'Contatti — indirizzo' },
 ];
 const ALIGN_OPTS = [
   { v:'left',   ico:'⬅', t:'Sinistra' },
