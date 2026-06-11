@@ -1853,9 +1853,34 @@ a.hs-item:hover { color: var(--white); }
   from { transform: translateY(20px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
 }
+.pso-sub {
+  font-family: var(--sans);
+  font-size: clamp(.86rem, 1.4vw, 1rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255,255,255,.82);
+  max-width: 440px;
+  margin: 22px auto 0;
+  animation: pso-rise .6s ease .35s both;
+}
+.pso-wa {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 26px;
+  padding: 15px 34px;
+  border-radius: 999px;
+  background: #25D366; color: #fff;
+  font-family: var(--sans);
+  font-size: clamp(.8rem, 1.3vw, .95rem);
+  font-weight: 600; letter-spacing: 0.04em;
+  text-decoration: none;
+  box-shadow: 0 10px 30px -8px rgba(37,211,102,.6);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  animation: pso-rise .6s ease .45s both;
+}
+.pso-wa:hover { background: #20bd5a; transform: translateY(-2px); box-shadow: 0 14px 36px -8px rgba(37,211,102,.7); }
+.pso-wa svg { flex-shrink: 0; }
 .pso-close {
-  display: inline-block;
-  margin-top: 48px;
+  display: block; margin: 22px auto 0;
   padding: 0;
   border: none;
   background: transparent;
@@ -1867,7 +1892,7 @@ a.hs-item:hover { color: var(--white); }
   text-transform: uppercase;
   cursor: pointer;
   transition: color .2s;
-  animation: pso-rise .6s ease .5s both;
+  animation: pso-rise .6s ease .55s both;
 }
 .pso-close:hover { color: #fff; }
 

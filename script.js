@@ -250,18 +250,42 @@ if (form) {
     const tipo     = document.getElementById('tipo').value;
     const note     = document.getElementById('note')?.value.trim() || '';
 
+    // ── Costruisci il messaggio WhatsApp per la proprietaria ──
+    const waNum = getOwnerWaNumber();
+    const dataFmt = formatDateIt(data);
+    const righe = [
+      '🌊 *Nuova Prenotazione – Cala Sea*',
+      '',
+      '👤 *Nome:* ' + nome,
+      '📞 *Telefono:* ' + telefono,
+      '📅 *Data:* ' + dataFmt,
+      '👥 *Persone:* ' + persone,
+      '🍽️ *Tipo:* ' + tipo,
+    ];
+    if (note) righe.push('📝 *Note:* ' + note);
+    const waUrl = 'https://wa.me/' + waNum + '?text=' + encodeURIComponent(righe.join('\n'));
+
+    // Apri WhatsApp SUBITO (gesto utente ancora attivo → evita il blocco popup)
+    const waWin = window.open(waUrl, '_blank');
+
+    // Prepara il pulsante WhatsApp nell'overlay (fallback se il popup è bloccato + per reinviare)
+    const psoWa = document.getElementById('psoWa');
+    if (psoWa) psoWa.href = waUrl;
+
     const submitBtn = form.querySelector('.btn-prenota-submit');
     setSubmitLoading(submitBtn, true, 'PRENOTA');
 
+    // Salva nel DB (registro admin); keepalive così completa anche se si cambia scheda
     try {
       await fetch('/api/prenota', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, telefono, data, persone, tipo, note })
+        body: JSON.stringify({ nome, telefono, data, persone, tipo, note }),
+        keepalive: true
       });
     } catch(err) { /* continua comunque */ }
 
-    // Mostra overlay successo
+    // Mostra overlay successo (con il pulsante "Apri WhatsApp")
     const successOverlay = document.getElementById('prenota-success');
     if (successOverlay) {
       successOverlay.classList.add('show');
@@ -272,6 +296,22 @@ if (form) {
     form.reset();
     setSubmitLoading(submitBtn, false, 'PRENOTA');
   });
+}
+
+// Numero WhatsApp della proprietaria: legge dai link data-wa (riflette il setting c_wa), fallback al default
+function getOwnerWaNumber() {
+  const link = document.querySelector('a[data-wa="true"]');
+  if (link) {
+    const m = (link.getAttribute('href') || '').match(/wa\.me\/(\d+)/);
+    if (m) return m[1];
+  }
+  return '393278653508';
+}
+// Converte YYYY-MM-DD → DD/MM/YYYY
+function formatDateIt(iso) {
+  if (!iso || iso.indexOf('-') < 0) return iso || '';
+  const [y, m, d] = iso.split('-');
+  return d + '/' + m + '/' + y;
 }
 
 // Chiudi overlay successo
