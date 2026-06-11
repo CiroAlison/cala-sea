@@ -612,6 +612,58 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         if (el) el.src = s.chi_img_overlap;
       }
 
+      // === IMMAGINI sezioni (hero, chi siamo, servizi, eventi) via data-img-key ===
+      document.querySelectorAll('[data-img-key]').forEach(img => {
+        const v = s[img.dataset.imgKey];
+        if (v && v.trim()) {
+          img.src = v;
+          // se è l'hero, aggiorna anche il poster del video
+          if (img.dataset.imgKey === 'img_hero') {
+            const vid = document.querySelector('.hero-video');
+            if (vid) vid.setAttribute('poster', v);
+          }
+        }
+      });
+
+      // === STATISTICHE Chi Siamo (numeri) ===
+      const STAT_MAP = { recensioni:'stat_recensioni', rating:'stat_rating', followers:'stat_followers' };
+      document.querySelectorAll('[data-stat]').forEach(el => {
+        const v = s[STAT_MAP[el.dataset.stat]];
+        if (v && v.trim()) el.textContent = v;
+      });
+
+      // === RECENSIONI homepage (testo + autore + stelle) ===
+      if (s.reviews_json) {
+        try {
+          const arr = JSON.parse(s.reviews_json);
+          if (Array.isArray(arr)) {
+            document.querySelectorAll('#recensioni .review-card').forEach((card, i) => {
+              const r = arr[i];
+              if (r && (r.text || r.name)) {
+                const txt = card.querySelector('.rev-text');
+                const nm  = card.querySelector('.rev-name');
+                const st  = card.querySelector('.rev-stars');
+                if (txt && r.text) txt.textContent = '"' + r.text + '"';
+                if (nm && r.name)  nm.textContent = r.name;
+                if (st && r.stars) st.textContent = '★'.repeat(Math.max(1, Math.min(5, parseInt(r.stars) || 5)));
+              }
+            });
+          }
+        } catch(e) { /* mantieni recensioni statiche */ }
+      }
+
+      // === MOSTRA/NASCONDI sezioni ===
+      // hide_<id> = '1' → nasconde la sezione e il relativo link nav
+      ['chi-siamo','servizi','recensioni','menu','gallery','video','eventi','contatti'].forEach(id => {
+        if (s['hide_' + id] === '1') {
+          const sec = document.getElementById(id);
+          if (sec) sec.style.display = 'none';
+          document.querySelectorAll('a[href="#' + id + '"]').forEach(a => {
+            const li = a.closest('li'); (li || a).style.display = 'none';
+          });
+        }
+      });
+
       // Titolo Chi Siamo (con a-capo: \n → <br>, racchiuso in <em> corsivo)
       if (s.t_chisiamo_title && s.t_chisiamo_title.trim()) {
         const el = document.querySelector('.chi-title');

@@ -228,6 +228,13 @@
     .lay-seg button:last-child{border-right:none}
     .lay-seg button:hover{color:var(--text)}
     .lay-seg button.active{background:var(--sand);color:var(--navy-deep);font-weight:700}
+    /* Immagini sezioni */
+    .secimg-row{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid rgba(232,220,200,.07)}
+    .secimg-thumb{width:84px;height:60px;object-fit:cover;border-radius:8px;flex-shrink:0;background:rgba(255,255,255,.05);border:1px solid var(--border)}
+    .secimg-info{display:flex;flex-direction:column;gap:6px;min-width:0}
+    .secimg-label{font-size:.86rem;color:var(--text)}
+    .secimg-change{padding:7px 14px;font-size:.72rem;align-self:flex-start}
+    .secimg-picker{margin:6px 0 14px}
 
     /* ── SEPARATORE ── */
     .a-divider{height:1px;background:var(--border);margin:24px 0}
@@ -390,6 +397,7 @@
       <button class="a-tab" data-tab="menu">🍽️ Menu</button>
       <button class="a-tab" data-tab="stile">🎨 Stile</button>
       <button class="a-tab" data-tab="testi">✏️ Testi</button>
+      <button class="a-tab" data-tab="immagini">🖼️ Immagini</button>
       <button class="a-tab" data-tab="layout">📐 Layout</button>
       <button class="a-tab" data-tab="recensioni" id="tab-recensioni-btn">⭐ Recensioni</button>
       <button class="a-tab" data-tab="mobile">📱 Mobile</button>
@@ -566,10 +574,28 @@
           <div class="fg"><label>Paragrafo 1</label><textarea id="t-chisiamo-p1" placeholder="Cala Sea nasce dall'amore..."></textarea></div>
           <div class="fg"><label>Paragrafo 2</label><textarea id="t-chisiamo-p2" placeholder="Ti aspettiamo su lettini esclusivi..."></textarea></div>
           <div class="a-divider"></div>
+          <label style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:6px">📊 Statistiche (numeri)</label>
+          <div class="fg-row">
+            <div class="fg"><label>Recensioni</label><input type="text" id="t-stat-recensioni" placeholder="151" /></div>
+            <div class="fg"><label>Tripadvisor</label><input type="text" id="t-stat-rating" placeholder="4.3" /></div>
+            <div class="fg"><label>Followers</label><input type="text" id="t-stat-followers" placeholder="10K+" /></div>
+          </div>
+          <div class="a-divider"></div>
           <label style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:6px">📷 Foto sovrapposta</label>
           <div class="img-picker-grid" id="chi-img-picker"></div>
           <button class="a-save" onclick="saveChiSiamo()">Salva Chi Siamo</button>
           <p id="chisiamo-status" class="a-status"></p>
+        </div>
+      </details>
+
+      <!-- RECENSIONI HOMEPAGE -->
+      <details class="txt-group">
+        <summary class="txt-group-title">⭐ Recensioni in homepage (8)</summary>
+        <div class="a-form" style="margin-top:14px">
+          <p class="a-section-desc" style="margin-bottom:14px">Le recensioni mostrate nella sezione "Dicono di noi". Modifica testo, nome e stelle di ognuna.</p>
+          <div id="reviews-fields"><!-- generato da JS --></div>
+          <button class="a-save" onclick="saveReviews()">Salva recensioni</button>
+          <p id="reviews-status" class="a-status"></p>
         </div>
       </details>
 
@@ -631,6 +657,15 @@
 
     </div>
 
+    <!-- ═══ IMMAGINI SEZIONI ═══ -->
+    <div id="panel-immagini" class="a-panel">
+      <h2 class="a-section-title">Immagini delle Sezioni</h2>
+      <p class="a-section-desc">Cambia le foto di ogni sezione del sito. Scegli tra le foto del Cala Sea (incluse quelle caricate nella Gallery). L'anteprima si aggiorna subito.</p>
+      <div id="secimg-groups"><!-- generato da JS --></div>
+      <button class="a-save" onclick="saveSectionImages()" style="margin-top:8px">Salva immagini</button>
+      <p id="secimg-status" class="a-status"></p>
+    </div>
+
     <!-- ═══ LAYOUT / POSIZIONI ═══ -->
     <div id="panel-layout" class="a-panel">
       <h2 class="a-section-title">Layout & Posizioni</h2>
@@ -654,6 +689,17 @@
           <div id="imgpos-controls"><!-- generato da JS --></div>
           <button class="a-save" onclick="saveLayoutImgpos()" style="margin-top:6px">Salva posizioni</button>
           <p id="imgpos-status" class="a-status"></p>
+        </div>
+      </details>
+
+      <!-- MOSTRA / NASCONDI SEZIONI -->
+      <details class="txt-group">
+        <summary class="txt-group-title">👁️ Mostra / nascondi sezioni</summary>
+        <div class="a-form" style="margin-top:14px">
+          <p class="a-section-desc" style="margin-bottom:14px">Spegni una sezione per nasconderla dal sito (e dal menu di navigazione). Riaccendila quando vuoi.</p>
+          <div id="sections-toggle"><!-- generato da JS --></div>
+          <button class="a-save" onclick="saveSectionVisibility()" style="margin-top:6px">Salva sezioni</button>
+          <p id="sections-status" class="a-status"></p>
         </div>
       </details>
 
@@ -859,7 +905,58 @@ const SITE_DEFAULTS = {
   // Layout — posizione immagini (object-position)
   imgpos_chi_main:    'center',
   imgpos_chi_overlap: 'center',
+  // Statistiche Chi Siamo
+  stat_recensioni: '151',
+  stat_rating:     '4.3',
+  stat_followers:  '10K+',
+  // Immagini sezioni (src attuali nell'HTML)
+  img_hero:     'img/hero.jpg',
+  img_chi_main: 'img/ig-new11.jpg',
+  img_svc1: 'img/ig-new1.jpg',  img_svc2: 'img/ig-new9.jpg',
+  img_svc3: 'img/ig-new4.jpg',  img_svc4: 'img/ig-new14.jpg',
+  img_ev1: 'img/brindisi.jpg',  img_ev2: 'img/tramonto.jpg', img_ev3: 'img/terrazza.jpg',
+  img_ev4: 'img/mare.jpg',      img_ev5: 'img/piatto1.jpg',  img_ev6: 'img/piatto2.jpg',
+  img_ev7: 'img/brindisi.jpg',  img_ev8: 'img/tramonto.jpg', img_ev9: 'img/terrazza.jpg',
 };
+
+// Campi immagini sezioni (chiave → etichetta)
+const SECTION_IMG_FIELDS = [
+  { key:'img_hero',     label:'Hero — sfondo principale' },
+  { key:'img_chi_main', label:'Chi Siamo — foto principale' },
+  { key:'img_svc1', label:'Servizi — Ristorante' },
+  { key:'img_svc2', label:'Servizi — Beach Club' },
+  { key:'img_svc3', label:'Servizi — Cocktail Bar' },
+  { key:'img_svc4', label:'Servizi — Eventi' },
+  { key:'img_ev1', label:'Eventi — Matrimoni' },
+  { key:'img_ev2', label:'Eventi — Compleanni' },
+  { key:'img_ev3', label:'Eventi — Comunioni & Cresime' },
+  { key:'img_ev4', label:'Eventi — Battesimi' },
+  { key:'img_ev5', label:'Eventi — Feste di Laurea' },
+  { key:'img_ev6', label:'Eventi — Baby Shower' },
+  { key:'img_ev7', label:'Eventi — Anniversari' },
+  { key:'img_ev8', label:'Eventi — DJ Set & Live' },
+  { key:'img_ev9', label:'Eventi — Aziendali' },
+];
+// Sezioni mostrabili/nascondibili
+const TOGGLE_SECTIONS = [
+  { id:'chi-siamo', label:'Chi Siamo' }, { id:'servizi', label:'Servizi' },
+  { id:'menu', label:'Menu' }, { id:'gallery', label:'Gallery' },
+  { id:'recensioni', label:'Recensioni' }, { id:'eventi', label:'Eventi' },
+  { id:'video', label:'Video' }, { id:'contatti', label:'Contatti / Dove Siamo' },
+];
+// Recensioni homepage di default (8)
+const DEFAULT_REVIEWS = [
+  { stars:5, text:'Location spettacolare, vista mozzafiato sul Golfo di Napoli. Pizza e cibo di ottima qualità, cucinati in maniera squisita. Bella terrazza sul mare, tutto ben curato.', name:'Anita M.' },
+  { stars:5, text:'Professionalità e ospitalità impareggiabili. Cibo eccellente e servizio impeccabile in una location straordinaria. Consigliato vivamente per occasioni speciali.', name:'Donato R.' },
+  { stars:5, text:'Un posto dal potenziale incredibile, mare pulito e personale gentile. Festeggiamento andato benissimo, menù eccezionale con attenzione per le allergie.', name:'Simona L.' },
+  { stars:5, text:'Serata indimenticabile con gli amici. Aperitivo al tramonto, musica giusta e una vista che toglie il fiato. Tornerò sicuramente con la famiglia.', name:'Marco E.' },
+  { stars:5, text:'Pranzo fantastico sulla terrazza con vista sul mare. Piatti freschi e curati, personale cortese. Uno dei posti più belli della costiera vesuviana.', name:'Giulia P.' },
+  { stars:5, text:'Abbiamo festeggiato il nostro anniversario qui ed è stato magico. La cucina è eccellente, il servizio impeccabile. Lo consiglio a tutti.', name:'Roberto C.' },
+  { stars:5, text:'Posto incantevole, lettini direttamente sul mare, cocktail ottimi. Il personale è sempre disponibile e sorridente. Ci torneremo ogni estate!', name:'Francesca D.' },
+  { stars:5, text:'Cena romantica con tramonto sul Golfo di Napoli. Pesce freschissimo, vini eccellenti e un\'atmosfera unica. Un\'esperienza che non dimenticheremo.', name:'Antonio V.' },
+];
+const sectionImgState = {};   // key → src scelto
+let secVisibility = {};       // id → true(nascondi)/false
 
 // Campi del pannello Layout — una riga per ogni sezione del sito
 const ALIGN_FIELDS = [
@@ -1109,6 +1206,24 @@ async function loadAllSettings() {
     document.getElementById('t-chisiamo-p1').value = val('t_chisiamo_p1');
     document.getElementById('t-chisiamo-p2').value = val('t_chisiamo_p2');
     buildChiImgPicker(val('chi_img_overlap'));
+    // Statistiche Chi Siamo
+    document.getElementById('t-stat-recensioni').value = val('stat_recensioni');
+    document.getElementById('t-stat-rating').value     = val('stat_rating');
+    document.getElementById('t-stat-followers').value   = val('stat_followers');
+    // Recensioni homepage
+    buildReviewsFields(s);
+    // Immagini sezioni (+ aggiunge le foto della Gallery alla palette)
+    try {
+      const fotos = await fetch('/api/foto').then(r=>r.json()).catch(()=>[]);
+      if (Array.isArray(fotos)) {
+        fotos.filter(f => (f.tipo||'foto')==='foto').forEach(f => {
+          SECTION_IMG_PALETTE.push({ src:'/api/foto?id='+f.id, label:(f.nome||'Gallery').slice(0,14) });
+        });
+      }
+    } catch(e){}
+    buildSectionImages(s);
+    // Mostra/nascondi sezioni
+    buildSectionsToggle(s);
     // Layout & posizioni
     buildLayoutControls(s);
     // Servizi
@@ -1608,14 +1723,139 @@ async function saveChiSiamo() {
   const ti  = document.getElementById('t-chisiamo-title');
   const p1  = document.getElementById('t-chisiamo-p1');
   const p2  = document.getElementById('t-chisiamo-p2');
+  const v = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
   const res = await Promise.all([
     saveKey('t_chisiamo_title', ti ? ti.value.replace(/\r/g,'').trim() : ''),
     saveKey('t_chisiamo_p1', p1 ? p1.value.trim() : ''),
     saveKey('t_chisiamo_p2', p2 ? p2.value.trim() : ''),
     saveKey('chi_img_overlap', chiImgSelected),
+    saveKey('stat_recensioni', v('t-stat-recensioni')),
+    saveKey('stat_rating',     v('t-stat-rating')),
+    saveKey('stat_followers',  v('t-stat-followers')),
   ]);
   const ok = res.every(Boolean);
   showStatus('chisiamo-status', ok ? '✓ Salvato sul sito!' : '⚠ Errore nel salvataggio.', ok);
+}
+
+/* ── IMMAGINI SEZIONI ── */
+// Palette = foto brand curate + foto caricate nella Gallery (popolata in loadAllSettings)
+let SECTION_IMG_PALETTE = [
+  {src:'img/ig-new1.jpg',label:'IG 1'},{src:'img/ig-new2.jpg',label:'IG 2'},{src:'img/ig-new3.jpg',label:'IG 3'},
+  {src:'img/ig-new4.jpg',label:'IG 4'},{src:'img/ig-new5.jpg',label:'IG 5'},{src:'img/ig-new6.jpg',label:'IG 6'},
+  {src:'img/ig-new7.jpg',label:'IG 7'},{src:'img/ig-new8.jpg',label:'IG 8'},{src:'img/ig-new9.jpg',label:'IG 9'},
+  {src:'img/ig-new10.jpg',label:'IG 10'},{src:'img/ig-new11.jpg',label:'IG 11'},{src:'img/ig-new12.jpg',label:'IG 12'},
+  {src:'img/ig-new13.jpg',label:'IG 13'},{src:'img/ig-new14.jpg',label:'IG 14'},{src:'img/ig-new15.jpg',label:'IG 15'},
+  {src:'img/ig-new16.jpg',label:'IG 16'},
+  {src:'img/hero.jpg',label:'Hero'},{src:'img/terrazza.jpg',label:'Terrazza'},{src:'img/mare.jpg',label:'Mare'},
+  {src:'img/tramonto.jpg',label:'Tramonto'},{src:'img/brindisi.jpg',label:'Brindisi'},{src:'img/bandiera.jpg',label:'Bandiera'},
+  {src:'img/piatto1.jpg',label:'Piatto 1'},{src:'img/piatto2.jpg',label:'Piatto 2'},{src:'img/menu-cover.jpg',label:'Menu'},
+];
+function buildSectionImages(s) {
+  SECTION_IMG_FIELDS.forEach(f => { sectionImgState[f.key] = (s && s[f.key] && s[f.key].trim()) ? s[f.key].trim() : SITE_DEFAULTS[f.key]; });
+  const groups = [
+    { title:'🌊 Hero', keys:['img_hero'] },
+    { title:'👥 Chi Siamo', keys:['img_chi_main'] },
+    { title:'🏖️ Servizi', keys:['img_svc1','img_svc2','img_svc3','img_svc4'] },
+    { title:'🎉 Eventi', keys:['img_ev1','img_ev2','img_ev3','img_ev4','img_ev5','img_ev6','img_ev7','img_ev8','img_ev9'] },
+  ];
+  const cont = document.getElementById('secimg-groups');
+  if (!cont) return;
+  const labelOf = k => (SECTION_IMG_FIELDS.find(f => f.key === k) || {}).label || k;
+  cont.innerHTML = groups.map(g => `
+    <details class="txt-group"${g.keys.length<3?' open':''}>
+      <summary class="txt-group-title">${g.title}</summary>
+      <div class="a-form" style="margin-top:14px">
+        ${g.keys.map(k => `
+          <div class="secimg-row">
+            <img class="secimg-thumb" id="thumb-${k}" src="${sectionImgState[k]}" alt="" />
+            <div class="secimg-info">
+              <span class="secimg-label">${labelOf(k)}</span>
+              <button type="button" class="a-save-ghost secimg-change" onclick="toggleSecImgPicker('${k}',this)">Cambia foto</button>
+            </div>
+          </div>
+          <div class="img-picker-grid secimg-picker" id="picker-${k}" style="display:none"></div>
+        `).join('')}
+      </div>
+    </details>`).join('');
+}
+function toggleSecImgPicker(key, btn) {
+  const box = document.getElementById('picker-' + key);
+  if (!box) return;
+  const open = box.style.display !== 'none';
+  if (open) { box.style.display = 'none'; return; }
+  if (!box.dataset.built) {
+    box.innerHTML = SECTION_IMG_PALETTE.map(o => `
+      <div class="img-picker-item${o.src === sectionImgState[key] ? ' selected' : ''}" title="${o.label}" onclick="pickSecImg('${key}','${o.src.replace(/'/g,"\\'")}')">
+        <img src="${o.src}" loading="lazy" alt="${o.label}" />
+        <span class="img-picker-label">${o.label}</span>
+      </div>`).join('');
+    box.dataset.built = '1';
+  }
+  box.style.display = 'grid';
+}
+function pickSecImg(key, src) {
+  sectionImgState[key] = src;
+  const t = document.getElementById('thumb-' + key); if (t) t.src = src;
+  const box = document.getElementById('picker-' + key);
+  if (box) { box.querySelectorAll('.img-picker-item').forEach(i => i.classList.toggle('selected', i.title && false)); box.style.display = 'none'; box.dataset.built = ''; }
+}
+async function saveSectionImages() {
+  const res = await Promise.all(SECTION_IMG_FIELDS.map(f => saveKey(f.key, sectionImgState[f.key])));
+  showStatus('secimg-status', res.every(Boolean) ? '✓ Immagini salvate sul sito!' : '⚠ Errore nel salvataggio.', res.every(Boolean));
+}
+
+/* ── RECENSIONI HOMEPAGE ── */
+let reviewsState = [];
+function buildReviewsFields(s) {
+  reviewsState = JSON.parse(JSON.stringify(DEFAULT_REVIEWS));
+  if (s && s.reviews_json) { try { const a = JSON.parse(s.reviews_json); if (Array.isArray(a)) a.forEach((r,i)=>{ if(reviewsState[i]) reviewsState[i] = Object.assign(reviewsState[i], r); }); } catch(e){} }
+  const cont = document.getElementById('reviews-fields');
+  if (!cont) return;
+  cont.innerHTML = reviewsState.map((r,i) => `
+    <div class="a-sub-block" style="margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(232,220,200,.08)">
+      <p class="a-sub-title">Recensione ${i+1}</p>
+      <div class="fg"><label>Testo</label><textarea data-rev-text="${i}" rows="2">${(r.text||'').replace(/</g,'&lt;')}</textarea></div>
+      <div class="fg-row">
+        <div class="fg"><label>Nome</label><input type="text" data-rev-name="${i}" value="${(r.name||'').replace(/"/g,'&quot;')}" /></div>
+        <div class="fg"><label>Stelle (1-5)</label><input type="number" min="1" max="5" data-rev-stars="${i}" value="${r.stars||5}" /></div>
+      </div>
+    </div>`).join('');
+}
+async function saveReviews() {
+  const arr = reviewsState.map((r,i) => ({
+    text:  (document.querySelector('[data-rev-text="'+i+'"]')||{}).value || r.text,
+    name:  (document.querySelector('[data-rev-name="'+i+'"]')||{}).value || r.name,
+    stars: parseInt((document.querySelector('[data-rev-stars="'+i+'"]')||{}).value) || 5,
+  }));
+  const ok = await saveKey('reviews_json', JSON.stringify(arr));
+  showStatus('reviews-status', ok ? '✓ Recensioni salvate sul sito!' : '⚠ Errore nel salvataggio.', ok);
+}
+
+/* ── MOSTRA / NASCONDI SEZIONI ── */
+function buildSectionsToggle(s) {
+  secVisibility = {};
+  TOGGLE_SECTIONS.forEach(sec => { secVisibility[sec.id] = (s && s['hide_'+sec.id] === '1'); });
+  const cont = document.getElementById('sections-toggle');
+  if (!cont) return;
+  cont.innerHTML = TOGGLE_SECTIONS.map(sec => `
+    <div class="lay-row">
+      <span class="lay-row-label">${sec.label}</span>
+      <span class="lay-seg" id="vis-${sec.id}">
+        <button type="button" data-v="show" onclick="setSecVis('${sec.id}',false)">Mostra</button>
+        <button type="button" data-v="hide" onclick="setSecVis('${sec.id}',true)">Nascondi</button>
+      </span>
+    </div>`).join('');
+  TOGGLE_SECTIONS.forEach(sec => highlightVis(sec.id));
+}
+function highlightVis(id) {
+  const seg = document.getElementById('vis-' + id); if (!seg) return;
+  const hidden = secVisibility[id];
+  seg.querySelectorAll('button').forEach(b => b.classList.toggle('active', (b.dataset.v === 'hide') === !!hidden));
+}
+function setSecVis(id, hide) { secVisibility[id] = hide; highlightVis(id); }
+async function saveSectionVisibility() {
+  const res = await Promise.all(TOGGLE_SECTIONS.map(sec => saveKey('hide_' + sec.id, secVisibility[sec.id] ? '1' : '0')));
+  showStatus('sections-status', res.every(Boolean) ? '✓ Sezioni aggiornate sul sito!' : '⚠ Errore nel salvataggio.', res.every(Boolean));
 }
 
 /* ── LAYOUT / POSIZIONI ── */
