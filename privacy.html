@@ -95,7 +95,7 @@
   </header>
 
   <main class="pp-wrap">
-    <p class="pp-updated">Ultimo aggiornamento: Giugno 2026</p>
+    <p class="pp-updated">Ultimo aggiornamento: <span data-pp="updated">Giugno 2026</span></p>
     <p class="pp-intro">
       La presente informativa descrive le modalità di trattamento dei dati personali
       degli utenti che consultano il sito web di Cala Sea e utilizzano i moduli di
@@ -112,8 +112,8 @@
     <div class="pp-card">
       <strong>Calasea Club</strong><br />
       Sede: Viale Campanariello 33, Torre del Greco<br />
-      Email: <a href="mailto:calaseabeachclub@gmail.com">calaseabeachclub@gmail.com</a><br />
-      Telefono: <a href="tel:+393278653508">+39 327 865 3508</a>
+      Email: <a href="mailto:calaseabeachclub@gmail.com" data-pp="email">calaseabeachclub@gmail.com</a><br />
+      Telefono: <a href="tel:+393278653508" data-pp="tel">+39 327 865 3508</a>
     </div>
 
     <h2 class="pp-sec">2. Tipologia di dati raccolti</h2>
@@ -218,7 +218,7 @@
     </ul>
     <p class="pp-p">
       Le richieste possono essere inviate all'indirizzo email:
-      <a href="mailto:calaseabeachclub@gmail.com">calaseabeachclub@gmail.com</a>
+      <a href="mailto:calaseabeachclub@gmail.com" data-pp="email">calaseabeachclub@gmail.com</a>
     </p>
 
     <h2 class="pp-sec">10. Reclamo all'Autorità di controllo</h2>
@@ -269,8 +269,15 @@
 
   <footer class="pp-footer">
     © Cala Sea – Torre Saracena Beach Club · Viale Campanariello 33, Torre del Greco (NA)<br />
-    <a href="mailto:calaseabeachclub@gmail.com">calaseabeachclub@gmail.com</a> · <a href="tel:+393278653508">+39 327 865 3508</a>
+    <a href="mailto:calaseabeachclub@gmail.com" data-pp="email">calaseabeachclub@gmail.com</a> · <a href="tel:+393278653508" data-pp="tel">+39 327 865 3508</a>
   </footer>
 
+<script>
+  fetch('/api/settings').then(r=>r.json()).then(s=>{
+    if(s.pp_updated) document.querySelector('[data-pp="updated"]').textContent = s.pp_updated;
+    if(s.pp_email) document.querySelectorAll('[data-pp="email"]').forEach(a=>{ a.textContent=s.pp_email; a.href='mailto:'+s.pp_email; });
+    if(s.pp_tel) document.querySelectorAll('[data-pp="tel"]').forEach(a=>{ a.textContent=s.pp_tel; a.href='tel:+'+s.pp_tel.replace(/\D/g,''); });
+  }).catch(()=>{});
+</script>
 </body>
 </html>

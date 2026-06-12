@@ -643,6 +643,21 @@
         </div>
       </details>
 
+      <!-- PRIVACY POLICY -->
+      <details class="txt-group">
+        <summary class="txt-group-title">🔒 Privacy Policy</summary>
+        <div class="a-form" style="margin-top:14px">
+          <p class="a-section-desc" style="margin-bottom:14px">Aggiorna i dati di contatto legali che appaiono nella pagina Privacy &amp; Cookie Policy.</p>
+          <div class="fg"><label>Email di contatto (Privacy)</label><input type="email" class="mini-input" id="pp-email" placeholder="calaseabeachclub@gmail.com" /></div>
+          <div class="fg-row">
+            <div class="fg"><label>Telefono (Privacy)</label><input type="tel" class="mini-input" id="pp-tel" placeholder="+39 327 865 3508" /></div>
+            <div class="fg"><label>Data ultimo aggiornamento</label><input type="text" class="mini-input" id="pp-updated" placeholder="Giugno 2026" /></div>
+          </div>
+          <button class="a-save" onclick="saveTxtGroup(['pp_email:pp-email','pp_tel:pp-tel','pp_updated:pp-updated'],'pp-status')">Salva Privacy Policy</button>
+          <p id="pp-status" class="a-status"></p>
+        </div>
+      </details>
+
       <!-- SERATE & EVENTI -->
       <details class="txt-group">
         <summary class="txt-group-title">🎉 Serate & Eventi (9 schede)</summary>
@@ -1263,6 +1278,10 @@ async function loadAllSettings() {
     document.getElementById('t-gallery-sub').value  = val('t_gallery_sub');
     // Contatti WA
     document.getElementById('c-wa').value = val('c_wa');
+    // Privacy Policy
+    document.getElementById('pp-email').value   = val('pp_email');
+    document.getElementById('pp-tel').value     = val('pp_tel');
+    document.getElementById('pp-updated').value = val('pp_updated');
     // Events (genera campi)
     renderEventiFields(s);
 
