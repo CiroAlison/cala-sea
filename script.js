@@ -664,6 +664,29 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         }
       });
 
+      // === NAVBAR — etichette personalizzate + visibilità singoli link ===
+      const NAV_LABEL_MAP = {
+        gallery:'nav.gallery', menu:'nav.menu', about:'nav.about',
+        events:'nav.events', reviews:'nav.reviews', contacts:'nav.contacts', book:'nav.book'
+      };
+      let navLabelsChanged = false;
+      Object.entries(NAV_LABEL_MAP).forEach(([k, i18nKey]) => {
+        const v = s['nav_label_' + k];
+        if (v && v.trim()) {
+          translations.it[i18nKey] = v.trim();
+          translations.en[i18nKey] = v.trim();
+          navLabelsChanged = true;
+        }
+      });
+      if (navLabelsChanged) applyLang(currentLang);
+      Object.keys(NAV_LABEL_MAP).forEach(k => {
+        if (s['nav_hide_' + k] === '1') {
+          document.querySelectorAll('[data-nav-key="' + k + '"]').forEach(li => {
+            li.style.display = 'none';
+          });
+        }
+      });
+
       // Titolo Chi Siamo (con a-capo: \n → <br>, racchiuso in <em> corsivo)
       if (s.t_chisiamo_title && s.t_chisiamo_title.trim()) {
         const el = document.querySelector('.chi-title');

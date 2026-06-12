@@ -703,6 +703,17 @@
         </div>
       </details>
 
+      <!-- NAVBAR — LINK -->
+      <details class="txt-group">
+        <summary class="txt-group-title">🔗 Navbar — Link</summary>
+        <div class="a-form" style="margin-top:14px">
+          <p class="a-section-desc" style="margin-bottom:14px">Rinomina i link della barra di navigazione o nascondili singolarmente (indipendente dal toggle sezione qui sopra).</p>
+          <div id="navbar-editor"><!-- generato da JS --></div>
+          <button class="a-save" onclick="saveNavbar()" style="margin-top:10px">Salva navbar</button>
+          <p id="navbar-status" class="a-status"></p>
+        </div>
+      </details>
+
       <div class="btn-row" style="margin-top:18px">
         <button onclick="resetLayout()" class="a-save-ghost">Ripristina layout originale</button>
       </div>
@@ -944,6 +955,16 @@ const TOGGLE_SECTIONS = [
   { id:'recensioni', label:'Recensioni' }, { id:'eventi', label:'Eventi' },
   { id:'video', label:'Video' }, { id:'contatti', label:'Contatti / Dove Siamo' },
 ];
+const NAV_LINKS = [
+  { key:'gallery',  label:'Gallery' },
+  { key:'menu',     label:'Menù' },
+  { key:'about',    label:'Chi Siamo' },
+  { key:'events',   label:'Eventi' },
+  { key:'reviews',  label:'Recensioni' },
+  { key:'contacts', label:'Contatti' },
+  { key:'book',     label:'Prenota' },
+];
+let navState = {};
 // Recensioni homepage di default (8)
 const DEFAULT_REVIEWS = [
   { stars:5, text:'Location spettacolare, vista mozzafiato sul Golfo di Napoli. Pizza e cibo di ottima qualità, cucinati in maniera squisita. Bella terrazza sul mare, tutto ben curato.', name:'Anita M.' },
@@ -1226,6 +1247,8 @@ async function loadAllSettings() {
     buildSectionsToggle(s);
     // Layout & posizioni
     buildLayoutControls(s);
+    // Navbar
+    buildNavbarEditor(s);
     // Servizi
     document.getElementById('t-svc1-title').value = val('t_svc1_title');
     document.getElementById('t-svc1-desc').value  = val('t_svc1_desc');
@@ -1856,6 +1879,45 @@ function setSecVis(id, hide) { secVisibility[id] = hide; highlightVis(id); }
 async function saveSectionVisibility() {
   const res = await Promise.all(TOGGLE_SECTIONS.map(sec => saveKey('hide_' + sec.id, secVisibility[sec.id] ? '1' : '0')));
   showStatus('sections-status', res.every(Boolean) ? '✓ Sezioni aggiornate sul sito!' : '⚠ Errore nel salvataggio.', res.every(Boolean));
+}
+
+/* ── NAVBAR — etichette + visibilità link ── */
+function buildNavbarEditor(s) {
+  navState = {};
+  NAV_LINKS.forEach(({key, label}) => {
+    navState[key] = {
+      label:  (s && s['nav_label_'+key]) ? s['nav_label_'+key] : '',
+      hidden: (s && s['nav_hide_'+key] === '1'),
+    };
+  });
+  const cont = document.getElementById('navbar-editor');
+  if (!cont) return;
+  cont.innerHTML = NAV_LINKS.map(({key, label}) => `
+    <div class="lay-row" style="gap:10px">
+      <span class="lay-row-label" style="min-width:80px">${label}</span>
+      <input class="mini-input" id="nlbl-${key}" value="${xe(navState[key].label)}"
+        placeholder="${label}" style="flex:1;min-width:0"
+        oninput="navState['${key}'].label=this.value" />
+      <span class="lay-seg" id="nvis-${key}" style="flex-shrink:0">
+        <button type="button" data-v="show" onclick="setNavVis('${key}',false)">Mostra</button>
+        <button type="button" data-v="hide" onclick="setNavVis('${key}',true)">Nascondi</button>
+      </span>
+    </div>`).join('');
+  NAV_LINKS.forEach(({key}) => highlightNavVis(key));
+}
+function highlightNavVis(key) {
+  const seg = document.getElementById('nvis-'+key); if (!seg) return;
+  seg.querySelectorAll('button').forEach(b =>
+    b.classList.toggle('active', (b.dataset.v === 'hide') === !!navState[key].hidden));
+}
+function setNavVis(key, hide) { navState[key].hidden = hide; highlightNavVis(key); }
+async function saveNavbar() {
+  const saves = NAV_LINKS.flatMap(({key}) => [
+    saveKey('nav_label_'+key, navState[key].label),
+    saveKey('nav_hide_'+key,  navState[key].hidden ? '1' : '0'),
+  ]);
+  const res = await Promise.all(saves);
+  showStatus('navbar-status', res.every(Boolean) ? '✓ Navbar salvata sul sito!' : '⚠ Errore nel salvataggio.', res.every(Boolean));
 }
 
 /* ── LAYOUT / POSIZIONI ── */
