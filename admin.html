@@ -655,13 +655,13 @@
 
       <!-- SERATE & EVENTI -->
       <details class="txt-group">
-        <summary class="txt-group-title">🎉 Serate & Eventi (9 schede)</summary>
+        <summary class="txt-group-title">🎉 Serate & Eventi — titoli e descrizioni</summary>
         <div class="a-form" style="margin-top:14px">
-          <div id="eventi-fields">
-            <!-- generato da JS -->
-          </div>
-          <button class="a-save" onclick="saveAllEventi()">Salva tutti gli eventi</button>
-          <p id="eventi-status" class="a-status"></p>
+          <p class="a-section-desc">Modifica titolo e descrizione di ogni tipo di evento. Le foto si cambiano dalla tab <strong>Immagini</strong>.</p>
+          <div id="ev-tiles-text-list"><!-- generato da JS --></div>
+          <button type="button" class="a-save-ghost" onclick="addEvTileText()" style="margin-top:8px;width:100%">+ Aggiungi tipo evento</button>
+          <button class="a-save" onclick="saveEvTilesText()" style="margin-top:10px">Salva testi Eventi</button>
+          <p id="ev-tiles-text-status" class="a-status"></p>
         </div>
       </details>
 
@@ -683,6 +683,17 @@
           <button type="button" class="a-save-ghost" onclick="addSvcTile()" style="margin-top:8px;width:100%">+ Aggiungi scheda</button>
           <button class="a-save" onclick="saveSvcTiles()" style="margin-top:10px">Salva schede Servizi</button>
           <p id="svc-tiles-status" class="a-status"></p>
+        </div>
+      </details>
+
+      <details class="txt-group" style="margin-top:12px" open>
+        <summary class="txt-group-title">🎉 Schede Eventi — aggiungi / rimuovi</summary>
+        <div class="a-form" style="margin-top:14px">
+          <p class="a-section-desc">Gestisci le schede del carosello Serate &amp; Eventi. Puoi aggiungere nuovi tipi di evento, cambiarli o rimuoverli.</p>
+          <div id="ev-tiles-list"><!-- generato da JS --></div>
+          <button type="button" class="a-save-ghost" onclick="addEvTile()" style="margin-top:8px;width:100%">+ Aggiungi scheda evento</button>
+          <button class="a-save" onclick="saveEvTiles()" style="margin-top:10px">Salva schede Eventi</button>
+          <p id="ev-tiles-status" class="a-status"></p>
         </div>
       </details>
     </div>
@@ -951,23 +962,10 @@ const SITE_DEFAULTS = {
   img_ev7: 'img/brindisi.jpg',  img_ev8: 'img/tramonto.jpg', img_ev9: 'img/terrazza.jpg',
 };
 
-// Campi immagini sezioni (chiave → etichetta)
+// Campi immagini sezioni (solo foto singole — Servizi ed Eventi hanno tile editor dedicato)
 const SECTION_IMG_FIELDS = [
   { key:'img_hero',     label:'Hero — sfondo principale' },
   { key:'img_chi_main', label:'Chi Siamo — foto principale' },
-  { key:'img_svc1', label:'Servizi — Ristorante' },
-  { key:'img_svc2', label:'Servizi — Beach Club' },
-  { key:'img_svc3', label:'Servizi — Cocktail Bar' },
-  { key:'img_svc4', label:'Servizi — Eventi' },
-  { key:'img_ev1', label:'Eventi — Matrimoni' },
-  { key:'img_ev2', label:'Eventi — Compleanni' },
-  { key:'img_ev3', label:'Eventi — Comunioni & Cresime' },
-  { key:'img_ev4', label:'Eventi — Battesimi' },
-  { key:'img_ev5', label:'Eventi — Feste di Laurea' },
-  { key:'img_ev6', label:'Eventi — Baby Shower' },
-  { key:'img_ev7', label:'Eventi — Anniversari' },
-  { key:'img_ev8', label:'Eventi — DJ Set & Live' },
-  { key:'img_ev9', label:'Eventi — Aziendali' },
 ];
 // Sezioni mostrabili/nascondibili
 const TOGGLE_SECTIONS = [
@@ -1281,7 +1279,7 @@ async function loadAllSettings() {
     document.getElementById('pp-tel').value     = val('pp_tel');
     document.getElementById('pp-updated').value = val('pp_updated');
     // Events (genera campi)
-    renderEventiFields(s);
+    buildEvTiles(s);
 
     // Menu
     if (s.menu_json) {
@@ -1765,8 +1763,6 @@ function buildSectionImages(s) {
   const groups = [
     { title:'🌊 Hero', keys:['img_hero'] },
     { title:'👥 Chi Siamo', keys:['img_chi_main'] },
-    { title:'🏖️ Servizi', keys:['img_svc1','img_svc2','img_svc3','img_svc4'] },
-    { title:'🎉 Eventi', keys:['img_ev1','img_ev2','img_ev3','img_ev4','img_ev5','img_ev6','img_ev7','img_ev8','img_ev9'] },
   ];
   const cont = document.getElementById('secimg-groups');
   if (!cont) return;
@@ -2197,24 +2193,130 @@ async function saveTxtGroup(pairs, statusId) {
   showStatus(statusId, ok ? '✓ Salvato sul sito!' : '⚠ Errore nel salvataggio.', ok);
 }
 
-// EVENTI_LIST already declared at top of script
+/* ── EVENTI — schede dinamiche ── */
+const EV_DEFAULTS = [
+  {img:'img/brindisi.jpg', title:'Matrimoni',             desc:'Il giorno più bello della vita, con la vista del Golfo. Menù personalizzato, allestimento floreale, aperitivo sul mare.'},
+  {img:'img/tramonto.jpg', title:'Compleanni',            desc:'Festeggia il tuo compleanno con stile. Torta, musica, vista mare e tutto quello che desideri per una serata indimenticabile.'},
+  {img:'img/terrazza.jpg', title:'Comunioni & Cresime',   desc:'Un giorno speciale nella vita dei vostri figli. Accogliamo i vostri ospiti in un ambiente elegante e familiare.'},
+  {img:'img/mare.jpg',     title:'Battesimi',             desc:'Celebrate l\'arrivo del vostro bambino con una festa indimenticabile sul Golfo di Napoli.'},
+  {img:'img/piatto1.jpg',  title:'Feste di Laurea',       desc:'Hai sudato per arrivarci — ora festeggia come si deve. Menu personalizzato, brindisi sul mare e ricordi per sempre.'},
+  {img:'img/piatto2.jpg',  title:'Baby Shower',           desc:'Celebrate l\'arrivo del bebè con dolcezza. Addobbi su misura, dolci artigianali e atmosfera romantica sul mare.'},
+  {img:'img/brindisi.jpg', title:'Anniversari',           desc:'Ogni anno in più vale un tramonto sul Golfo. Cena romantica, fiori, candele e il Vesuvio sullo sfondo.'},
+  {img:'img/tramonto.jpg', title:'DJ Set & Live Music',   desc:'Serate con DJ resident, musica dal vivo, aperitivi al tramonto. Il ritmo giusto per ogni occasione.'},
+  {img:'img/terrazza.jpg', title:'Aziendali & Team Building', desc:'Cene di gala, presentazioni, team building. Il Golfo di Napoli come sfondo per i tuoi successi professionali.'},
+];
+let evTilesState = [];
 
-function renderEventiFields(s) {
-  const wrap = document.getElementById('eventi-fields');
-  if (!wrap) return;
-  wrap.innerHTML = EVENTI_LIST.map(ev => `
-    <div style="margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
-      <p class="a-sub-title">${ev.emoji} ${ev.label}</p>
-      <div class="fg-row">
-        <div class="fg"><label>Titolo</label><input class="mini-input" id="${ev.titleKey}" value="${xe(s[ev.titleKey]||SITE_DEFAULTS[ev.titleKey]||'')}" /></div>
-        <div class="fg"><label>Descrizione</label><input class="mini-input" id="${ev.descKey}" value="${xe(s[ev.descKey]||SITE_DEFAULTS[ev.descKey]||'')}" /></div>
+function buildEvTiles(s) {
+  evTilesState = JSON.parse(JSON.stringify(EV_DEFAULTS));
+  if (s && s.ev_tiles_json) {
+    try { const a = JSON.parse(s.ev_tiles_json); if (Array.isArray(a) && a.length) evTilesState = a; } catch(e) {}
+  }
+  renderEvTilesList();
+  renderEvTilesTextList();
+}
+
+function renderEvTilesList() {
+  const cont = document.getElementById('ev-tiles-list');
+  if (!cont) return;
+  cont.innerHTML = evTilesState.map((t, i) => `
+    <div style="background:rgba(232,220,200,.06);border:1px solid rgba(232,220,200,.12);border-radius:12px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+        <img id="ev-tile-thumb-${i}" src="${t.img}" alt="" style="width:72px;height:54px;object-fit:cover;border-radius:8px;flex-shrink:0" />
+        <button type="button" class="a-save-ghost secimg-change" onclick="toggleEvTilePicker(${i})">Cambia foto</button>
+        <button type="button" onclick="removeEvTile(${i})" style="margin-left:auto;background:none;border:none;color:#c0392b;cursor:pointer;font-size:.85rem;padding:4px 8px">✕ Rimuovi</button>
       </div>
+      <div class="img-picker-grid secimg-picker" id="ev-tile-picker-${i}" style="display:none"></div>
+      <div class="fg"><label>Titolo</label><input type="text" id="ev-tile-title-${i}" value="${(t.title||'').replace(/"/g,'&quot;')}" placeholder="Es. Matrimoni" /></div>
+      <div class="fg"><label>Descrizione</label><textarea id="ev-tile-desc-${i}" rows="2" placeholder="Descrizione dell'evento...">${(t.desc||'').replace(/</g,'&lt;')}</textarea></div>
     </div>`).join('');
 }
 
-async function saveAllEventi() {
-  const pairs = EVENTI_LIST.flatMap(ev => [ev.titleKey+':'+ev.titleKey, ev.descKey+':'+ev.descKey]);
-  await saveTxtGroup(pairs, 'eventi-status');
+function toggleEvTilePicker(i) {
+  const box = document.getElementById('ev-tile-picker-' + i);
+  if (!box) return;
+  if (box.style.display !== 'none') { box.style.display = 'none'; return; }
+  if (!box.dataset.built) {
+    box.innerHTML = SECTION_IMG_PALETTE.map(o => `
+      <div class="img-picker-item${o.src === (evTilesState[i]||{}).img ? ' selected' : ''}" title="${o.label}" onclick="pickEvTileImg(${i},'${o.src.replace(/'/g,"\\'")}')">
+        <img src="${o.src}" loading="lazy" alt="${o.label}" />
+        <span class="img-picker-label">${o.label}</span>
+      </div>`).join('');
+    box.dataset.built = '1';
+  }
+  box.style.display = 'grid';
+}
+
+function pickEvTileImg(i, src) {
+  if (evTilesState[i]) evTilesState[i].img = src;
+  const t = document.getElementById('ev-tile-thumb-' + i); if (t) t.src = src;
+  const box = document.getElementById('ev-tile-picker-' + i);
+  if (box) { box.style.display = 'none'; box.dataset.built = ''; }
+}
+
+function addEvTile() {
+  evTilesState.push({img:'img/brindisi.jpg', title:'Nuovo evento', desc:'Descrizione del tipo di evento'});
+  renderEvTilesList();
+  renderEvTilesTextList();
+}
+
+function removeEvTile(i) {
+  if (evTilesState.length <= 1) { alert('Devi lasciare almeno una scheda.'); return; }
+  evTilesState.splice(i, 1);
+  renderEvTilesList();
+  renderEvTilesTextList();
+}
+
+async function saveEvTiles() {
+  evTilesState.forEach((t, i) => {
+    const titleEl = document.getElementById('ev-tile-title-' + i);
+    const descEl  = document.getElementById('ev-tile-desc-' + i);
+    if (titleEl) t.title = titleEl.value.trim();
+    if (descEl)  t.desc  = descEl.value.trim();
+  });
+  const ok = await saveKey('ev_tiles_json', JSON.stringify(evTilesState));
+  showStatus('ev-tiles-status', ok ? '✓ Schede Eventi salvate! Ricarica il sito per vedere le modifiche.' : '⚠ Errore nel salvataggio.', ok);
+  renderEvTilesTextList();
+}
+
+/* ── EVENTI schede — vista testo (tab Testi) ── */
+function renderEvTilesTextList() {
+  const cont = document.getElementById('ev-tiles-text-list');
+  if (!cont) return;
+  cont.innerHTML = evTilesState.map((t, i) => `
+    <div style="background:rgba(232,220,200,.06);border:1px solid rgba(232,220,200,.12);border-radius:12px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sand-light,#c9b57e)">Scheda ${i + 1}</span>
+        <button type="button" onclick="removeEvTileText(${i})" style="background:none;border:none;color:#c0392b;cursor:pointer;font-size:.85rem;padding:4px 8px">✕ Rimuovi</button>
+      </div>
+      <div class="fg"><label>Titolo</label><input type="text" id="ev-txt-title-${i}" value="${(t.title||'').replace(/"/g,'&quot;')}" placeholder="Es. Matrimoni" /></div>
+      <div class="fg"><label>Descrizione</label><textarea id="ev-txt-desc-${i}" rows="2" placeholder="Descrizione...">${(t.desc||'').replace(/</g,'&lt;')}</textarea></div>
+    </div>`).join('');
+}
+
+function addEvTileText() {
+  evTilesState.push({img:'img/brindisi.jpg', title:'Nuovo evento', desc:'Descrizione del tipo di evento'});
+  renderEvTilesTextList();
+  renderEvTilesList();
+}
+
+function removeEvTileText(i) {
+  if (evTilesState.length <= 1) { alert('Devi lasciare almeno una scheda.'); return; }
+  evTilesState.splice(i, 1);
+  renderEvTilesTextList();
+  renderEvTilesList();
+}
+
+async function saveEvTilesText() {
+  evTilesState.forEach((t, i) => {
+    const titleEl = document.getElementById('ev-txt-title-' + i);
+    const descEl  = document.getElementById('ev-txt-desc-' + i);
+    if (titleEl) t.title = titleEl.value.trim();
+    if (descEl)  t.desc  = descEl.value.trim();
+  });
+  const ok = await saveKey('ev_tiles_json', JSON.stringify(evTilesState));
+  showStatus('ev-tiles-text-status', ok ? '✓ Testi Eventi salvati! Ricarica il sito per vedere le modifiche.' : '⚠ Errore nel salvataggio.', ok);
+  renderEvTilesList();
 }
 
 /* ── RECENSIONI ADMIN ── */

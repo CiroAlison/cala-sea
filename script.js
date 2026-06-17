@@ -639,6 +639,20 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         } catch(e) {}
       }
 
+      // === EVENTI — render dinamico da ev_tiles_json ===
+      if (s.ev_tiles_json) {
+        try {
+          const tiles = JSON.parse(s.ev_tiles_json);
+          const car = document.getElementById('eventiCarousel');
+          if (car && Array.isArray(tiles) && tiles.length) {
+            car.innerHTML = tiles.map(t =>
+              `<div class="ev-slide"><div class="ev-slide-inner"><img src="${t.img}" alt="${t.title}" loading="lazy" /><div class="ev-slide-overlay"><h3 class="ev-slide-title">${t.title}</h3><p class="ev-slide-desc">${t.desc}</p></div></div></div>`
+            ).join('');
+            initCoverflow('eventiCarousel');
+          }
+        } catch(e) {}
+      }
+
       // === STATISTICHE Chi Siamo (numeri) ===
       const STAT_MAP = { recensioni:'stat_recensioni', rating:'stat_rating', followers:'stat_followers' };
       document.querySelectorAll('[data-stat]').forEach(el => {
