@@ -601,18 +601,13 @@
 
       <!-- SERVIZI -->
       <details class="txt-group">
-        <summary class="txt-group-title">🏖️ Servizi (4 schede)</summary>
+        <summary class="txt-group-title">🏖️ Servizi — titoli e descrizioni</summary>
         <div class="a-form" style="margin-top:14px">
-          <p class="a-sub-title">01 · Beach Club</p>
-          <div class="fg-row"><div class="fg"><label>Titolo</label><input type="text" id="t-svc1-title" placeholder="Beach Club" /></div><div class="fg"><label>Descrizione</label><input type="text" id="t-svc1-desc" placeholder="Lettini e ombrelloni..." /></div></div>
-          <p class="a-sub-title" style="margin-top:14px">02 · Ristorante</p>
-          <div class="fg-row"><div class="fg"><label>Titolo</label><input type="text" id="t-svc2-title" placeholder="Ristorante" /></div><div class="fg"><label>Descrizione</label><input type="text" id="t-svc2-desc" placeholder="Cucina di mare..." /></div></div>
-          <p class="a-sub-title" style="margin-top:14px">03 · Cocktail Bar</p>
-          <div class="fg-row"><div class="fg"><label>Titolo</label><input type="text" id="t-svc3-title" placeholder="Cocktail Bar" /></div><div class="fg"><label>Descrizione</label><input type="text" id="t-svc3-desc" placeholder="Signature cocktail..." /></div></div>
-          <p class="a-sub-title" style="margin-top:14px">04 · Serate & Eventi</p>
-          <div class="fg-row"><div class="fg"><label>Titolo</label><input type="text" id="t-svc4-title" placeholder="Serate & Eventi" /></div><div class="fg"><label>Descrizione</label><input type="text" id="t-svc4-desc" placeholder="Musica live, dj set..." /></div></div>
-          <button class="a-save" onclick="saveTxtGroup(['t_svc1_title:t-svc1-title','t_svc1_desc:t-svc1-desc','t_svc2_title:t-svc2-title','t_svc2_desc:t-svc2-desc','t_svc3_title:t-svc3-title','t_svc3_desc:t-svc3-desc','t_svc4_title:t-svc4-title','t_svc4_desc:t-svc4-desc'],'svc-status')" style="margin-top:14px">Salva Servizi</button>
-          <p id="svc-status" class="a-status"></p>
+          <p class="a-section-desc">Modifica titolo e descrizione di ogni scheda. Puoi aggiungere o rimuovere schede. Le foto si cambiano dalla tab <strong>Immagini</strong>.</p>
+          <div id="svc-tiles-text-list"><!-- generato da JS --></div>
+          <button type="button" class="a-save-ghost" onclick="addSvcTileText()" style="margin-top:8px;width:100%">+ Aggiungi scheda servizio</button>
+          <button class="a-save" onclick="saveSvcTilesText()" style="margin-top:10px">Salva testi Servizi</button>
+          <p id="svc-tiles-text-status" class="a-status"></p>
         </div>
       </details>
 
@@ -1276,15 +1271,6 @@ async function loadAllSettings() {
     buildLayoutControls(s);
     // Navbar
     buildNavbarEditor(s);
-    // Servizi
-    document.getElementById('t-svc1-title').value = val('t_svc1_title');
-    document.getElementById('t-svc1-desc').value  = val('t_svc1_desc');
-    document.getElementById('t-svc2-title').value = val('t_svc2_title');
-    document.getElementById('t-svc2-desc').value  = val('t_svc2_desc');
-    document.getElementById('t-svc3-title').value = val('t_svc3_title');
-    document.getElementById('t-svc3-desc').value  = val('t_svc3_desc');
-    document.getElementById('t-svc4-title').value = val('t_svc4_title');
-    document.getElementById('t-svc4-desc').value  = val('t_svc4_desc');
     // Menu & galleria
     document.getElementById('t-menu-eyebrow').value = val('t_menu_eyebrow');
     document.getElementById('t-gallery-sub').value  = val('t_gallery_sub');
@@ -1843,6 +1829,7 @@ function buildSvcTiles(s) {
     try { const a = JSON.parse(s.svc_tiles_json); if (Array.isArray(a) && a.length) svcTilesState = a; } catch(e) {}
   }
   renderSvcTilesList();
+  renderSvcTilesTextList();
 }
 
 function renderSvcTilesList() {
@@ -1886,12 +1873,14 @@ function pickSvcTileImg(i, src) {
 function addSvcTile() {
   svcTilesState.push({img:'img/ig-new11.jpg', title:'Nuovo servizio', desc:'Descrizione del servizio'});
   renderSvcTilesList();
+  renderSvcTilesTextList();
 }
 
 function removeSvcTile(i) {
   if (svcTilesState.length <= 1) { alert('Devi lasciare almeno una scheda.'); return; }
   svcTilesState.splice(i, 1);
   renderSvcTilesList();
+  renderSvcTilesTextList();
 }
 
 async function saveSvcTiles() {
@@ -1903,6 +1892,47 @@ async function saveSvcTiles() {
   });
   const ok = await saveKey('svc_tiles_json', JSON.stringify(svcTilesState));
   showStatus('svc-tiles-status', ok ? '✓ Schede Servizi salvate! Ricarica il sito per vedere le modifiche.' : '⚠ Errore nel salvataggio.', ok);
+  renderSvcTilesTextList();
+}
+
+/* ── SERVIZI schede — vista testo (tab Testi) ── */
+function renderSvcTilesTextList() {
+  const cont = document.getElementById('svc-tiles-text-list');
+  if (!cont) return;
+  cont.innerHTML = svcTilesState.map((t, i) => `
+    <div style="background:rgba(232,220,200,.06);border:1px solid rgba(232,220,200,.12);border-radius:12px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sand-light,#c9b57e)">Scheda ${i + 1}</span>
+        <button type="button" onclick="removeSvcTileText(${i})" style="background:none;border:none;color:#c0392b;cursor:pointer;font-size:.85rem;padding:4px 8px">✕ Rimuovi</button>
+      </div>
+      <div class="fg"><label>Titolo</label><input type="text" id="svc-txt-title-${i}" value="${(t.title || '').replace(/"/g, '&quot;')}" placeholder="Es. Ristorante" /></div>
+      <div class="fg"><label>Descrizione</label><textarea id="svc-txt-desc-${i}" rows="2" placeholder="Breve descrizione...">${(t.desc || '').replace(/</g, '&lt;')}</textarea></div>
+    </div>`).join('');
+}
+
+function addSvcTileText() {
+  svcTilesState.push({img:'img/ig-new11.jpg', title:'Nuovo servizio', desc:'Descrizione del servizio'});
+  renderSvcTilesTextList();
+  renderSvcTilesList();
+}
+
+function removeSvcTileText(i) {
+  if (svcTilesState.length <= 1) { alert('Devi lasciare almeno una scheda.'); return; }
+  svcTilesState.splice(i, 1);
+  renderSvcTilesTextList();
+  renderSvcTilesList();
+}
+
+async function saveSvcTilesText() {
+  svcTilesState.forEach((t, i) => {
+    const titleEl = document.getElementById('svc-txt-title-' + i);
+    const descEl  = document.getElementById('svc-txt-desc-' + i);
+    if (titleEl) t.title = titleEl.value.trim();
+    if (descEl)  t.desc  = descEl.value.trim();
+  });
+  const ok = await saveKey('svc_tiles_json', JSON.stringify(svcTilesState));
+  showStatus('svc-tiles-text-status', ok ? '✓ Testi Servizi salvati! Ricarica il sito per vedere le modifiche.' : '⚠ Errore nel salvataggio.', ok);
+  renderSvcTilesList();
 }
 
 /* ── RECENSIONI HOMEPAGE ── */
