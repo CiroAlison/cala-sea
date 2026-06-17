@@ -560,10 +560,14 @@
         <summary class="txt-group-title">🏠 Hero – Sezione principale</summary>
         <div class="a-form" style="margin-top:14px">
           <div class="fg"><label>Tagline (frase grande)</label><input type="text" id="t-tagline" placeholder="Dove il mare incontra il lusso" /></div>
-          <div class="fg"><label>Sottotitolo servizi</label><input type="text" id="t-sub" placeholder="Beach Club · Ristorante · Cocktail Bar · Eventi Esclusivi" /></div>
-          <div class="fg"><label>Testo aggiuntivo <span style="color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400">(facoltativo — appare sotto il sottotitolo)</span></label><input type="text" id="t-hero-extra" placeholder="Es. Aperto tutti i giorni dalle 10:00" /></div>
-          <button class="a-save" onclick="saveTxtGroup(['t_tagline:t-tagline','t_sub:t-sub','t_hero_extra:t-hero-extra'],'hero-status')">Salva Hero</button>
-          <p id="hero-status" class="a-status"></p>
+          <button class="a-save" onclick="saveTxtGroup(['t_tagline:t-tagline'],'hero-tagline-status')" style="margin-bottom:6px">Salva tagline</button>
+          <p id="hero-tagline-status" class="a-status"></p>
+          <div class="a-divider"></div>
+          <p class="a-section-desc">Righe di testo sotto il logo (sottotitolo, orari, slogan…). Puoi aggiungere o rimuovere righe.</p>
+          <div id="hero-lines-list"><!-- generato da JS --></div>
+          <button type="button" class="a-save-ghost" onclick="addHeroLine()" style="margin-top:8px;width:100%">+ Aggiungi riga</button>
+          <button class="a-save" onclick="saveHeroLines()" style="margin-top:10px">Salva righe Hero</button>
+          <p id="hero-lines-status" class="a-status"></p>
         </div>
       </details>
 
@@ -572,9 +576,9 @@
         <summary class="txt-group-title">👥 Chi Siamo</summary>
         <div class="a-form" style="margin-top:14px">
           <div class="fg"><label>Titolo sezione <span style="color:var(--dim);text-transform:none;letter-spacing:0">(vai a capo con Invio per spezzare la riga)</span></label><textarea id="t-chisiamo-title" rows="2" placeholder="Un angolo di paradiso&#10;sulla costa vesuviana"></textarea></div>
-          <div class="fg"><label>Paragrafo 1</label><textarea id="t-chisiamo-p1" placeholder="Cala Sea nasce dall'amore..."></textarea></div>
-          <div class="fg"><label>Paragrafo 2</label><textarea id="t-chisiamo-p2" placeholder="Ti aspettiamo su lettini esclusivi..."></textarea></div>
-          <div class="fg"><label>Paragrafo 3 <span style="color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400">(facoltativo — appare dopo il secondo paragrafo)</span></label><textarea id="t-chisiamo-p3" placeholder="Testo aggiuntivo..."></textarea></div>
+          <p class="a-section-desc" style="margin-bottom:10px">Paragrafi di testo. Puoi aggiungere o rimuovere paragrafi liberamente.</p>
+          <div id="chi-paras-list"><!-- generato da JS --></div>
+          <button type="button" class="a-save-ghost" onclick="addChiPara()" style="margin-top:8px;width:100%">+ Aggiungi paragrafo</button>
           <div class="a-divider"></div>
           <label style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:6px">📊 Statistiche (numeri)</label>
           <div class="fg-row">
@@ -1244,13 +1248,10 @@ async function loadAllSettings() {
 
     // Testi Hero
     document.getElementById('t-tagline').value    = val('t_tagline');
-    document.getElementById('t-sub').value        = val('t_sub');
-    document.getElementById('t-hero-extra').value = val('t_hero_extra');
+    buildHeroLines(s);
     // Chi siamo
     document.getElementById('t-chisiamo-title').value = val('t_chisiamo_title');
-    document.getElementById('t-chisiamo-p1').value    = val('t_chisiamo_p1');
-    document.getElementById('t-chisiamo-p2').value    = val('t_chisiamo_p2');
-    document.getElementById('t-chisiamo-p3').value    = val('t_chisiamo_p3');
+    buildChiParas(s);
     buildChiImgPicker(val('chi_img_overlap'));
     // Statistiche Chi Siamo
     document.getElementById('t-stat-recensioni').value = val('stat_recensioni');
@@ -1734,15 +1735,16 @@ function selectChiImg(src, el) {
 }
 
 async function saveChiSiamo() {
+  // leggi paragrafi dal lista dinamica
+  chiParasState = chiParasState.map((_, i) => {
+    const el = document.getElementById('chi-para-' + i);
+    return el ? el.value.trim() : '';
+  }).filter(t => t.length > 0);
   const ti  = document.getElementById('t-chisiamo-title');
-  const p1  = document.getElementById('t-chisiamo-p1');
-  const p2  = document.getElementById('t-chisiamo-p2');
   const v = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
   const res = await Promise.all([
     saveKey('t_chisiamo_title', ti ? ti.value.replace(/\r/g,'').trim() : ''),
-    saveKey('t_chisiamo_p1', p1 ? p1.value.trim() : ''),
-    saveKey('t_chisiamo_p2', p2 ? p2.value.trim() : ''),
-    saveKey('t_chisiamo_p3', (document.getElementById('t-chisiamo-p3')||{}).value?.trim() || ''),
+    saveKey('chi_paras_json', JSON.stringify(chiParasState)),
     saveKey('chi_img_overlap', chiImgSelected),
     saveKey('stat_recensioni', v('t-stat-recensioni')),
     saveKey('stat_rating',     v('t-stat-rating')),
@@ -1750,6 +1752,99 @@ async function saveChiSiamo() {
   ]);
   const ok = res.every(Boolean);
   showStatus('chisiamo-status', ok ? '✓ Salvato sul sito!' : '⚠ Errore nel salvataggio.', ok);
+  renderChiParasList();
+}
+
+/* ── HERO — righe di testo dinamiche ── */
+const HERO_LINES_DEFAULTS = ['Beach Club · Ristorante · Cocktail Bar · Eventi Esclusivi'];
+let heroLinesState = [];
+
+function buildHeroLines(s) {
+  heroLinesState = JSON.parse(JSON.stringify(HERO_LINES_DEFAULTS));
+  if (s && s.hero_lines_json) {
+    try { const a = JSON.parse(s.hero_lines_json); if (Array.isArray(a) && a.length) heroLinesState = a; } catch(e) {}
+  } else {
+    const lines = [];
+    if (s && s.t_sub && s.t_sub.trim())         lines.push(s.t_sub.trim());
+    if (s && s.t_hero_extra && s.t_hero_extra.trim()) lines.push(s.t_hero_extra.trim());
+    if (lines.length) heroLinesState = lines;
+  }
+  renderHeroLinesList();
+}
+
+function renderHeroLinesList() {
+  const cont = document.getElementById('hero-lines-list');
+  if (!cont) return;
+  cont.innerHTML = heroLinesState.map((text, i) => `
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+      <input type="text" id="hero-line-${i}" value="${(text||'').replace(/"/g,'&quot;')}" placeholder="Riga di testo…" style="flex:1" />
+      <button type="button" onclick="removeHeroLine(${i})" style="background:none;border:none;color:#c0392b;cursor:pointer;font-size:1.1rem;padding:4px 10px;flex-shrink:0" title="Rimuovi">✕</button>
+    </div>`).join('');
+}
+
+function addHeroLine() {
+  heroLinesState.push('');
+  renderHeroLinesList();
+  setTimeout(() => document.getElementById('hero-line-' + (heroLinesState.length - 1))?.focus(), 50);
+}
+
+function removeHeroLine(i) {
+  if (heroLinesState.length <= 1) { alert('Devi lasciare almeno una riga.'); return; }
+  heroLinesState.splice(i, 1);
+  renderHeroLinesList();
+}
+
+async function saveHeroLines() {
+  heroLinesState = heroLinesState.map((_, i) => {
+    const el = document.getElementById('hero-line-' + i);
+    return el ? el.value.trim() : '';
+  }).filter(t => t.length > 0);
+  const ok = await saveKey('hero_lines_json', JSON.stringify(heroLinesState));
+  showStatus('hero-lines-status', ok ? '✓ Righe Hero salvate! Ricarica il sito per vedere le modifiche.' : '⚠ Errore nel salvataggio.', ok);
+  renderHeroLinesList();
+}
+
+/* ── CHI SIAMO — paragrafi dinamici ── */
+const CHI_PARAS_DEFAULTS = [
+  'Cala Sea nasce dall\'amore per il mare di Torre del Greco. Adagiato sulla storica Torre Saracena, il nostro beach club è il luogo dove il sole, l\'acqua cristallina e i sapori autentici del Golfo di Napoli si fondono in un\'esperienza unica.',
+  'Ti aspettiamo su lettini esclusivi, tra cocktail artigianali e cucina di mare preparata con ingredienti freschi e locali. Il tutto con la maestosità del Vesuvio sullo sfondo.',
+];
+let chiParasState = [];
+
+function buildChiParas(s) {
+  chiParasState = JSON.parse(JSON.stringify(CHI_PARAS_DEFAULTS));
+  if (s && s.chi_paras_json) {
+    try { const a = JSON.parse(s.chi_paras_json); if (Array.isArray(a) && a.length) chiParasState = a; } catch(e) {}
+  } else {
+    const paras = [];
+    ['t_chisiamo_p1','t_chisiamo_p2','t_chisiamo_p3'].forEach(k => {
+      if (s && s[k] && s[k].trim()) paras.push(s[k].trim());
+    });
+    if (paras.length) chiParasState = paras;
+  }
+  renderChiParasList();
+}
+
+function renderChiParasList() {
+  const cont = document.getElementById('chi-paras-list');
+  if (!cont) return;
+  cont.innerHTML = chiParasState.map((text, i) => `
+    <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px">
+      <textarea id="chi-para-${i}" rows="3" placeholder="Paragrafo…" style="flex:1;resize:vertical">${(text||'').replace(/</g,'&lt;')}</textarea>
+      <button type="button" onclick="removeChiPara(${i})" style="background:none;border:none;color:#c0392b;cursor:pointer;font-size:1.1rem;padding:4px 10px;flex-shrink:0;margin-top:4px" title="Rimuovi">✕</button>
+    </div>`).join('');
+}
+
+function addChiPara() {
+  chiParasState.push('');
+  renderChiParasList();
+  setTimeout(() => document.getElementById('chi-para-' + (chiParasState.length - 1))?.focus(), 50);
+}
+
+function removeChiPara(i) {
+  if (chiParasState.length <= 1) { alert('Devi lasciare almeno un paragrafo.'); return; }
+  chiParasState.splice(i, 1);
+  renderChiParasList();
 }
 
 /* ── IMMAGINI SEZIONI ── */

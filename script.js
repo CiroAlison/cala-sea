@@ -588,16 +588,44 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         document.querySelectorAll('[data-cs="indirizzo"]').forEach(el => el.textContent = s.c_indirizzo);
       }
 
-      // Testo aggiuntivo Hero
-      if (s.t_hero_extra && s.t_hero_extra.trim()) {
-        const he = document.getElementById('hero-extra');
-        if (he) { he.textContent = s.t_hero_extra; he.style.display = ''; }
+      // === HERO — righe di testo dinamiche ===
+      if (s.hero_lines_json) {
+        try {
+          const lines = JSON.parse(s.hero_lines_json);
+          const cont = document.getElementById('hero-sub-lines');
+          if (cont && Array.isArray(lines) && lines.length) {
+            cont.innerHTML = lines.map(l => `<p class="hero-sub">${l}</p>`).join('');
+          }
+        } catch(e) {}
+      } else {
+        // fallback ai vecchi key individuali
+        if (s.t_hero_extra && s.t_hero_extra.trim()) {
+          const cont = document.getElementById('hero-sub-lines');
+          if (cont) cont.insertAdjacentHTML('beforeend', `<p class="hero-sub">${s.t_hero_extra}</p>`);
+        }
       }
 
-      // Paragrafo 3 Chi Siamo
-      if (s.t_chisiamo_p3 && s.t_chisiamo_p3.trim()) {
-        const p3 = document.getElementById('chi-p3');
-        if (p3) { p3.textContent = s.t_chisiamo_p3; p3.style.display = ''; }
+      // === CHI SIAMO — paragrafi dinamici ===
+      if (s.chi_paras_json) {
+        try {
+          const paras = JSON.parse(s.chi_paras_json);
+          const cont = document.getElementById('chi-para-list');
+          if (cont && Array.isArray(paras) && paras.length) {
+            cont.innerHTML = paras.map(p => `<p class="chi-body">${p}</p>`).join('');
+          }
+        } catch(e) {}
+      } else {
+        // fallback ai vecchi key individuali via data-ts
+        ['t_chisiamo_p1','t_chisiamo_p2','t_chisiamo_p3'].forEach((key, i) => {
+          if (s[key] && s[key].trim()) {
+            const cont = document.getElementById('chi-para-list');
+            if (cont) {
+              const existing = cont.querySelectorAll('.chi-body')[i];
+              if (existing) existing.textContent = s[key];
+              else cont.insertAdjacentHTML('beforeend', `<p class="chi-body">${s[key]}</p>`);
+            }
+          }
+        });
       }
 
       // Testi
