@@ -679,6 +679,17 @@
       <div id="secimg-groups"><!-- generato da JS --></div>
       <button class="a-save" onclick="saveSectionImages()" style="margin-top:8px">Salva immagini</button>
       <p id="secimg-status" class="a-status"></p>
+
+      <details class="txt-group" style="margin-top:24px" open>
+        <summary class="txt-group-title">🛎 Schede Servizi — aggiungi / rimuovi</summary>
+        <div class="a-form" style="margin-top:14px">
+          <p class="a-section-desc">Gestisci le schede del carosello Servizi. Puoi aggiungere nuove schede, cambiarle o rimuoverle. Le modifiche sovrascrivono le 4 schede predefinite.</p>
+          <div id="svc-tiles-list"><!-- generato da JS --></div>
+          <button type="button" class="a-save-ghost" onclick="addSvcTile()" style="margin-top:8px;width:100%">+ Aggiungi scheda</button>
+          <button class="a-save" onclick="saveSvcTiles()" style="margin-top:10px">Salva schede Servizi</button>
+          <p id="svc-tiles-status" class="a-status"></p>
+        </div>
+      </details>
     </div>
 
     <!-- ═══ LAYOUT / POSIZIONI ═══ -->
@@ -1258,6 +1269,7 @@ async function loadAllSettings() {
       }
     } catch(e){}
     buildSectionImages(s);
+    buildSvcTiles(s);
     // Mostra/nascondi sezioni
     buildSectionsToggle(s);
     // Layout & posizioni
@@ -1814,6 +1826,83 @@ function pickSecImg(key, src) {
 async function saveSectionImages() {
   const res = await Promise.all(SECTION_IMG_FIELDS.map(f => saveKey(f.key, sectionImgState[f.key])));
   showStatus('secimg-status', res.every(Boolean) ? '✓ Immagini salvate sul sito!' : '⚠ Errore nel salvataggio.', res.every(Boolean));
+}
+
+/* ── SERVIZI — schede dinamiche ── */
+const SVC_DEFAULTS = [
+  {img:'img/ig-new1.jpg',  title:'Ristorante',   desc:'Cucina di mare con pesce freschissimo del Golfo, primi della tradizione e pizze d\'autore. Sapori autentici con vista sul Vesuvio.'},
+  {img:'img/ig-new9.jpg',  title:'Beach Club',   desc:'Lettini e ombrelloni premium direttamente sul mare. Servizio attento per la tua giornata da sogno sulla Torre Saracena.'},
+  {img:'img/ig-new4.jpg',  title:'Cocktail Bar', desc:'Cocktail d\'autore e grandi classici, gin selezionati e aperitivi al tramonto con la vista più bella del Golfo.'},
+  {img:'img/ig-new14.jpg', title:'Eventi',        desc:'Matrimoni, cerimonie e feste private. Allestimenti su misura e menù personalizzati nella cornice della Torre Saracena.'},
+];
+let svcTilesState = [];
+
+function buildSvcTiles(s) {
+  svcTilesState = JSON.parse(JSON.stringify(SVC_DEFAULTS));
+  if (s && s.svc_tiles_json) {
+    try { const a = JSON.parse(s.svc_tiles_json); if (Array.isArray(a) && a.length) svcTilesState = a; } catch(e) {}
+  }
+  renderSvcTilesList();
+}
+
+function renderSvcTilesList() {
+  const cont = document.getElementById('svc-tiles-list');
+  if (!cont) return;
+  cont.innerHTML = svcTilesState.map((t, i) => `
+    <div style="background:rgba(232,220,200,.06);border:1px solid rgba(232,220,200,.12);border-radius:12px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+        <img id="svc-tile-thumb-${i}" src="${t.img}" alt="" style="width:72px;height:54px;object-fit:cover;border-radius:8px;flex-shrink:0" />
+        <button type="button" class="a-save-ghost secimg-change" onclick="toggleSvcTilePicker(${i})">Cambia foto</button>
+        <button type="button" onclick="removeSvcTile(${i})" style="margin-left:auto;background:none;border:none;color:#c0392b;cursor:pointer;font-size:1.1rem;padding:4px 8px" title="Rimuovi scheda">✕ Rimuovi</button>
+      </div>
+      <div class="img-picker-grid secimg-picker" id="svc-tile-picker-${i}" style="display:none"></div>
+      <div class="fg"><label>Titolo</label><input type="text" id="svc-tile-title-${i}" value="${(t.title||'').replace(/"/g,'&quot;')}" placeholder="Es. Ristorante" /></div>
+      <div class="fg"><label>Descrizione</label><textarea id="svc-tile-desc-${i}" rows="2" placeholder="Breve descrizione del servizio...">${(t.desc||'').replace(/</g,'&lt;')}</textarea></div>
+    </div>`).join('');
+}
+
+function toggleSvcTilePicker(i) {
+  const box = document.getElementById('svc-tile-picker-' + i);
+  if (!box) return;
+  if (box.style.display !== 'none') { box.style.display = 'none'; return; }
+  if (!box.dataset.built) {
+    box.innerHTML = SECTION_IMG_PALETTE.map(o => `
+      <div class="img-picker-item${o.src === (svcTilesState[i]||{}).img ? ' selected' : ''}" title="${o.label}" onclick="pickSvcTileImg(${i},'${o.src.replace(/'/g,"\\'")}')">
+        <img src="${o.src}" loading="lazy" alt="${o.label}" />
+        <span class="img-picker-label">${o.label}</span>
+      </div>`).join('');
+    box.dataset.built = '1';
+  }
+  box.style.display = 'grid';
+}
+
+function pickSvcTileImg(i, src) {
+  if (svcTilesState[i]) svcTilesState[i].img = src;
+  const t = document.getElementById('svc-tile-thumb-' + i); if (t) t.src = src;
+  const box = document.getElementById('svc-tile-picker-' + i);
+  if (box) { box.style.display = 'none'; box.dataset.built = ''; }
+}
+
+function addSvcTile() {
+  svcTilesState.push({img:'img/ig-new11.jpg', title:'Nuovo servizio', desc:'Descrizione del servizio'});
+  renderSvcTilesList();
+}
+
+function removeSvcTile(i) {
+  if (svcTilesState.length <= 1) { alert('Devi lasciare almeno una scheda.'); return; }
+  svcTilesState.splice(i, 1);
+  renderSvcTilesList();
+}
+
+async function saveSvcTiles() {
+  svcTilesState.forEach((t, i) => {
+    const titleEl = document.getElementById('svc-tile-title-' + i);
+    const descEl  = document.getElementById('svc-tile-desc-' + i);
+    if (titleEl) t.title = titleEl.value.trim();
+    if (descEl)  t.desc  = descEl.value.trim();
+  });
+  const ok = await saveKey('svc_tiles_json', JSON.stringify(svcTilesState));
+  showStatus('svc-tiles-status', ok ? '✓ Schede Servizi salvate! Ricarica il sito per vedere le modifiche.' : '⚠ Errore nel salvataggio.', ok);
 }
 
 /* ── RECENSIONI HOMEPAGE ── */
