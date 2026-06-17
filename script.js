@@ -682,6 +682,12 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
               `<div class="ev-slide"><div class="ev-slide-inner"><img src="${t.img}" alt="${t.title}" loading="lazy" /><div class="ev-slide-overlay"><h3 class="ev-slide-title">${t.title}</h3><p class="ev-slide-desc">${t.desc}</p></div></div></div>`
             ).join('');
             initCoverflow('serviziCarousel');
+            if (s.align_svc_cards && /^(left|center|right)$/.test(s.align_svc_cards))
+              car.querySelectorAll('.ev-slide-overlay').forEach(el => { el.style.textAlign = s.align_svc_cards; });
+            if (s.fsize_card_title && /^\d+$/.test(s.fsize_card_title))
+              car.querySelectorAll('.ev-slide-title').forEach(el => { el.style.fontSize = s.fsize_card_title + 'px'; });
+            if (s.fsize_card_desc && /^\d+$/.test(s.fsize_card_desc))
+              car.querySelectorAll('.ev-slide-desc').forEach(el => { el.style.fontSize = s.fsize_card_desc + 'px'; });
           }
         } catch(e) {}
       }
@@ -696,6 +702,12 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
               `<div class="ev-slide"><div class="ev-slide-inner"><img src="${t.img}" alt="${t.title}" loading="lazy" /><div class="ev-slide-overlay"><h3 class="ev-slide-title">${t.title}</h3><p class="ev-slide-desc">${t.desc}</p></div></div></div>`
             ).join('');
             initCoverflow('eventiCarousel');
+            if (s.align_ev_cards && /^(left|center|right)$/.test(s.align_ev_cards))
+              car.querySelectorAll('.ev-slide-overlay').forEach(el => { el.style.textAlign = s.align_ev_cards; });
+            if (s.fsize_card_title && /^\d+$/.test(s.fsize_card_title))
+              car.querySelectorAll('.ev-slide-title').forEach(el => { el.style.fontSize = s.fsize_card_title + 'px'; });
+            if (s.fsize_card_desc && /^\d+$/.test(s.fsize_card_desc))
+              car.querySelectorAll('.ev-slide-desc').forEach(el => { el.style.fontSize = s.fsize_card_desc + 'px'; });
           }
         } catch(e) {}
       }
@@ -780,11 +792,13 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         align_chi_title:  '.chi-title',
         align_chi_body:   '.chi-body',
         align_svc_title:  '.svc-title',
+        align_svc_cards:  '#serviziCarousel .ev-slide-overlay',
         align_menu_title: '.menu-big-title',
         align_gallery:    '#gallery .sec-header',
         align_video:      '#video .sec-header',
         align_recensioni: '#recensioni .sec-header',
         align_eventi:     '#eventi .ev-header',
+        align_ev_cards:   '#eventiCarousel .ev-slide-overlay',
         align_prenota:    '#prenota .sec-header',
         align_contatti:   '.ds-info',
       };
@@ -793,9 +807,23 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
         if (v && /^(left|center|right)$/.test(v)) {
           document.querySelectorAll(sel).forEach(el => {
             el.style.textAlign = v;
-            // override anche i figli testuali con text-align esplicito nel CSS
             el.querySelectorAll('p, h1, h2, h3, h4, h5, h6').forEach(t => { t.style.textAlign = v; });
           });
+        }
+      });
+
+      // === FONT SIZES — dimensioni testi per sezione ===
+      const FSIZE_MAP = {
+        fsize_hero_sub:   '.hero-sub',
+        fsize_sec_title:  '.sec-title, .chi-title',
+        fsize_body:       '.chi-body',
+        fsize_card_title: '.ev-slide-title',
+        fsize_card_desc:  '.ev-slide-desc',
+      };
+      Object.entries(FSIZE_MAP).forEach(([key, sel]) => {
+        const v = s[key];
+        if (v && /^\d+$/.test(v)) {
+          document.querySelectorAll(sel).forEach(el => { el.style.fontSize = v + 'px'; });
         }
       });
       // Chi Siamo: allineamento testo sposta anche le statistiche

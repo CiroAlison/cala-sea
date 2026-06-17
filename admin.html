@@ -548,6 +548,25 @@
         </div>
         <p id="stile-status" class="a-status"></p>
       </div>
+
+      <div class="a-divider"></div>
+      <p class="a-sub-title">Dimensioni testi</p>
+      <p class="a-section-desc">Imposta la dimensione in pixel dei testi principali. Lascia vuoto per usare il valore originale del tema.</p>
+      <div class="a-form">
+        <div class="fg-row">
+          <div class="fg"><label>Righe Hero</label><input type="number" id="fsize-hero-sub" placeholder="auto" min="10" max="60" /></div>
+          <div class="fg"><label>Titoli sezione</label><input type="number" id="fsize-sec-title" placeholder="auto" min="14" max="80" /></div>
+        </div>
+        <div class="fg-row">
+          <div class="fg"><label>Testo corpo</label><input type="number" id="fsize-body" placeholder="auto" min="10" max="36" /></div>
+          <div class="fg"><label>Schede — titolo</label><input type="number" id="fsize-card-title" placeholder="auto" min="10" max="48" /></div>
+          <div class="fg"><label>Schede — descrizione</label><input type="number" id="fsize-card-desc" placeholder="auto" min="10" max="36" /></div>
+        </div>
+        <div class="btn-row" style="margin-top:16px">
+          <button class="a-save" onclick="saveFontSizes()">Salva dimensioni</button>
+        </div>
+        <p id="fsize-status" class="a-status"></p>
+      </div>
     </div>
 
     <!-- ═══ TESTI ═══ -->
@@ -941,17 +960,19 @@ const SITE_DEFAULTS = {
   font_key:     'default',
   t_chisiamo_title: 'Un angolo di paradiso\nsulla costa vesuviana',
   // Layout — allineamenti testo (left/center/right)
-  align_hero_sub:  'center',
-  align_chi_title: 'left',
-  align_chi_body:  'left',
-  align_svc_title: 'center',
-  align_menu_title:'center',
-  align_gallery:   'center',
-  align_video:     'center',
-  align_recensioni:'center',
-  align_eventi:    'center',
-  align_prenota:   'center',
-  align_contatti:  'left',
+  align_hero_sub:   'center',
+  align_chi_title:  'left',
+  align_chi_body:   'left',
+  align_svc_title:  'center',
+  align_svc_cards:  'center',
+  align_menu_title: 'center',
+  align_gallery:    'center',
+  align_video:      'center',
+  align_recensioni: 'center',
+  align_eventi:     'center',
+  align_ev_cards:   'center',
+  align_prenota:    'center',
+  align_contatti:   'left',
   // Layout — posizione immagini (object-position)
   imgpos_chi_main:    'center',
   imgpos_chi_overlap: 'center',
@@ -1007,15 +1028,17 @@ let secVisibility = {};       // id → true(nascondi)/false
 
 // Campi del pannello Layout — una riga per ogni sezione del sito
 const ALIGN_FIELDS = [
-  { key:'align_hero_sub',   label:'Hero — sottotitolo' },
+  { key:'align_hero_sub',   label:'Hero — righe testo sotto logo' },
   { key:'align_chi_title',  label:'Chi Siamo — titolo' },
   { key:'align_chi_body',   label:'Chi Siamo — testo + statistiche' },
-  { key:'align_svc_title',  label:'Servizi — titolo' },
+  { key:'align_svc_title',  label:'Servizi — intestazione sezione' },
+  { key:'align_svc_cards',  label:'Servizi — testo nelle schede' },
   { key:'align_menu_title', label:'Menu — titolo grande' },
   { key:'align_gallery',    label:'Gallery — intestazione' },
   { key:'align_video',      label:'Video — intestazione' },
   { key:'align_recensioni', label:'Recensioni — intestazione' },
-  { key:'align_eventi',     label:'Eventi — intestazione' },
+  { key:'align_eventi',     label:'Serate & Eventi — intestazione' },
+  { key:'align_ev_cards',   label:'Serate & Eventi — testo nelle schede' },
   { key:'align_prenota',    label:'Prenota — intestazione' },
   { key:'align_contatti',   label:'Contatti — indirizzo' },
 ];
@@ -1245,6 +1268,13 @@ async function loadAllSettings() {
 
     // Font
     selectFont(val('font_key') || 'default', false);
+
+    // Dimensioni testi
+    if (s.fsize_hero_sub)   document.getElementById('fsize-hero-sub').value   = s.fsize_hero_sub;
+    if (s.fsize_sec_title)  document.getElementById('fsize-sec-title').value  = s.fsize_sec_title;
+    if (s.fsize_body)       document.getElementById('fsize-body').value       = s.fsize_body;
+    if (s.fsize_card_title) document.getElementById('fsize-card-title').value = s.fsize_card_title;
+    if (s.fsize_card_desc)  document.getElementById('fsize-card-desc').value  = s.fsize_card_desc;
 
     // Testi Hero
     document.getElementById('t-tagline').value    = val('t_tagline');
@@ -1688,6 +1718,20 @@ document.getElementById('reset-stile').addEventListener('click', async () => {
   await Promise.all([saveKey('col_navy','#0a1766'),saveKey('col_sand','#e8dcc8'),saveKey('col_gold','#c9a227'),saveKey('font_key','default')]);
   showStatus('stile-status','✓ Stile ripristinato ai valori originali.',true);
 });
+
+async function saveFontSizes() {
+  const fields = {
+    fsize_hero_sub:   document.getElementById('fsize-hero-sub').value.trim(),
+    fsize_sec_title:  document.getElementById('fsize-sec-title').value.trim(),
+    fsize_body:       document.getElementById('fsize-body').value.trim(),
+    fsize_card_title: document.getElementById('fsize-card-title').value.trim(),
+    fsize_card_desc:  document.getElementById('fsize-card-desc').value.trim(),
+  };
+  const results = await Promise.all(
+    Object.entries(fields).map(([k, v]) => saveKey(k, v))
+  );
+  showStatus('fsize-status', results.every(Boolean) ? '✓ Dimensioni salvate!' : '⚠ Errore.', results.every(Boolean));
+}
 
 /* ── CHI SIAMO IMG PICKER ── */
 const CHI_IMG_OPTIONS = [
