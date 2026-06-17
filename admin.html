@@ -561,7 +561,8 @@
         <div class="a-form" style="margin-top:14px">
           <div class="fg"><label>Tagline (frase grande)</label><input type="text" id="t-tagline" placeholder="Dove il mare incontra il lusso" /></div>
           <div class="fg"><label>Sottotitolo servizi</label><input type="text" id="t-sub" placeholder="Beach Club · Ristorante · Cocktail Bar · Eventi Esclusivi" /></div>
-          <button class="a-save" onclick="saveTxtGroup(['t_tagline:t-tagline','t_sub:t-sub'],'hero-status')">Salva Hero</button>
+          <div class="fg"><label>Testo aggiuntivo <span style="color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400">(facoltativo — appare sotto il sottotitolo)</span></label><input type="text" id="t-hero-extra" placeholder="Es. Aperto tutti i giorni dalle 10:00" /></div>
+          <button class="a-save" onclick="saveTxtGroup(['t_tagline:t-tagline','t_sub:t-sub','t_hero_extra:t-hero-extra'],'hero-status')">Salva Hero</button>
           <p id="hero-status" class="a-status"></p>
         </div>
       </details>
@@ -573,6 +574,7 @@
           <div class="fg"><label>Titolo sezione <span style="color:var(--dim);text-transform:none;letter-spacing:0">(vai a capo con Invio per spezzare la riga)</span></label><textarea id="t-chisiamo-title" rows="2" placeholder="Un angolo di paradiso&#10;sulla costa vesuviana"></textarea></div>
           <div class="fg"><label>Paragrafo 1</label><textarea id="t-chisiamo-p1" placeholder="Cala Sea nasce dall'amore..."></textarea></div>
           <div class="fg"><label>Paragrafo 2</label><textarea id="t-chisiamo-p2" placeholder="Ti aspettiamo su lettini esclusivi..."></textarea></div>
+          <div class="fg"><label>Paragrafo 3 <span style="color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400">(facoltativo — appare dopo il secondo paragrafo)</span></label><textarea id="t-chisiamo-p3" placeholder="Testo aggiuntivo..."></textarea></div>
           <div class="a-divider"></div>
           <label style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:6px">📊 Statistiche (numeri)</label>
           <div class="fg-row">
@@ -630,6 +632,7 @@
             <div class="fg"><label>Telefono</label><input type="tel" id="c-tel" placeholder="+39 327 865 3508" /></div>
             <div class="fg"><label>Email</label><input type="email" id="c-email" placeholder="info@torresaracenaeventi.it" /></div>
           </div>
+          <div class="fg"><label>Secondo numero di telefono <span style="color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400">(facoltativo — appare sotto il primo)</span></label><input type="tel" id="c-tel2" placeholder="+39 081 123 4567" /></div>
           <div class="fg"><label>Orari di apertura</label><input type="text" id="c-orari" placeholder="Tutti i giorni 10:00 – 02:00" /></div>
           <div class="fg"><label>Indirizzo</label><input type="text" id="c-indirizzo" placeholder="Viale Campanariello 33, Torre del Greco (NA)" /></div>
           <div class="fg"><label>Numero WhatsApp (solo cifre, con prefisso)</label><input type="tel" id="c-wa" placeholder="393278653508" /></div>
@@ -1225,6 +1228,7 @@ async function loadAllSettings() {
 
     // Contatti
     document.getElementById('c-tel').value       = val('c_tel');
+    document.getElementById('c-tel2').value      = val('c_tel2');
     document.getElementById('c-email').value     = val('c_email');
     document.getElementById('c-orari').value     = val('c_orari');
     document.getElementById('c-indirizzo').value = val('c_indirizzo');
@@ -1239,12 +1243,14 @@ async function loadAllSettings() {
     selectFont(val('font_key') || 'default', false);
 
     // Testi Hero
-    document.getElementById('t-tagline').value  = val('t_tagline');
-    document.getElementById('t-sub').value      = val('t_sub');
+    document.getElementById('t-tagline').value    = val('t_tagline');
+    document.getElementById('t-sub').value        = val('t_sub');
+    document.getElementById('t-hero-extra').value = val('t_hero_extra');
     // Chi siamo
     document.getElementById('t-chisiamo-title').value = val('t_chisiamo_title');
-    document.getElementById('t-chisiamo-p1').value = val('t_chisiamo_p1');
-    document.getElementById('t-chisiamo-p2').value = val('t_chisiamo_p2');
+    document.getElementById('t-chisiamo-p1').value    = val('t_chisiamo_p1');
+    document.getElementById('t-chisiamo-p2').value    = val('t_chisiamo_p2');
+    document.getElementById('t-chisiamo-p3').value    = val('t_chisiamo_p3');
     buildChiImgPicker(val('chi_img_overlap'));
     // Statistiche Chi Siamo
     document.getElementById('t-stat-recensioni').value = val('stat_recensioni');
@@ -1327,7 +1333,7 @@ function showAnnPreview(t) {
 
 /* ── CONTATTI ── */
 document.getElementById('save-contatti').addEventListener('click', async () => {
-  const keys={c_tel:'c-tel',c_email:'c-email',c_orari:'c-orari',c_indirizzo:'c-indirizzo',c_wa:'c-wa'};
+  const keys={c_tel:'c-tel',c_tel2:'c-tel2',c_email:'c-email',c_orari:'c-orari',c_indirizzo:'c-indirizzo',c_wa:'c-wa'};
   const results = await Promise.all(Object.entries(keys).map(([k,id]) => saveKey(k, document.getElementById(id).value.trim())));
   const ok = results.every(Boolean);
   showStatus('contatti-status',ok?'✓ Contatti aggiornati sul sito!':'⚠ Errore nel salvataggio.',ok);
@@ -1736,6 +1742,7 @@ async function saveChiSiamo() {
     saveKey('t_chisiamo_title', ti ? ti.value.replace(/\r/g,'').trim() : ''),
     saveKey('t_chisiamo_p1', p1 ? p1.value.trim() : ''),
     saveKey('t_chisiamo_p2', p2 ? p2.value.trim() : ''),
+    saveKey('t_chisiamo_p3', (document.getElementById('t-chisiamo-p3')||{}).value?.trim() || ''),
     saveKey('chi_img_overlap', chiImgSelected),
     saveKey('stat_recensioni', v('t-stat-recensioni')),
     saveKey('stat_rating',     v('t-stat-rating')),

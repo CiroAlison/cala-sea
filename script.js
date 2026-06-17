@@ -568,6 +568,13 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
           if (el.tagName === 'A') el.href = 'tel:' + s.c_tel.replace(/\s/g, '');
         });
       }
+      if (s.c_tel2 && s.c_tel2.trim()) {
+        document.querySelectorAll('[data-cs="tel2"]').forEach(el => {
+          el.textContent = s.c_tel2;
+          el.style.display = '';
+          if (el.tagName === 'A') el.href = 'tel:' + s.c_tel2.replace(/\s/g, '');
+        });
+      }
       if (s.c_orari) {
         document.querySelectorAll('[data-cs="orari"]').forEach(el => el.textContent = s.c_orari);
       }
@@ -579,6 +586,18 @@ document.getElementById('cookie-reject')?.addEventListener('click', dismissCooki
       }
       if (s.c_indirizzo) {
         document.querySelectorAll('[data-cs="indirizzo"]').forEach(el => el.textContent = s.c_indirizzo);
+      }
+
+      // Testo aggiuntivo Hero
+      if (s.t_hero_extra && s.t_hero_extra.trim()) {
+        const he = document.getElementById('hero-extra');
+        if (he) { he.textContent = s.t_hero_extra; he.style.display = ''; }
+      }
+
+      // Paragrafo 3 Chi Siamo
+      if (s.t_chisiamo_p3 && s.t_chisiamo_p3.trim()) {
+        const p3 = document.getElementById('chi-p3');
+        if (p3) { p3.textContent = s.t_chisiamo_p3; p3.style.display = ''; }
       }
 
       // Testi
